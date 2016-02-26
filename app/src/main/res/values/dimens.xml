@@ -1,0 +1,18 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fragment_main_bottom">48dp</dimen>
+    <dimen name="fragment_main_bottom_imageview">20dp</dimen>
+    <dimen name="fragment_main_bottom_textview">12sp</dimen>
+    <dimen name="group_search_gridlayout">97dp</dimen>
+
+    <dimen name="penSizeView_Width">48dp</dimen>
+    <dimen name="penSizeView_Height">48dp</dimen>
+
+    <dimen name="groupInfoSize">50dp</dimen>
+
+    <dimen name="me_img_size">28dp</dimen>
+    <dimen name="me_layout_size">50dp</dimen>
+    <dimen name="me_text">19sp</dimen>
+</resources>

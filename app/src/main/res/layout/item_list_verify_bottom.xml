@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp" >
+
+    <TextView
+        android:id="@+id/tv_more"
+        android:layout_width="fill_parent"
+        android:layout_height="54dp"
+        android:gravity="center"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="@string/more"
+        android:textSize="19sp" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:visibility="invisible"
+        android:layout_marginLeft="165dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#20000000"/>
+
+</RelativeLayout>
+

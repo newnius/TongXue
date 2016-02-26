@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
+    app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="@color/oldlace"
+    android:layout_margin="11dp"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent">
+
+    <RelativeLayout
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_below="@+id/header"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/brief"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text=""
+            android:textSize="18sp"
+            android:textColor="@color/ma"/>
+
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_below="@+id/brief"
+            android:text=""
+            android:textSize="11sp"
+            android:textColor="@color/text1"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detail"
+            android:padding="7dp">
+
+            <TextView
+                android:id="@+id/asker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12sp"
+                android:textColor="@color/m7"
+                android:layout_centerVertical="true"/>
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="1dp"
+                android:layout_height="17dp"
+                android:background="@color/m3"
+                android:layout_toRightOf="@+id/asker"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/askTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12sp"
+                android:textColor="@color/m7"
+                android:layout_toRightOf="@+id/line"
+                android:layout_centerVertical="true"/>
+
+            <RelativeLayout
+                android:id="@+id/lan"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/ding"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:padding="3dp"
+                    android:src="@drawable/lan"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/qaLan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textSize="10sp"
+                    android:textColor="@color/text1"
+                    android:gravity="center"
+                    android:paddingLeft="1dp"
+                    android:layout_toRightOf="@+id/img1"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ding"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true" >
+
+                <ImageView
+                    android:id="@+id/img2"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:padding="4dp"
+                    android:src="@drawable/ding"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/qaDing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textSize="10sp"
+                    android:textColor="@color/text1"
+                    android:gravity="center"
+                    android:paddingLeft="1dp"
+                    android:layout_toRightOf="@+id/img2"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

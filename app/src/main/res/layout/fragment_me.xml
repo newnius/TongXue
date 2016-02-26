@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.pcs.flyrefreshlib.FlyRefreshLayout
+        android:id="@+id/fly_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/linen">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/layout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/me_layout_size"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/shape_common">
+
+                    <ImageView
+                        android:id="@+id/img1"
+                        android:layout_width="@dimen/me_img_size"
+                        android:layout_height="@dimen/me_img_size"
+                        android:tint="@color/mGray"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/blogg"/>
+
+                    <TextView
+                        android:id="@+id/title1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img1"
+                        android:text="我的博客"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="15dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_marginRight="3dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/m1"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout2"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_common"
+                    android:layout_height="@dimen/me_layout_size">
+
+                    <ImageView
+                        android:id="@+id/img2"
+                        android:layout_width="@dimen/me_img_size"
+                        android:layout_height="@dimen/me_img_size"
+                        android:tint="@color/mGray"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/qqa"/>
+
+                    <TextView
+                        android:id="@+id/title2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img2"
+                        android:text="我的问题"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="15dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_marginRight="3dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/m1"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout3"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_common"
+                    android:layout_height="@dimen/me_layout_size">
+
+                    <ImageView
+                        android:id="@+id/img3"
+                        android:layout_width="@dimen/me_img_size"
+                        android:layout_height="@dimen/me_img_size"
+                        android:tint="@color/mGray"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/rss"/>
+
+                    <TextView
+                        android:id="@+id/title3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img3"
+                        android:text="我的订阅"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="15dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_marginRight="3dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:background="@color/m1"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout4"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_common"
+                    android:layout_height="@dimen/me_layout_size">
+
+                    <ImageView
+                        android:id="@+id/img4"
+                        android:layout_width="@dimen/me_img_size"
+                        android:layout_height="@dimen/me_img_size"
+                        android:tint="@color/mGray"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/cang"/>
+
+                    <TextView
+                        android:id="@+id/title4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img4"
+                        android:text="我的收藏"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="15dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_marginRight="3dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/m1"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout5"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_common"
+                    android:layout_height="@dimen/me_layout_size">
+
+                    <ImageView
+                        android:id="@+id/img5"
+                        android:layout_width="@dimen/me_img_size"
+                        android:layout_height="@dimen/me_img_size"
+                        android:tint="@color/mGray"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/caog"/>
+
+                    <TextView
+                        android:id="@+id/title5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img5"
+                        android:text="我的草稿"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="15dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_marginRight="3dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:background="@color/m1"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout6"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_common"
+                    android:layout_height="@dimen/me_layout_size">
+
+                    <ImageView
+                        android:id="@+id/img6"
+                        android:layout_width="@dimen/me_img_size"
+                        android:layout_height="@dimen/me_img_size"
+                        android:layout_centerVertical="true"
+                        android:tint="@color/text9"
+                        android:padding="2dp"
+                        android:src="@drawable/yan"/>
+
+                    <TextView
+                        android:id="@+id/title6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img6"
+                        android:text="验证消息"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="15dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/m1"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout7"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_common"
+                    android:layout_height="@dimen/me_layout_size">
+
+                    <ImageView
+                        android:id="@+id/img7"
+                        android:layout_width="24dp"
+                        android:layout_height="@dimen/me_img_size"
+                        android:tint="@color/mGray"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/feed"/>
+
+                    <TextView
+                        android:id="@+id/title7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img7"
+                        android:text="反馈"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="18dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/m1"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout8"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_common"
+                    android:layout_height="@dimen/me_layout_size">
+
+                    <ImageView
+                        android:id="@+id/img8"
+                        android:layout_width="@dimen/me_img_size"
+                        android:layout_height="@dimen/me_img_size"
+                        android:tint="@color/mGray"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/she"/>
+
+                    <TextView
+                        android:id="@+id/title8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img8"
+                        android:text="设置"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="15dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:background="@color/m1"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout9"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_common"
+                    android:layout_height="@dimen/me_layout_size">
+
+                    <ImageView
+                        android:id="@+id/img9"
+                        android:layout_width="@dimen/me_img_size"
+                        android:layout_height="@dimen/me_img_size"
+                        android:tint="@color/text9"
+                        android:padding="2dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/out"/>
+
+                    <TextView
+                        android:id="@+id/title9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img9"
+                        android:text="注销"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="15dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/m1"/>
+
+                <RelativeLayout
+                    android:id="@+id/layout10"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_common"
+                    android:layout_height="@dimen/me_layout_size">
+
+                    <ImageView
+                        android:id="@+id/img10"
+                        android:layout_width="@dimen/me_img_size"
+                        android:layout_height="@dimen/me_img_size"
+                        android:tint="@color/text9"
+                        android:padding="3dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/tuichu"/>
+
+                    <TextView
+                        android:id="@+id/title10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/img10"
+                        android:text="退出"
+                        android:textSize="@dimen/me_text"
+                        android:textColor="@color/m9"
+                        android:layout_marginLeft="15dp"
+                        android:layout_centerVertical="true"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/too"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </com.pcs.flyrefreshlib.FlyRefreshLayout>
+
+    <TextView
+        android:id="@+id/myName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20sp"
+        android:textColor="@color/text"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+</FrameLayout>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/toolbar">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/qaXing"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            android:background="@drawable/shape_button_add"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+
+                <com.tongxue.client.View.RoundImageView
+                    android:id="@+id/img"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/head7"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/asker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@color/m9"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="2dp"/>
+
+                <TextView
+                    android:id="@+id/qaTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/img"
+                    android:layout_below="@+id/asker"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:textColor="@color/text1"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="6dp"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/brief"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textSize="20sp"
+                android:textColor="@color/text"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@color/linen"/>
+
+            <TextView
+                android:id="@+id/detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="15sp"
+                android:textColor="@color/text0"
+                android:padding="2dp"
+                android:layout_marginTop="10dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" >
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:padding="4dp"
+                        android:src="@drawable/lan"/>
+
+                    <TextView
+                        android:id="@+id/qaLan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textSize="10sp"
+                        android:textColor="@color/text0"
+                        android:gravity="center"
+                        android:paddingLeft="2dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="5dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:padding="4dp"
+                        android:src="@drawable/ding"/>
+
+                    <TextView
+                        android:id="@+id/qaDing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textSize="10sp"
+                        android:textColor="@color/text0"
+                        android:gravity="center"
+                        android:paddingLeft="2dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/m2"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <RelativeLayout
+                android:id="@+id/cLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ansTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/loadingAns"
+                    android:textSize="17sp"
+                    android:textColor="@color/indianred"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"/>
+
+            </RelativeLayout>
+
+            <com.tongxue.client.View.NoScrollListView
+                android:id="@+id/ansListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/m2"
+                android:layout_marginTop="5dp" />
+
+
+            <TextView
+                android:id="@+id/toanswer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/ItoAns"
+                android:textSize="14sp"
+                android:textColor="@color/orchid"/>
+
+            <EditText
+                android:id="@+id/ansEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|left"
+                android:lines="6"
+                android:text=""
+                android:textSize="15sp"
+                android:textColor="@color/m9"
+                android:hint="@string/write_your_ans_here"
+                android:textColorHint="@color/m4"
+                android:background="@drawable/shape_common_edittext1"/>
+
+            <Button
+                android:id="@+id/submitAns"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="@string/submit_ans"
+                android:textSize="16sp"
+                android:background="@drawable/shape_button_qa"
+                android:textColor="@color/lightblue2"
+                android:layout_marginTop="17dp"
+                android:layout_gravity="right"
+                android:layout_marginBottom="50dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/fen"
+        android:orderInCategory="100"
+        android:title="@string/fenxiang"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/shou"
+        android:orderInCategory="100"
+        android:title="@string/shoucang"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/ju"
+        android:orderInCategory="100"
+        android:title="@string/jubao"
+        app:showAsAction="never" />
+
+</menu>

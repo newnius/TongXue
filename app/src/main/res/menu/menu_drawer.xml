@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/order1"
+            android:checked="true"
+            android:icon="@drawable/home"
+            android:title="主页"
+            app:itemIconTint="@color/mGray"/>
+        <item
+            android:id="@+id/order2"
+            android:icon="@drawable/dingyue"
+            android:title="订阅功能"
+            app:itemIconTint="@color/mGray"/>
+
+    </group>
+
+    <item android:title="其他">
+        <menu>
+            <item
+                android:id="@+id/set"
+                android:icon="@drawable/shez"
+                android:title="设置"
+                app:itemIconTint="@color/mGray"/>
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/guanyu"
+                android:title="关于"
+                app:itemIconTint="@color/mGray"/>
+            <item
+                android:id="@+id/check"
+                android:icon="@drawable/gengxin"
+                android:title="检查更新"
+                app:itemIconTint="@color/mGray"/>
+        </menu>
+    </item>
+
+</menu>

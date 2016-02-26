@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/linen">
+
+    <FrameLayout
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_blog"/>
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:src="@drawable/back"
+            android:tint="@color/mGray"
+            android:scaleType="fitCenter"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/shape_common"/>
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:background="@color/m2"
+        android:layout_below="@+id/bar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom"
+        android:layout_below="@+id/line1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <RelativeLayout
+                android:id="@+id/user"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <com.tongxue.client.View.RoundImageView
+                    android:id="@+id/userImg"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/head1"
+                    android:scaleType="fitCenter"/>
+
+                <TextView
+                    android:id="@+id/blogUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/userImg"
+                    android:layout_marginLeft="15dp"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@color/m7"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/blogTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/userImg"
+                    android:layout_below="@+id/blogUser"
+                    android:layout_marginLeft="15dp"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:textColor="@color/m4"
+                    android:gravity="center"/>
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:background="@color/m2"
+                android:layout_below="@+id/user"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <RelativeLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="70dp"
+                android:layout_below="@+id/line2">
+
+                <TextView
+                    android:id="@+id/blogTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:padding="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="21sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/mb"/>
+
+                <TextView
+                    android:id="@+id/blogLan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/blogTitle"
+                    android:text=""
+                    android:textSize="11sp"
+                    android:textColor="@color/m4"
+                    android:paddingLeft="15dp"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:orientation="vertical">
+
+               <FrameLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+                   <jp.wasabeef.richeditor.RichEditor
+                       android:id="@+id/blogContent"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:background="@color/linen" />
+
+                   <View
+                       android:id="@+id/view"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"/>
+
+               </FrameLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/m1"
+                    android:text="@string/AllComment"
+                    android:textSize="14sp"
+                    android:textColor="@color/darkgoldenrod"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp" />
+
+                <com.tongxue.client.View.NoScrollListView
+                    android:id="@+id/commentListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:id="@+id/noComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/noComment"
+                    android:textSize="17sp"
+                    android:visibility="gone"
+                    android:textColor="@color/indianred"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/bottom1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="@color/bottomBg">
+
+            <LinearLayout
+                android:id="@+id/addCommentLayout"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="20dp"
+                android:background="@drawable/shape_common1">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:background="@drawable/shape_common1"
+                    android:src="@drawable/addlun"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/addComment"
+                    android:textSize="16sp"
+                    android:textColor="@color/text1"
+                    android:gravity="center"
+                    android:layout_marginRight="20dp"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/m2" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp">
+
+                <ImageView
+                    android:id="@+id/blogLunIv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:src="@drawable/lun"/>
+
+                <TextView
+                    android:id="@+id/blogLun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@color/text1"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="15dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp" >
+
+                <ImageView
+                    android:id="@+id/blogZanIv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:src="@drawable/zan"/>
+
+                <TextView
+                    android:id="@+id/blogZan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@color/text1"
+                    android:gravity="center"
+                    android:paddingLeft="5dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottom2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bottomBg"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="@string/comment"
+                android:textSize="16sp"
+                android:textColor="@color/no"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_button_blog"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+            <EditText
+                android:id="@+id/comment"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:text=""
+                android:textSize="16sp"
+                android:textColor="@color/m9"
+                android:hint="@string/addCommentHere"
+                android:textColorHint="@color/m4"
+                android:padding="10dp"
+                android:layout_toLeftOf="@id/send"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/shape_common_edittext2"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>
+
+
+<!--<TextView-->
+    <!--android:id="@+id/blogContent"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/linen"-->
+    <!--android:padding="10dp"-->
+    <!--android:textSize="20sp"-->
+    <!--android:textColor="@color/text"/>-->
