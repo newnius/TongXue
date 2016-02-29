@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:screenOrientation="landscape">
 
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -65,6 +66,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone" />
+
+        <VideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            >
+            </VideoView>
 
     </FrameLayout>
 
@@ -202,9 +211,20 @@
                 android:text="@string/bt_clear" />
 
             <Button
+                android:id="@+id/bt_video"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:textSize="16sp"
+                android:textColor="@color/lightblue2"
+                android:background="@drawable/shape_button_search"
+                android:text="@string/bt_video" />
+
+            <Button
                 android:id="@+id/bt_save"
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:textSize="16sp"

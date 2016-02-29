@@ -112,6 +112,7 @@
     <string name="bt_redo">重做</string>
     <string name="bt_clear">清除</string>
     <string name="bt_save">保存</string>
+    <string name="bt_video">视频</string>
     <string name="groupId">小组编号</string>
     <string name="groupInfoKind">小组类别</string>
     <string name="groupInfoSize">小组人数</string>

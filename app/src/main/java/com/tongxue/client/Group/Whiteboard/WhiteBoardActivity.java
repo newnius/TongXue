@@ -1,6 +1,7 @@
 package com.tongxue.client.Group.Whiteboard;
 
 import android.content.ContentResolver;
+import android.content.pm.ActivityInfo;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import java.io.FileNotFoundException;
@@ -13,18 +14,22 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.im.v2.AVIMConversation;
@@ -59,12 +64,41 @@ public class WhiteBoardActivity extends BaseActivity{
     @Bind(R.id.penSizeIv)        PenSizeView penSizeIv;
     @Bind(R.id.penSizeSb)        SeekBar penSizeSb;
     @Bind(R.id.moveIv)           ImageView moveIv;
+    @Bind(R.id.bt_video)           Button bt_video;
     public static int width;
     public static int height;
     public static int ScreenWidth;
     public static int ScreenHeight;
     public String filename;
     public String groupName;
+
+    public void playVideo(String url){
+        try {
+            /* 设置播放视频时候不需要的部分 *//* 以下代码需要写在setContentView();之前 */
+
+            /* 去掉title
+            * requestFeature() must be called before adding content
+            * */
+            //requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+            /* 设置屏幕常亮 *//* flag：标记 ； */
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            myView.setVisibility(View.INVISIBLE);
+            VideoView videoView = (VideoView) findViewById(R.id.video_view);
+            MediaController mc = new MediaController(this);
+            mc.setAnchorView(videoView);
+            videoView.setMediaController(mc);
+            // videoView.setVideoPath("file:///my.mp4");
+            videoView.setVideoURI(Uri.parse(url));
+            videoView.requestFocus();
+            videoView.start();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 
 
     @Override
@@ -78,20 +112,25 @@ public class WhiteBoardActivity extends BaseActivity{
         ButterKnife.bind(this);
         initSize();
 
+        /* 设置横屏 */
+        if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
 
         bt_pen.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 String str = bt_pen.getText().toString().trim();
-                if(str.equals("橡皮")){
+                if (str.equals("橡皮")) {
                     myView.setEraser();
                     bt_pen.setText("画笔");
-                }else{
+                } else {
                     myView.setPen();
                     bt_pen.setText("橡皮");
                 }
             }
         });
+
 
         bt_text.setOnClickListener(new OnClickListener() {
             @Override
@@ -169,6 +208,13 @@ public class WhiteBoardActivity extends BaseActivity{
                 } else {
                     Toast.makeText(getApplicationContext(), "保存失敗", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        bt_video.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playVideo("http://v1.mukewang.com/be7bbb43-514c-45a4-8d0d-7896d6287416/L.mp4");
             }
         });
 

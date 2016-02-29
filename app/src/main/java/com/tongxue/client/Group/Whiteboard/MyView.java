@@ -3,6 +3,7 @@ package com.tongxue.client.Group.Whiteboard;
 import java.util.Iterator;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -11,12 +12,15 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import com.google.gson.Gson;
 import com.tongxue.connector.CallBackInterface;
@@ -43,6 +47,8 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
     private SurfaceHolder holder;
     private Action currentAction;
     public static String TAG = "WhiteBoard";
+
+	VideoView videoView = (VideoView)findViewById(R.id.video_view);
 
 	// 背景图片
 	Bitmap bgBitmap;
@@ -212,6 +218,16 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
 
 		if(action != null)
         	action.draw(command);
+    }
+
+    public void playVideo(String url, Activity activity){
+        MediaController mc = new MediaController(activity);
+        mc.setAnchorView(videoView);
+        videoView.setMediaController(mc);
+        // videoView.setVideoPath("file:///my.mp4");
+        videoView.setVideoURI(Uri.parse(url));
+        videoView.requestFocus();
+        videoView.start();
     }
 
 
