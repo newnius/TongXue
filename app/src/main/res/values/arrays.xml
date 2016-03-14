@@ -4,7 +4,7 @@
     <string-array name="groupKind">
         <item>Web开发</item>
         <item>Android</item>
-        <item>ios</item>
+        <item>IOS</item>
         <item>网络安全</item>
         <item>人工智能</item>
         <item>机器学习</item>
@@ -13,9 +13,9 @@
     </string-array>
 
     <string-array name="groupAuthority">
-        <item>接受所有申请</item>
-        <item>验证后接受申请</item>
-        <item>拒绝所有申请</item>
+        <item>接受所有</item>
+        <item>需要验证</item>
+        <item>拒绝所有</item>
     </string-array>
 
 </resources>

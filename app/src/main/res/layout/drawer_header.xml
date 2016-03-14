@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/portrait"
             android:layout_marginBottom="5dp"
-            android:text="Super pan"
+            android:text=""
             android:textColor="@color/m8"
             android:textSize="20sp" />
 

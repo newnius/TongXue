@@ -1,5 +1,7 @@
 package com.tongxue.connector;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -338,6 +340,7 @@ public class Server {
 			msg = new Gson().fromJson(res, Msg.class);
 			List<Article> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Article>>() {
 			}.getType());
+
 			msg.setObj(list);
 		}
 		return msg;

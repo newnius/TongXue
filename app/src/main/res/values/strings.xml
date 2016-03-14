@@ -21,10 +21,10 @@
     <!--activity_main-->
     <string name="open">打开</string>
     <string name="close">关闭</string>
-    <string name="group">小组学习</string>
-    <string name="qa">问答平台</string>
-    <string name="blog">我的博客</string>
-    <string name="order">个人中心</string>
+    <string name="group">小组</string>
+    <string name="qa">问吧</string>
+    <string name="blog">博客</string>
+    <string name="order">我的</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 
     <!--下拉刷新-->
@@ -53,13 +53,13 @@
     <string name="more">查看更多</string>
     <string name="agree">同意</string>
     <string name="hasAgree">已同意</string>
-    <string name="disappear">名字不见了</string>
+    <string name="disappear">不见了</string>
 
     <!--activity_group_search-->
     <string name="searchByName">按组名</string>
     <string name="searchByKind">按类别</string>
-    <string name="searchGroupByName">请输入要搜索的小组名</string>
-    <string name="searchGroupByKind">请输入要搜索的小组类别</string>
+    <string name="searchGroupByName">请输入小组名称</string>
+    <string name="searchGroupByKind">请输入小组类别</string>
     <string name="search">搜索</string>
     <string name="addGroup">加入</string>
 
@@ -93,16 +93,16 @@
     <string name="input_group_kind">请选择小组类型</string>
     <string name="input_group_nameinfo">请输入小组名和简介</string>
     <string name="input_group_name">请输入小组名</string>
-    <string name="input_group_name_label">请给你的小组起一个好听的名字吧（必填）</string>
-    <string name="input_group_intro_label">请给你的小组来个小组签名吧（选填）</string>
+    <string name="input_group_name_label">快给你的小组起一个好听的名字吧（必填）</string>
+    <string name="input_group_intro_label">小组简介（选填）</string>
     <string name="input_group_label">请输入小组签名</string>
     <string name="CreateFinish">完成</string>
     <string name="more_kind">更多</string>
     <string name="hot_kind">热门分类</string>
     <string name="hot_group">小组推荐</string>
     <string name="cancel">取消</string>
-    <string name="whiteboardedit">白板编辑中...</string>
-    <string name="send">关闭</string>
+    <string name="whiteboardedit">白板共享中...</string>
+    <string name="send">结束</string>
     <string name="bt_pen">橡皮</string>
     <string name="bt_text">文字</string>
     <string name="bt_pic">图片</string>
@@ -111,7 +111,7 @@
     <string name="bt_undo">撤销</string>
     <string name="bt_redo">重做</string>
     <string name="bt_clear">清除</string>
-    <string name="bt_save">保存</string>
+    <string name="bt_save">截屏</string>
     <string name="bt_video">视频</string>
     <string name="groupId">小组编号</string>
     <string name="groupInfoKind">小组类别</string>

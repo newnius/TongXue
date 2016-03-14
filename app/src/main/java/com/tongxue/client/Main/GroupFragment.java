@@ -203,7 +203,7 @@ public class GroupFragment extends BaseFragment{
                 getGroupData(0);
                 MainActivity.firstRefresh=false;
             }else{
-                Log.i("learn", "上次刷新已获取小组信息");
+                Log.i("learn", "刷新上次已获取小组信息");
             }
         }
 

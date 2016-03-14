@@ -179,9 +179,7 @@ public class BlogFragment extends BaseFragment {
                     newList.clear();
                     List<Article> articles = (List<Article>)msg.getObj();
                     int i = blogIndex;
-                    int size = articles.size();
-                    for(int j = size-1; j>=0; j--){
-                        Article article = articles.get(j);
+                    for(Article article: articles){
                         Map map = new HashMap();
                         map.put("blogId", article.getArticleID());
                         map.put("blogAuthor", article.getAuthor());
@@ -221,9 +219,7 @@ public class BlogFragment extends BaseFragment {
                     favList.clear();
                     List<Article> articles = (List<Article>)msg.getObj();
                     int i = blogIndex;
-                    int size = articles.size();
-                    for(int j= size-1; j>=0; j--){
-                        Article article = articles.get(j);
+                    for(Article article : articles){
                         Map map = new HashMap();
                         map.put("blogId", article.getArticleID());
                         map.put("blogAuthor", article.getAuthor());

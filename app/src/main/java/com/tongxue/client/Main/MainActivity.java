@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.tongxue.client.Base.ActivityManager;
 import com.tongxue.client.Base.BaseBarActivity;
+import com.tongxue.client.Base.LearnApplication;
 import com.tongxue.client.Group.Create.AuthActivity;
 import com.tongxue.client.Group.GroupVerifyActivity;
 import com.tongxue.client.Group.Search.SearchActivity;
@@ -49,6 +50,7 @@ public class MainActivity extends BaseBarActivity {
     @Bind(R.id.bottom_add_img)  ImageView addImg;
     @Bind(R.id.nv_menu)         NavigationView navigationView;
     @Bind(R.id.layout)          RelativeLayout head;
+    @Bind(R.id.id_username)     TextView username;
     public FragmentManager mFragmentManager;
     public GroupFragment groupFragment;
     public QAFragment qaFragment;
@@ -169,6 +171,8 @@ public class MainActivity extends BaseBarActivity {
                 changeFragment(4);
             }
         });
+
+        username.setText(LearnApplication.preferences.getString("username", ""));
     }
 
     public void initToolBar(){
@@ -198,11 +202,11 @@ public class MainActivity extends BaseBarActivity {
                         item.setChecked(true);
                         break;
                     case R.id.order2:
-                        toast("内测中");
+                        toast("developing");
                         item.setChecked(true);
                         break;
                     case R.id.set:
-                        toast("内测中");
+                        toast("developing");
                         break;
                     case R.id.about:
                         toast("Powered by Super pan");

@@ -98,9 +98,7 @@ public class QAFragment extends BaseFragment{
                 if(msg.getCode()==91200){
                     qaList.clear();
                     List<Question> questions = (List<Question>)msg.getObj();
-                    int size = questions.size();
-                    for(int j=size-1; j>=0; j--){
-                        Question question = questions.get(j);
+                    for(Question question : questions){
                         Map map = new HashMap();
                         map.put("qaId", question.getQuestionID());
                         map.put("qaAsker", question.getAuthor());
@@ -108,7 +106,7 @@ public class QAFragment extends BaseFragment{
                         map.put("qaBrief", question.getTitle());
                         map.put("qaDetail", question.getDescription());
                         map.put("qaLan", question.getViews()+"");
-                        map.put("qaDing", new Random().nextInt(50)+"");
+                        map.put("qaDing", "0");
                         qaList.add(map);
                     }
                     if(questions.size()==0){
@@ -146,7 +144,7 @@ public class QAFragment extends BaseFragment{
                     intent.putExtra("qaBrief", question.getTitle());
                     intent.putExtra("qaDetail", question.getDescription());
                     intent.putExtra("qaLan", question.getViews()+"");
-                    intent.putExtra("qaDing", new Random().nextInt(40)+"");
+                    intent.putExtra("qaDing", "0");
                     startActivity(intent);
                 }
             }
