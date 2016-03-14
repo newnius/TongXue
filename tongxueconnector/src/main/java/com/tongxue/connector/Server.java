@@ -1,7 +1,5 @@
 package com.tongxue.connector;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -9,9 +7,11 @@ import com.tongxue.connector.Objs.Answer;
 import com.tongxue.connector.Objs.Article;
 import com.tongxue.connector.Objs.Chat;
 import com.tongxue.connector.Objs.Comment;
+import com.tongxue.connector.course.Course;
 import com.tongxue.connector.Objs.Group;
 import com.tongxue.connector.Objs.Question;
 import com.tongxue.connector.Objs.User;
+import com.tongxue.connector.video.IMOOCCourseGetTask;
 
 /**
  *
@@ -595,6 +595,11 @@ public class Server {
 			msg.setObj(list);
 		}
 		return msg;
+	}
+
+	public static List<Course> getCourses(){
+		new IMOOCCourseGetTask().execute();
+		return null;
 	}
 
 

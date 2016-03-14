@@ -2,165 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-sns/v3.3.5/classes.jar"
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/tongxueconnector/unspecified/jars/libs/jackson-databind-2.6.3.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="e3c2283e54e2db4a3557ba8ddb40fc4f3abcb2dc">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-6fdcfb70038cb707a7a2c21825ccada9f70adee9.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/flyrefreshlib/unspecified/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="d77b93c93a6fbe9b7060eb0f229197b339bd0a05">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-ea218b3de08222a957cdbf108a399e66a9cf41a1.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-statistics/v3.3.5/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="64391b02bbf7417b4c778f646ee591ff78f86377">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-c1f36573d656189bb0d5c85d4b5390eb30fe3a79.jar" />
-    </item>
-    <item
-        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/cn.leancloud.android/Java-WebSocket/1.2.0-leancloud/221fb6750fcf164a85a98bbbafe0879e18868562/Java-WebSocket-1.2.0-leancloud.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="221fb6750fcf164a85a98bbbafe0879e18868562">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/Java-WebSocket-1.2.0-leancloud-c8909b050a8afff39ccd8e3f9bc2f46da40c6089.jar" />
-    </item>
-    <item
-        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/cn.leancloud.android/qq-sdk/1.6.1-leancloud/896145203364b9e1d055cb81ac127bab139ad91d/qq-sdk-1.6.1-leancloud.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="896145203364b9e1d055cb81ac127bab139ad91d">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/qq-sdk-1.6.1-leancloud-b0f9f80b98b01641e74b0c7e994d8aed2fc3856e.jar" />
-    </item>
-    <item
-        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.6/a845a88238be0b5be9d238652c1bc0605ef91f52/android-async-http-1.4.6.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="a845a88238be0b5be9d238652c1bc0605ef91f52">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.6-cf95163a6f6604acea341b248e0ff47cef24b403.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/libs/butterknife-7.0.1.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/butterknife-7.0.1-9b7aac84645b6ccea0fe43224931ffcbdf13b72c.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.2.0/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="5b37cf49773f7f17aca9830efd3053b0cac56728">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-427cb736a2aecbcc378bd250e0ff44d14be46a3a.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/tongxueconnector/unspecified/libs/gson-2.3.1.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/gson-2.3.1-1ed1a2cd418c13f4d0ac008065ed92e119be1a5c.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/libs/internal_impl-22.2.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-129b2991f84cb8aa9cd558c4bb9c9e9c1849d905.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/jp.wasabeef/richeditor-android/0.3.0/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="2a4b735c00bd2ebded6b768bb6c30108847d8d1e">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-ce986f16ac61ce9d16123242bace54ba96a2037a.jar" />
-    </item>
-    <item
-        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/de.greenrobot/eventbus/2.4.0/ddd166d01b3158d1c00576d29f7ed15c030df719/eventbus-2.4.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="ddd166d01b3158d1c00576d29f7ed15c030df719">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/eventbus-2.4.0-48bed9f9294149a1e5682e163aa8450f1a562409.jar" />
-    </item>
-    <item
-        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/cn.leancloud.android/fastjson/1.1.38-leancloud/35af3ae48af2f2d20615f0999a20edb385258a82/fastjson-1.1.38-leancloud.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="35af3ae48af2f2d20615f0999a20edb385258a82">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/fastjson-1.1.38-leancloud-fc7557da5c5f69e5eff78ec0eae73fedaabd5afc.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/leanchatlib/unspecified/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="2b6e1492bc656434323ffe476d610ecbb9e041da">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-6e625df3e7495e034254c1d317d6e0559c1a045e.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/leanchatlib/unspecified/libs/prettytime-3.2.5.Final.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="84f05b7911e736cd6913301e90bab3fbaa2f40da">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/prettytime-3.2.5.Final-a0b9ca2f35e660dd84b3b93a44e321edcd21183b.jar" />
-    </item>
-    <item
-        jar="/home/newnius/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-d37401da17fbdb3ce43dbfe3c6d330b69688d363.jar" />
-    </item>
-    <item
-        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/com.nostra13.universalimageloader/universal-image-loader/1.9.3/a85588bec3e2c4584d593d3f15df1677321bca72/universal-image-loader-1.9.3.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="a85588bec3e2c4584d593d3f15df1677321bca72">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/universal-image-loader-1.9.3-b3ce22f91621949c393787d2922acd38f3e57e25.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/libs/afinal_0.5.1_bin.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="ae398c74701392473b9cb488c76a92576d6f548c">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/afinal_0.5.1_bin-10eb8e2680cca8c7a8cb99755cda5d0fc5e0f6ac.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-feedback/v3.3.5/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="696a6e708d83ec26d0af34eac253e3e00dabe334">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-a589e57586abd3583da828e189e8f2193f4d4756.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.0/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="97f7e239e86ef994de894818fdd8a71d2e89d6aa">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-b30c5170970bc63a2ba9cfc67ab0230601ecd81a.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-ee3a0aedb3400f272e9497f70e9a6daa43dd544e.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-push/v3.3.5/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="2c6ba8671af44ca37121db1794394e1cec75a7df">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-7d3ad40771f519eb975c572787ec365484f3efe5.jar" />
-    </item>
-    <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-1e5ef007db0c3a46fe1883d5a1ed761ef31236f0.jar" />
+        sha1="5c4fcae53dd82e2c549b8322d78c6ff47c94c8a8">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/jackson-databind-2.6.3-16b3eea9ceb393654688bcaacea8b3b55155eb97.jar" />
     </item>
     <item
         jar="/home/newnius/.gradle/caches/modules-2/files-2.1/cn.leancloud.android/avoscloud-sdk/v3.3.5/14ae61cea50e086b775a0b7dc8ef5388ff31e184/avoscloud-sdk-v3.3.5.jar"
@@ -170,32 +16,60 @@
         <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/avoscloud-sdk-v3.3.5-7ef0cd05ebec95f8a28dfa8e57addc22810b1cc1.jar" />
     </item>
     <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.0/classes.jar"
+        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/de.greenrobot/eventbus/2.4.0/ddd166d01b3158d1c00576d29f7ed15c030df719/eventbus-2.4.0.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="6666dd525c3da197e7d07f4f23ef5fc7881a697b">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-7fd644f0e9a034a2b21ab983a26d66d667fd8712.jar" />
+        sha1="ddd166d01b3158d1c00576d29f7ed15c030df719">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/eventbus-2.4.0-48bed9f9294149a1e5682e163aa8450f1a562409.jar" />
     </item>
     <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/design/22.2.0/classes.jar"
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-sns/v3.3.5/jars/classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="fc63b820d54c8a27a3a614bdd93920e0076581c2">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-21f08c56c531888ff909d56e49aa37d46a38930b.jar" />
+        sha1="e3c2283e54e2db4a3557ba8ddb40fc4f3abcb2dc">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-a7f998753d7a9938a815937056b7031bb7e621b1.jar" />
     </item>
     <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/tongxueconnector/unspecified/classes.jar"
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/leanchatlib/unspecified/jars/classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="930d106ab736ed100f930b710c6352c2b5f135cd">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-e0f8a309a8e785b62736f884da7966541df53a85.jar" />
+        sha1="b6ca1e7f855d8aabcdf3181b09f99cf57389e0d6">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-060d86c9355c013eee61991bb1f0e7e5dca01ea1.jar" />
     </item>
     <item
-        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.2.4/dba4d4d224e2ca872af5be8d2992777583145478/httpmime-4.2.4.jar"
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-search/v3.3.5/jars/classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="dba4d4d224e2ca872af5be8d2992777583145478">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/httpmime-4.2.4-b227f8e0308df8a934e72b0638cf7193d653438a.jar" />
+        sha1="94331c8386f6ed5f8ddb2183f585b1360901b9e2">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-075cdbaef866a5772275d9c57449e92a3406ebac.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-24971b4186eb94f4d071a700ace073befd674f83.jar" />
+    </item>
+    <item
+        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.6/a845a88238be0b5be9d238652c1bc0605ef91f52/android-async-http-1.4.6.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="a845a88238be0b5be9d238652c1bc0605ef91f52">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.6-cf95163a6f6604acea341b248e0ff47cef24b403.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-3d84c9caa3e442781f5b55e1cffc7907472ede6d.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-fd517aed38caaba4460914191ec6a8b9629b4991.jar" />
     </item>
     <item
         jar="/home/newnius/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.2.4/3b7f38df6de5dd8b500e602ae8c2dd5ee446f883/httpcore-4.2.4.jar"
@@ -205,11 +79,158 @@
         <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/httpcore-4.2.4-2908919d0f54101256a7a47cd25dc6eeb951ae57.jar" />
     </item>
     <item
-        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-search/v3.3.5/classes.jar"
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/tongxueconnector/unspecified/jars/libs/jackson-core-2.6.3.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="94331c8386f6ed5f8ddb2183f585b1360901b9e2">
-        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-becab09376e65c459aaaf12ebdf64259a501d9f4.jar" />
+        sha1="0142ce64dcd709a4b5f6e7d71305a31d3893d077">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/jackson-core-2.6.3-36d53e0afdfc75e41b9a1a6c5778681b93d63f30.jar" />
+    </item>
+    <item
+        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/com.nostra13.universalimageloader/universal-image-loader/1.9.3/a85588bec3e2c4584d593d3f15df1677321bca72/universal-image-loader-1.9.3.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="a85588bec3e2c4584d593d3f15df1677321bca72">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/universal-image-loader-1.9.3-b3ce22f91621949c393787d2922acd38f3e57e25.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/leanchatlib/unspecified/jars/libs/prettytime-3.2.5.Final.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="84f05b7911e736cd6913301e90bab3fbaa2f40da">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/prettytime-3.2.5.Final-aa8df08a86a23823df4adf6814b45af2c8f19bfb.jar" />
+    </item>
+    <item
+        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.2.4/dba4d4d224e2ca872af5be8d2992777583145478/httpmime-4.2.4.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="dba4d4d224e2ca872af5be8d2992777583145478">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/httpmime-4.2.4-b227f8e0308df8a934e72b0638cf7193d653438a.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="97f7e239e86ef994de894818fdd8a71d2e89d6aa">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-22051aa47418e017c8c69f70720288621212b65f.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/tongxueconnector/unspecified/jars/libs/jackson-annotations-2.6.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="a0990e2e812ac6639b6ce955c91b13228500476e">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/jackson-annotations-2.6.0-af8e8295f06e09286d6bf278bf034b2e869bbb41.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-f7e9bc663fc8b3a94c523147839516ecfaf4a076.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/libs/butterknife-7.0.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/butterknife-7.0.1-9b7aac84645b6ccea0fe43224931ffcbdf13b72c.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-feedback/v3.3.5/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="696a6e708d83ec26d0af34eac253e3e00dabe334">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-a8f0a20093b552360e52ad5516ea9e5084e89cd7.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/flyrefreshlib/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="55452ad593a9177bdef751bda4196eec95c6740b">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-4f30f8cd9b1a07a5a73be17991b034d1980eab3c.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/tongxueconnector/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8d43eb0a0273977ba4b8e17be4d12e71555e0315">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-581bd36c2bd521bb48a61cebf8f79faa93d3d319.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/jp.wasabeef/richeditor-android/0.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="2a4b735c00bd2ebded6b768bb6c30108847d8d1e">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-3b5ee905d98be43346e35dc08fa93fefa847b900.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-push/v3.3.5/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="2c6ba8671af44ca37121db1794394e1cec75a7df">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-93ef91079044968c320ae80dd3e4e614925a4d55.jar" />
+    </item>
+    <item
+        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/cn.leancloud.android/Java-WebSocket/1.2.0-leancloud/221fb6750fcf164a85a98bbbafe0879e18868562/Java-WebSocket-1.2.0-leancloud.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="221fb6750fcf164a85a98bbbafe0879e18868562">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/Java-WebSocket-1.2.0-leancloud-c8909b050a8afff39ccd8e3f9bc2f46da40c6089.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/design/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="fc63b820d54c8a27a3a614bdd93920e0076581c2">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-c8d0df761eca0370f66357352e97e2bcc7607e64.jar" />
+    </item>
+    <item
+        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/cn.leancloud.android/qq-sdk/1.6.1-leancloud/896145203364b9e1d055cb81ac127bab139ad91d/qq-sdk-1.6.1-leancloud.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="896145203364b9e1d055cb81ac127bab139ad91d">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/qq-sdk-1.6.1-leancloud-b0f9f80b98b01641e74b0c7e994d8aed2fc3856e.jar" />
+    </item>
+    <item
+        jar="/home/newnius/.gradle/caches/modules-2/files-2.1/cn.leancloud.android/fastjson/1.1.38-leancloud/35af3ae48af2f2d20615f0999a20edb385258a82/fastjson-1.1.38-leancloud.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="35af3ae48af2f2d20615f0999a20edb385258a82">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/fastjson-1.1.38-leancloud-fc7557da5c5f69e5eff78ec0eae73fedaabd5afc.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/cn.leancloud.android/avoscloud-statistics/v3.3.5/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="64391b02bbf7417b4c778f646ee591ff78f86377">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-b0d2a0f7f19710de32fc5c3485b8b5bf6106cf61.jar" />
+    </item>
+    <item
+        jar="/home/newnius/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-d37401da17fbdb3ce43dbfe3c6d330b69688d363.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/libs/afinal_0.5.1_bin.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="ae398c74701392473b9cb488c76a92576d6f548c">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/afinal_0.5.1_bin-10eb8e2680cca8c7a8cb99755cda5d0fc5e0f6ac.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="5b37cf49773f7f17aca9830efd3053b0cac56728">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-b8ed0816982dc3a74db73966aa08e98cb59a83b7.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/tongxueconnector/unspecified/jars/libs/gson-2.3.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/gson-2.3.1-4b3132801070c0f515cf8f72f954c772ce8c7380.jar" />
     </item>
 
 </items>

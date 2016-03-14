@@ -30,6 +30,7 @@ import com.tongxue.client.Group.GroupVerifyActivity;
 import com.tongxue.client.Group.Search.SearchActivity;
 import com.tongxue.client.R;
 import com.tongxue.client.Utils.SerializableMapList;
+import com.tongxue.connector.Server;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -173,6 +174,9 @@ public class MainActivity extends BaseBarActivity {
         });
 
         username.setText(LearnApplication.preferences.getString("username", ""));
+
+        Server.getCourses();
+
     }
 
     public void initToolBar(){
