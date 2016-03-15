@@ -222,8 +222,10 @@
                     android:background="@color/m1"/>
 
                 <RelativeLayout
+                    android:id="@+id/groupMem"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/groupInfoSize">
+                    android:layout_height="@dimen/groupInfoSize"
+                    android:background="@drawable/shape_common">
 
                     <TextView
                         android:id="@+id/label4"
@@ -251,6 +253,14 @@
                         android:text="@string/weizhi"
                         android:textSize="16sp"
                         android:textColor="@color/m9"/>
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/too"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
 
                 </RelativeLayout>
 

@@ -93,6 +93,11 @@
         </activity>
 
         <activity
+            android:name="com.tongxue.client.Group.GroupMemActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name="com.tongxue.client.Blog.BlogEditActivity"
             android:screenOrientation="portrait"/>
 

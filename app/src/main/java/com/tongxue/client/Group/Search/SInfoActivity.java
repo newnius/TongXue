@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
@@ -17,12 +20,15 @@ import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
 import com.tongxue.client.Base.BaseActivity;
 import com.tongxue.client.Base.LearnApplication;
+import com.tongxue.client.Group.GroupMemActivity;
 import com.tongxue.client.Main.MainActivity;
 import com.tongxue.client.R;
 import com.tongxue.client.Utils.Config;
+import com.tongxue.client.Utils.Utils;
 import com.tongxue.client.View.PullScrollView;
 import com.tongxue.client.View.RoundImageView;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
@@ -47,6 +53,7 @@ public class SInfoActivity extends BaseActivity implements PullScrollView.OnTurn
     @Bind(R.id.groupSize)       TextView tv_groupSize;
     @Bind(R.id.groupTime)       TextView tv_groupTime;
     @Bind(R.id.add)             Button bt_add;
+    @Bind(R.id.groupMem)        RelativeLayout groupMem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +185,43 @@ public class SInfoActivity extends BaseActivity implements PullScrollView.OnTurn
                         });
                     }
                 }
+            }
+        });
+
+        groupMem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                waitingDialogShow();
+                final String username= LearnApplication.preferences.getString("username","");
+                AVIMClient imClient=AVIMClient.getInstance(username);
+                AVIMConversationQuery query = imClient.getQuery();
+                query.whereEqualTo("objectId", id);
+                query.findInBackground(new AVIMConversationQueryCallback() {
+                    @Override
+                    public void done(List<AVIMConversation> conversations, AVException e) {
+                        if (e != null) {
+                            waitingDialogDismiss();
+                            toast("世界上最遥远的距离就是没网,请检查网络连接！");
+                            log("Exception:" + e.getCode() + e.getMessage());
+                        } else {
+                            if (conversations.size() > 0) {
+                                waitingDialogDismiss();
+
+                                final AVIMConversation conv = conversations.get(0);
+                                List<String> mems = conv.getMembers();
+                                Intent intent = new Intent(SInfoActivity.this, GroupMemActivity.class);
+                                intent.putExtra("memIds", (Serializable) mems);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.common_right_in, R.anim.common_left_out);
+
+                            } else {
+                                waitingDialogDismiss();
+                                toast("网络故障");
+                            }
+                        }
+                    }
+                });
+
             }
         });
     }
