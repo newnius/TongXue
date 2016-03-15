@@ -6,6 +6,7 @@ package com.tongxue.connector;
  */
 public class Msg {
     private final int code;
+    private String msg;
     private Object obj;
 
     public Msg(int code, Object obj) {
@@ -24,10 +25,12 @@ public class Msg {
     public void setObj(Object obj){
     	this.obj = obj;
     }
-    
 
+    public String getMsg() {
+        return msg;
+    }
 
-    
-    
-    
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 }

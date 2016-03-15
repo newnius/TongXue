@@ -30,6 +30,7 @@ import com.tongxue.client.Group.GroupVerifyActivity;
 import com.tongxue.client.Group.Search.SearchActivity;
 import com.tongxue.client.R;
 import com.tongxue.client.Utils.SerializableMapList;
+import com.tongxue.connector.Msg;
 import com.tongxue.connector.Server;
 
 import java.io.Serializable;
@@ -154,9 +155,9 @@ public class MainActivity extends BaseBarActivity {
         bottom_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isAddPressed){
+                if (isAddPressed) {
                     changeFragment();
-                }else{
+                } else {
                     addImg.startAnimation(rightAnim);
                     toolbar.setVisibility(View.GONE);
                     mFragmentManager.beginTransaction().replace(R.id.main_container_layout, writeFragment).commit();
@@ -175,7 +176,8 @@ public class MainActivity extends BaseBarActivity {
 
         username.setText(LearnApplication.preferences.getString("username", ""));
 
-        Server.getCourses();
+        //Server.getCourses();
+
 
     }
 
@@ -217,6 +219,18 @@ public class MainActivity extends BaseBarActivity {
                         break;
                     case R.id.check:
                         toast("已是最新版本");
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Msg msg = Server.checkForUpdate();
+                                int versionId = msg.getCode();
+                                String description = msg.getMsg();
+                                String downloadUrl = (String)msg.getObj();
+                                log(versionId+"");
+                                log(description);
+                                log(downloadUrl);
+                            }
+                        }).start();
                         break;
                 }
                 mDrawerLayout.closeDrawers();

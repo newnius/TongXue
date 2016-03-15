@@ -18,4 +18,7 @@ public class Config {
 
     public static int bg[] = {R.drawable.bg1,R.drawable.bg2,R.drawable.bg3,R.drawable.bg4,R.drawable.bg5,
             R.drawable.bg6,R.drawable.bg7,R.drawable.bg8,R.drawable.bg9,R.drawable.bg10};
+
+        //versionId is the number of product versions, has no relation with version
+        public static final int versionId = 1;
 }
