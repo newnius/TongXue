@@ -9,6 +9,10 @@ public class Msg {
     private String msg;
     private Object obj;
 
+    public Msg(int code){
+        this.code = code;
+    }
+
     public Msg(int code, Object obj) {
         this.code = code;
         this.obj = obj;

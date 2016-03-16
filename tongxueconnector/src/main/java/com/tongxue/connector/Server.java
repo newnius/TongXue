@@ -13,597 +13,176 @@ import java.util.List;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.tongxue.connector.Objs.Answer;
-import com.tongxue.connector.Objs.Article;
-import com.tongxue.connector.Objs.Chat;
-import com.tongxue.connector.Objs.Comment;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.course.Course;
-import com.tongxue.connector.Objs.Group;
-import com.tongxue.connector.Objs.Question;
-import com.tongxue.connector.Objs.User;
 import com.tongxue.connector.video.IMOOCCourseGetTask;
 
 /**
  * @author Newnius
  */
-public class Server {
+ public class Server {
+    public static final Msg errorMsg = new Msg(ErrorCode.TXOBJECT_IS_NULL);
 
-    private static Communicate comm;
-
-    private Server() {
-
-    }
-
-    public static Msg login(String username, String password) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
+    public static Msg login(TXObject user) {
         try {
-            User user = new User(username, password, null);
-            String con = new Gson().toJson(new Msg(11, user));
-            String res = comm.send(con);
-            Msg msg;
-            if (res == null) {
-                msg = new Msg(10000, null);
-            } else {
-                System.out.println(res);
-                msg = new Gson().fromJson(res, Msg.class);
-                user = new Gson().fromJson(msg.getObj().toString(), User.class);
-                new Thread(new Receiver(user)).start();
-
-            }
-            return msg;
-        } catch (Exception ex) {
+            if (user == null)
+                return errorMsg;
+            return User.login(user);
+        }catch(Exception ex){
             ex.printStackTrace();
-            return null;
+            return errorMsg;
         }
     }
 
-    public static Msg register(String username, String password, String email) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
+    public static Msg register(TXObject user) {
         try {
-            User user = new User(username, password, email);
-            String con = new Gson().toJson(new Msg(12, user));
-            String res = comm.send(con);
-            Msg msg;
-            if (res == null) {
-                msg = new Msg(10000, null);
-            } else {
-                System.out.println(res);
-                msg = new Gson().fromJson(res, Msg.class);
-            }
-            return msg;
-        } catch (Exception ex) {
+            if (user == null)
+                return errorMsg;
+            return User.register(user);
+        }catch(Exception ex){
             ex.printStackTrace();
-            return null;
+            return errorMsg;
         }
-
     }
 
-    public static Msg searchGroupByName(String name) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        Group group = new Group(0, name, 0, null, null, 0, 0);
-        String con = new Gson().toJson(new Msg(21, group));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Group> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Group>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+
+    public static Msg createGroup(TXObject group) {
+        if(group==null)
+            return errorMsg;
+        return Group.createGroup(group);
     }
 
-    public static Msg searchGroupByNameVague(String name) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        Group group = new Group(0, name, 0, null, null, 0, 0);
-        String con = new Gson().toJson(new Msg(31, group));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Group> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Group>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+
+    public static Msg searchGroup(TXObject group) {
+        if(group==null)
+            return errorMsg;
+        return Group.searchGroup(group);
     }
 
-    public static Msg searchGroupByCategory(int category) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        Group group = new Group(0, null, category, null, null, 0, 0);
-        String con = new Gson().toJson(new Msg(23, group));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Group> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Group>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg updateGroup(TXObject group) {
+        if(group==null)
+            return errorMsg;
+        return Group.updateGroup(group);
     }
 
-    public static Msg searchGroupByUser(User user) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(24, user));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Group> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Group>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg dismissGroup(TXObject group) {
+        if(group==null)
+            return errorMsg;
+        return Group.dismissGroup(group);
     }
 
-    public static Msg createGroup(Group group) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(22, group));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
+
+    public static Msg searchGroupByUser(TXObject user) {
+        if(user==null)
+            return errorMsg;
+        return Group.searchGroupByUser(user);
     }
 
-    public static Msg applyGroup(int groupID) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        Group group = new Group(groupID, null, 0, null, null, 0, 0);
-        String con = new Gson().toJson(new Msg(25, group));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
+    public static Msg applyGroup(TXObject group) {
+        if(group==null)
+            return errorMsg;
+        return Group.applyGroup(group);
     }
 
-    public static Msg sendGroupChat(Chat chat) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(26, chat));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
+    public static Msg quitGroup(TXObject group) {
+        if(group==null)
+            return errorMsg;
+        return Group.quitGroup(group);
     }
 
-    public static Msg getGroupChat(int groupID) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        Group group = new Group(groupID, null, 0, null, null, 0, 0);
-        String con = new Gson().toJson(new Msg(27, group));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Chat> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Chat>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg sendGroupMessage(TXObject message) {
+        if(message==null)
+            return errorMsg;
+        return Group.sendGroupMessage(message);
     }
 
-    public static Msg searchGroupById(int groupID) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        Group group = new Group(groupID, null, 0, null, null, 0, 0);
-        String con = new Gson().toJson(new Msg(28, group));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            group = new Gson().fromJson(new Gson().toJson(msg.getObj()), Group.class);
-            msg.setObj(group);
-        }
-        return msg;
-    }
-
-    public static Msg getGroupChatAfterChat(Chat chat) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(29, chat));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Chat> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Chat>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg getGroupMessage(TXObject group) {
+        if(group==null)
+            return errorMsg;
+        return Group.getGroupMessage(group);
     }
 
 
     public static Msg sendBoardAction(String action) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = action;
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
+        return errorMsg;
     }
 
-    public static Msg postArticle(Article article) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(70, article));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
+    public static Msg postArticle(TXObject article) {
+        if(article==null)
+            return errorMsg;
+        return Article.postArticle(article);
     }
 
-    public static Msg updateArticle(User user, Article article) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(71, article));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
-    }
-
-    public static Msg getArticleById(int articleID) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(72, new Article(articleID)));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            Article article = new Gson().fromJson(new Gson().toJson(msg.getObj()), Article.class);
-            msg.setObj(article);
-        }
-        return msg;
+    public static Msg updateArticle(TXObject article) {
+        if(article==null)
+            return errorMsg;
+        return Article.updateArticle(article);
     }
 
 
-    public static Msg getArticleByUser(User user) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(73, user));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Article> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Article>>() {
-            }.getType());
-
-            msg.setObj(list);
-        }
-        return msg;
-    }
-
-    public static Msg getAllArticleAfterArticle(Article article) {
-
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(74, article));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Article> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Article>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg searchArticle(TXObject article) {
+        if(article==null)
+            return errorMsg;
+        return Article.searchArticle(article);
     }
 
 
-    public static Msg getHottestArticleAfterArticle(Article article) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(75, article));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Article> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Article>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg getHottestArticle(TXObject article) {
+        return errorMsg;
     }
 
-    public static Msg deleteArticle(User user, int articleID) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(76, new Article(articleID)));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
+    public static Msg deleteArticle(TXObject article) {
+        if(article==null)
+            return errorMsg;
+        return Article.deleteArticle(article);
     }
 
-    public static Msg askQuestion(Question question) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(90, question));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
+    public static Msg askQuestion(TXObject question) {
+        if(question==null)
+            return errorMsg;
+        return Question.askQuestion(question);
     }
 
-    public static Msg getAllQuestionsBefore(Question question) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(91, question));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Question> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Question>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg searchQuestion(TXObject question) {
+        if(question==null)
+            return errorMsg;
+        return Question.searchQuestion(question);
     }
 
-    public static Msg getUnsolvedQuestionsBefore(Question question) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(92, question));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Question> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Question>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg updateQuestion(TXObject question) {
+        if(question==null)
+            return errorMsg;
+        return Question.updateQuestion(question);
     }
 
-    public static Msg getAllQuestionsByAuthorBefore(Question question) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(93, question));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Question> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Question>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg deleteQuestion(TXObject question) {
+        if(question==null)
+            return errorMsg;
+        return Question.deleteQuestion(question);
     }
 
-    public static Msg updateQuestion(Question question) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(94, question));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
+    public static Msg getQuestionAnswer(TXObject question) {
+        if(question==null)
+            return errorMsg;
+        return Question.searchQuestionAnswer(question);
     }
 
-    public static Msg deleteQuestion(Question question) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(95, question));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
+    public static Msg answerQuestion(TXObject answer) {
+        if(answer==null)
+            return errorMsg;
+        return Question.answerQuestion(answer);
     }
 
-    public static Msg getQuestionByID(int questionID) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(96, new Question(questionID)));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            Question question = new Gson().fromJson(new Gson().toJson(msg.getObj()), Question.class);
-            msg.setObj(question);
-        }
-        return msg;
+    public static Msg makeComment(TXObject comment) {
+        if(comment==null)
+            return errorMsg;
+        return Article.commentAtArticle(comment);
     }
 
-    public static Msg getAnswersByQuestionID(int questionID) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(97, new Question(questionID)));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-            List<Answer> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Answer>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
-    }
-
-    public static Msg answerQuestion(Answer answer) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(98, answer));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-        }
-        return msg;
-    }
-
-    public static Msg makeComment(Comment comment) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(78, comment));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-
-        }
-        return msg;
-    }
-
-    public static Msg getCommentsByArticleID(int articleID) {
-        if (comm == null) {
-            comm = new Communicate();
-        }
-        String con = new Gson().toJson(new Msg(79, new Article(articleID)));
-        String res = comm.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(10000, null);
-        } else {
-            System.out.println(res);
-            msg = new Gson().fromJson(res, Msg.class);
-
-            List<Comment> list = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<Comment>>() {
-            }.getType());
-            msg.setObj(list);
-        }
-        return msg;
+    public static Msg getCommentsByArticle(TXObject article) {
+        if(article==null)
+            return errorMsg;
+        return Article.searchArticleComments(article);
     }
 
     public static List<Course> getCourses() {

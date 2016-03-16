@@ -9,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.tongxue.client.Base.LearnApplication;
 import com.tongxue.connector.Msg;
-import com.tongxue.connector.Objs.Question;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Base.BaseActivity;
 import com.tongxue.client.Base.ServerTask;
@@ -94,7 +95,9 @@ public class MeQaActivity extends BaseActivity{
         new ServerTask(this){
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.getAllQuestionsByAuthorBefore(null);
+                TXObject question = new TXObject();
+                question.set("author", LearnApplication.preferences.getString("username", ""));
+                return Server.searchQuestion(question);
             }
 
             @Override
@@ -103,16 +106,16 @@ public class MeQaActivity extends BaseActivity{
                 waitingDialogDismiss();
                 if(msg.getCode()==93200){
                     list.clear();
-                    List<Question> questions = (List<Question>)msg.getObj();
-                    for(Question question : questions){
+                    List<TXObject> questions = (List<TXObject>)msg.getObj();
+                    for(TXObject question : questions){
                         Map map = new HashMap();
-                        map.put("qaId", question.getQuestionID());
-                        map.put("qaAsker", question.getAuthor());
-                        map.put("qaTime", Utils.formatTime(question.getTime()));
-                        map.put("qaBrief", question.getTitle());
-                        map.put("qaDetail", question.getDescription());
-                        map.put("qaLan", question.getViews()+"");
-                        map.put("qaDing", new Random().nextInt(50)+"");
+                        map.put("qaId", question.get("questionID"));
+                        map.put("qaAsker", question.get("author"));
+                        map.put("qaTime", Utils.formatTime(question.getLong("time")));
+                        map.put("qaBrief", question.get("title"));
+                        map.put("qaDetail", question.get("content"));
+                        map.put("qaLan", question.get("views"));
+                        map.put("qaDing", question.get("upVotes"));
                         list.add(map);
                     }
                     if(questions.size()==0){
@@ -133,7 +136,9 @@ public class MeQaActivity extends BaseActivity{
             @Override
             protected Msg doInBackground(Object... params) {
                 int qaId = (int)list.get(position).get("qaId");
-                return Server.getQuestionByID(qaId);
+                TXObject question = new TXObject();
+                question.set("questionID", qaId);
+                return Server.searchQuestion(question);
             }
 
             @Override
@@ -141,15 +146,15 @@ public class MeQaActivity extends BaseActivity{
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
                 if(msg.getCode()==96200){
-                    Question question = (Question)msg.getObj();
+                    TXObject question = (TXObject)msg.getObj();
                     Intent intent =new Intent(MeQaActivity.this, QaInfoActivity.class);
-                    intent.putExtra("qaId", question.getQuestionID());
-                    intent.putExtra("qaAsker", question.getAuthor());
-                    intent.putExtra("qaTime", Utils.formatTime(question.getTime()));
-                    intent.putExtra("qaBrief", question.getTitle());
-                    intent.putExtra("qaDetail", question.getDescription());
-                    intent.putExtra("qaLan", question.getViews()+"");
-                    intent.putExtra("qaDing", new Random().nextInt(40)+"");
+                    intent.putExtra("qaId", question.get("questionID"));
+                    intent.putExtra("qaAsker", question.get("author"));
+                    intent.putExtra("qaTime", Utils.formatTime(question.getLong("time")));
+                    intent.putExtra("qaBrief", question.get("title"));
+                    intent.putExtra("qaDetail", question.get("content"));
+                    intent.putExtra("qaLan", question.get("views"));
+                    intent.putExtra("qaDing", question.get("upVotes"));
                     startActivity(intent);
                 }
             }

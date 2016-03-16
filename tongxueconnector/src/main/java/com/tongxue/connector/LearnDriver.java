@@ -1,12 +1,6 @@
 package com.tongxue.connector;
 
 import com.google.gson.Gson;
-import com.tongxue.connector.Objs.Answer;
-import com.tongxue.connector.Objs.Article;
-import com.tongxue.connector.Objs.Comment;
-import com.tongxue.connector.Objs.Group;
-import com.tongxue.connector.Objs.Question;
-import com.tongxue.connector.Objs.User;
 
 
 /**
@@ -29,19 +23,19 @@ public class LearnDriver implements  Runnable{
 
 
         //System.out.println(Server.register("newnius", "123456", "newnius1@jlu.edu.cn"));
-        Msg msg = Server.login("newnius", "123456");
+/*        Msg msg = Server.login("newnius", "123456");
         if(msg.getCode() == 11200){
             String tmp = new Gson().toJson(msg.getObj());
             User u = new Gson().fromJson(tmp, User.class);
             new Thread(new Receiver(u)).start();
         }
-        System.out.println(msg.getCode());
+        System.out.println(msg.getCode());*/
 
         //System.out.println(Server.applyGroup(1).getCode());
 
         //System.out.println(Server.createGroup(new Group(0, "鳄鱼", 4, "introduction", "no icon", 0, 0)));
-        System.out.println(Server.searchGroupByName("鳄鱼").getCode());
-        System.out.println(Server.searchGroupByNameVague("鳄鱼").getCode());
+        //System.out.println(Server.searchGroupByName("鳄鱼").getCode());
+        //System.out.println(Server.searchGroupByNameVague("鳄鱼").getCode());
         //System.out.println(Server.searchGroupByCategory(1).getCode());
         //System.out.println(Server.searchGroupByUser(null).getCode());
         //
@@ -65,10 +59,10 @@ public class LearnDriver implements  Runnable{
         System.out.println(Server.answerQuestion(new Answer(2, "answer 2")));
         System.out.println(Server.getAnswersByQuestionID(1));*/
 
-        System.out.println(Server.makeComment(new Comment(1,"as")).getCode());
+/*        System.out.println(Server.makeComment(new Comment(1,"as")).getCode());
         System.out.println(Server.makeComment(new Comment(1,"comment 2")).getCode());
         System.out.println(Server.makeComment(new Comment(2,"comment of id 2")).getCode());
-        System.out.println(Server.getCommentsByArticleID(1));
+        System.out.println(Server.getCommentsByArticleID(1));*/
 
     }
 }

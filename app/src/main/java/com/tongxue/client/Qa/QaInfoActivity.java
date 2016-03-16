@@ -15,7 +15,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.tongxue.connector.Msg;
-import com.tongxue.connector.Objs.Answer;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Base.BaseActivity;
 import com.tongxue.client.Base.LearnApplication;
@@ -125,7 +125,10 @@ public class QaInfoActivity extends BaseActivity {
         new ServerTask(this){
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.answerQuestion(new Answer(qaId, ans));
+                TXObject answer = new TXObject();
+                answer.set("questionID", qaId);
+                answer.set("content", ans);
+                return Server.answerQuestion(answer);
             }
 
             @Override
@@ -157,7 +160,9 @@ public class QaInfoActivity extends BaseActivity {
         new ServerTask(this){
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.getAnswersByQuestionID(qaId);
+                TXObject question = new TXObject();
+                question.set("questionID", qaId);
+                return Server.getQuestionAnswer(question);
             }
 
             @Override
@@ -165,14 +170,14 @@ public class QaInfoActivity extends BaseActivity {
                 super.onPostExecute(msg);
                 if(msg.getCode()==97200){
                     list.clear();
-                    List<Answer> answers = (List<Answer>)msg.getObj();
+                    List<TXObject> answers = (List<TXObject>)msg.getObj();
                     index = 0;
-                    for(Answer answer : answers){
+                    for(TXObject answer : answers){
                         Map map = new HashMap();
                         map.put("userImg", Config.img[(index++)%50]);
-                        map.put("userName", answer.getAuthor());
-                        map.put("userTime", answer.getTime());
-                        map.put("comment", answer.getContent());
+                        map.put("userName", answer.get("author"));
+                        map.put("userTime", answer.getLong("time"));
+                        map.put("comment", answer.get("content"));
                         list.add(map);
                     }
                     ansNum = answers.size();

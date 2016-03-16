@@ -20,7 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tongxue.connector.Msg;
-import com.tongxue.connector.Objs.Article;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Base.BaseFragment;
 import com.tongxue.client.Base.ServerTask;
@@ -168,7 +168,8 @@ public class BlogFragment extends BaseFragment {
         new ServerTask(mContext){
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.getAllArticleAfterArticle(null);
+                TXObject article = new TXObject();
+                return Server.searchArticle(article);
             }
 
             @Override
@@ -177,17 +178,17 @@ public class BlogFragment extends BaseFragment {
                 waitingDialogDismiss();
                 if(msg.getCode()==74200){
                     newList.clear();
-                    List<Article> articles = (List<Article>)msg.getObj();
+                    List<TXObject> articles = (List<TXObject>)msg.getObj();
                     int i = blogIndex;
-                    for(Article article: articles){
+                    for(TXObject article: articles){
                         Map map = new HashMap();
-                        map.put("blogId", article.getArticleID());
-                        map.put("blogAuthor", article.getAuthor());
-                        map.put("blogTime", Utils.formatTime(article.getTime()));
-                        map.put("blogTitle", article.getTitle());
-                        map.put("blogContent", article.getContent());
-                        map.put("blogLan", article.getViews());
-                        map.put("blogZan", article.getUps());
+                        map.put("blogId", article.get("articleID"));
+                        map.put("blogAuthor", article.get("author"));
+                        map.put("blogTime", Utils.formatTime(Long.parseLong(article.get("time"))));
+                        map.put("blogTitle", article.get("title"));
+                        map.put("blogContent", article.get("content"));
+                        map.put("blogLan", article.get("views"));
+                        map.put("blogZan", article.get("upVotes"));
                         map.put("blogCover", Config.bg[(i++)%10]);
                         newList.add(map);
                     }
@@ -208,7 +209,9 @@ public class BlogFragment extends BaseFragment {
         new ServerTask(mContext){
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.getHottestArticleAfterArticle(null);
+                TXObject article = new TXObject();
+                article.set("orderBy","hot");
+                return Server.searchArticle(article);
             }
 
             @Override
@@ -217,17 +220,17 @@ public class BlogFragment extends BaseFragment {
                 waitingDialogDismiss();
                 if(msg.getCode()==75200){
                     favList.clear();
-                    List<Article> articles = (List<Article>)msg.getObj();
+                    List<TXObject> articles = (List<TXObject>)msg.getObj();
                     int i = blogIndex;
-                    for(Article article : articles){
+                    for(TXObject article : articles){
                         Map map = new HashMap();
-                        map.put("blogId", article.getArticleID());
-                        map.put("blogAuthor", article.getAuthor());
-                        map.put("blogTime", Utils.formatTime(article.getTime()));
-                        map.put("blogTitle", article.getTitle());
-                        map.put("blogContent", article.getContent());
-                        map.put("blogLan", article.getViews());
-                        map.put("blogZan", article.getUps());
+                        map.put("blogId", article.get("articleID"));
+                        map.put("blogAuthor", article.get("author"));
+                        map.put("blogTime", Utils.formatTime(article.getLong("time")));
+                        map.put("blogTitle", article.get("title"));
+                        map.put("blogContent", article.get("content"));
+                        map.put("blogLan", article.get("views"));
+                        map.put("blogZan", article.get("upVotes"));
                         map.put("blogCover", Config.bg[(i++)%10]);
                         favList.add(map);
                     }
@@ -249,7 +252,9 @@ public class BlogFragment extends BaseFragment {
             @Override
             protected Msg doInBackground(Object... params) {
                 int blogId = (int)newList.get(position).get("blogId");
-                return Server.getArticleById(blogId);
+                TXObject article = new TXObject();
+                article.set("articleID", blogId);
+                return Server.searchArticle(article);
             }
 
             @Override
@@ -257,15 +262,16 @@ public class BlogFragment extends BaseFragment {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
                 if(msg.getCode()==72200){
-                    Article article = (Article)msg.getObj();
+                    List<TXObject> articles = (List<TXObject>)(msg.getObj());
+                    TXObject article= articles.size()==1?null:articles.get(0);
                     Intent intent =new Intent(mContext, BlogInfoActivity.class);
-                    intent.putExtra("blogId", article.getArticleID());
-                    intent.putExtra("blogUser", article.getAuthor());
-                    intent.putExtra("blogTime", Utils.formatTime(article.getTime()));
-                    intent.putExtra("blogTitle", article.getTitle());
-                    intent.putExtra("blogContent", article.getContent());
-                    intent.putExtra("blogLan", article.getViews());
-                    intent.putExtra("blogZan", article.getUps());
+                    intent.putExtra("blogId", article.get("articleID"));
+                    intent.putExtra("blogUser", article.get("author"));
+                    intent.putExtra("blogTime", Utils.formatTime(article.getLong("time")));
+                    intent.putExtra("blogTitle", article.get("title"));
+                    intent.putExtra("blogContent", article.get("content"));
+                    intent.putExtra("blogLan", article.get("views"));
+                    intent.putExtra("blogZan", article.get("upVotes"));
                     startActivity(intent);
                 }
             }

@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.tongxue.connector.Msg;
-import com.tongxue.connector.Objs.Question;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Base.BaseActivity;
 import com.tongxue.client.Base.ServerTask;
@@ -58,7 +58,10 @@ public class QaEditDActivity extends BaseActivity {
         new ServerTask(this){
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.askQuestion(new Question(brief, detail, null, null));
+                TXObject question = new TXObject();
+                question.set("title", brief);
+                question.set("content", detail);
+                return Server.askQuestion(question);
             }
 
             @Override

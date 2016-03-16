@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.tongxue.connector.Msg;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Base.BaseActivity;
 import com.tongxue.client.Base.LearnApplication;
@@ -30,9 +31,9 @@ public class RegisterActivity extends BaseActivity{
     @Bind(R.id.register)  Button register;
     @Bind(R.id.login)     LinearLayout login;
     @Bind(R.id.layout)    RelativeLayout layout;
-    public String name;
+    public String username;
     public String email;
-    public String pwd;
+    public String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,12 @@ public class RegisterActivity extends BaseActivity{
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name= et_name.getText().toString().trim();
+                username= et_name.getText().toString().trim();
                 email=et_email.getText().toString().trim();
-                pwd= et_pwd.getText().toString().trim();
-                if(!name.equals("")){
+                password= et_pwd.getText().toString().trim();
+                if(!username.equals("")){
                     if(!email.equals("")){
-                        if(!pwd.equals("")){
+                        if(!password.equals("")){
                             if(email.contains("edu")){
                                 waitingDialogShow();
                                 register();
@@ -103,7 +104,11 @@ public class RegisterActivity extends BaseActivity{
         new ServerTask(this){
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.register(name, pwd, email);
+                TXObject user = new TXObject();
+                user.set("username", username);
+                user.set("password", password);
+                user.set("email", email);
+                return Server.register(user);
             }
 
             @Override
@@ -116,8 +121,8 @@ public class RegisterActivity extends BaseActivity{
 
                     SharedPreferences.Editor edit= LearnApplication.preferences.edit();
                     edit.putBoolean("Remember", true);
-                    edit.putString("username", name);
-                    edit.putString("password", pwd);
+                    edit.putString("username", username);
+                    edit.putString("password", password);
                     edit.apply();
 
                     startIntent(LoginActivity.class);

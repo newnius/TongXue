@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
-import com.tongxue.connector.Objs.User;
+import com.tongxue.connector.Objs.TXObject;
 
 
 public class Receiver implements Runnable {
@@ -20,9 +20,9 @@ public class Receiver implements Runnable {
 	private Socket socket;
 	private PrintWriter writer;
 	private BufferedReader reader;
-	private User user;
+	private TXObject user;
 
-	public Receiver(User user) {
+	public Receiver(TXObject user) {
 		this.user = user;
         Log.i("receiver", "running");
 	}
