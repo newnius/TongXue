@@ -204,9 +204,9 @@ public class WhiteBoardActivity extends BaseActivity{
                 boolean b = Utils.savePic(bm, filename);
                 waitingDialogDismiss();
                 if (b) {
-                    Toast.makeText(getApplicationContext(), "保存成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "截屏成功,已保存到手机相册", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "保存失敗", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "截屏失败", Toast.LENGTH_SHORT).show();
                 }
             }
         });

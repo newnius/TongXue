@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tongxue.connector.Msg;
-import com.tongxue.connector.Objs.TXObject;
+import com.tongxue.connector.Objs.Article;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Base.BaseActivity;
 import com.tongxue.client.Base.ServerTask;
@@ -296,10 +296,7 @@ public class BlogEditActivity extends BaseActivity{
         new ServerTask(this){
             @Override
             protected Msg doInBackground(Object... params) {
-                TXObject article = new TXObject();
-                article.set("title", blogTitle);
-                article.set("content", blogContent);
-                return Server.postArticle(article);
+                return Server.postArticle(new Article(blogTitle, blogContent, 0, null, 0, null));
             }
 
             @Override
