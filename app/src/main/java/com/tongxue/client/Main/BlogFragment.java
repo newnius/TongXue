@@ -20,7 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tongxue.connector.Msg;
-import com.tongxue.connector.Objs.Article;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Base.BaseFragment;
 import com.tongxue.client.Base.ServerTask;
@@ -44,8 +44,10 @@ import butterknife.ButterKnife;
  */
 public class BlogFragment extends BaseFragment {
 
-    @Bind(R.id.viewPager) ViewPager viewPager;
-    @Bind(R.id.tabLayout) TabLayout tabLayout;
+    @Bind(R.id.viewPager)
+    ViewPager viewPager;
+    @Bind(R.id.tabLayout)
+    TabLayout tabLayout;
     public View mView;
     public Context mContext;
     public FragmentManager mFragmentManager;
@@ -60,13 +62,13 @@ public class BlogFragment extends BaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.init();
-        mContext= getActivity();
-        mFragmentManager= getActivity().getSupportFragmentManager();
-        mView= inflater.inflate(R.layout.fragment_group, container, false);
+        mContext = getActivity();
+        mFragmentManager = getActivity().getSupportFragmentManager();
+        mView = inflater.inflate(R.layout.fragment_group, container, false);
         ButterKnife.bind(this, mView);
 
-        mTitleList= new ArrayList<>();
-        mViewList= new ArrayList<>();
+        mTitleList = new ArrayList<>();
+        mViewList = new ArrayList<>();
         newList = MainActivity.newList;
         favList = MainActivity.favList;
 
@@ -87,12 +89,12 @@ public class BlogFragment extends BaseFragment {
         tabLayout.setupWithViewPager(viewPager);        //将TabLayout和ViewPager关联起来。
         tabLayout.setTabsFromPagerAdapter(mAdapter);    //给Tabs设置适配器
 
-        newLayout= (PullToRefreshLayout)newView;
-        favLayout= (PullToRefreshLayout)favView;
-        newListView= (ListView)newLayout.getChildAt(1);
-        favListView= (ListView)favLayout.getChildAt(1);
+        newLayout = (PullToRefreshLayout) newView;
+        favLayout = (PullToRefreshLayout) favView;
+        newListView = (ListView) newLayout.getChildAt(1);
+        favListView = (ListView) favLayout.getChildAt(1);
 
-        newAdapter= new ListAdapter(mContext, newList);
+        newAdapter = new ListAdapter(mContext, newList);
         newListView.setAdapter(newAdapter);
         newListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -109,7 +111,7 @@ public class BlogFragment extends BaseFragment {
                     public void run() {
                         getNewData(1);
                     }
-                },1000);
+                }, 1000);
             }
 
             @Override
@@ -121,9 +123,9 @@ public class BlogFragment extends BaseFragment {
                     }
                 }, 1000);
             }
-        },2);
+        }, 2);
 
-        favAdapter=new ListAdapter(mContext, favList);
+        favAdapter = new ListAdapter(mContext, favList);
         favListView.setAdapter(favAdapter);
         favListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -140,7 +142,7 @@ public class BlogFragment extends BaseFragment {
                     public void run() {
                         getFavData(1);
                     }
-                },1000);
+                }, 1000);
             }
 
             @Override
@@ -150,11 +152,11 @@ public class BlogFragment extends BaseFragment {
                     public void run() {
                         favLayout.loadmoreFinish(PullToRefreshLayout.FULL);
                     }
-                },1000);
+                }, 1000);
             }
-        },3);
+        }, 3);
 
-        if(MainActivity.shouldBlogRefresh){
+        if (MainActivity.shouldBlogRefresh) {
             getNewData(0);
             getFavData(0);
             blogIndex = new Random().nextInt(10);
@@ -164,108 +166,112 @@ public class BlogFragment extends BaseFragment {
         return mView;
     }
 
-    private void getNewData(final int flag){
-        new ServerTask(mContext){
+    private void getNewData(final int flag) {
+        new ServerTask(mContext) {
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.getAllArticleAfterArticle(null);
+                TXObject article = new TXObject();
+                return Server.searchArticle(article);
             }
 
             @Override
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if(msg.getCode()==74200){
+                if (msg.getCode() == 74200) {
                     newList.clear();
-                    List<Article> articles = (List<Article>)msg.getObj();
+                    List<TXObject> articles = (List<TXObject>) msg.getObj();
                     int i = blogIndex;
-                    for(Article article: articles){
+                    for (TXObject article : articles) {
                         Map map = new HashMap();
-                        map.put("blogId", article.getArticleID());
-                        map.put("blogAuthor", article.getAuthor());
-                        map.put("blogTime", Utils.formatTime(article.getTime()));
-                        map.put("blogTitle", article.getTitle());
-                        map.put("blogContent", article.getContent());
-                        map.put("blogLan", article.getViews());
-                        map.put("blogZan", article.getUps());
-                        map.put("blogCover", Config.bg[(i++)%10]);
+                        map.put("blogId", article.get("articleID"));
+                        map.put("blogAuthor", article.get("author"));
+                        map.put("blogTime", Utils.formatTime(article.getLong("time")));
+                        map.put("blogTitle", article.get("title"));
+                        map.put("blogContent", article.get("content"));
+                        map.put("blogLan", article.get("views"));
+                        map.put("blogZan", article.get("upVotes"));
+                        map.put("blogCover", Config.bg[(i++) % 10]);
                         newList.add(map);
                     }
-                    if(articles.size()==0){
+                    if (articles.size() == 0) {
                         toast("暂无更多");
                     }
                     MainActivity.newList = newList;
                     newAdapter.notifyDataSetChanged();
-                    if(flag==1) newLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                }else{
-                    if(flag==1) newLayout.refreshFinish(PullToRefreshLayout.FAIL);
+                    if (flag == 1) newLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                } else {
+                    if (flag == 1) newLayout.refreshFinish(PullToRefreshLayout.FAIL);
                 }
             }
         }.execute();
     }
 
-    private void getFavData(final int flag){
-        new ServerTask(mContext){
+    private void getFavData(final int flag) {
+        new ServerTask(mContext) {
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.getHottestArticleAfterArticle(null);
+                TXObject article = new TXObject();
+                return Server.searchArticle(article);
             }
 
             @Override
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if(msg.getCode()==75200){
+                if (msg.getCode() == 75200) {
                     favList.clear();
-                    List<Article> articles = (List<Article>)msg.getObj();
+                    List<TXObject> articles = (List<TXObject>) msg.getObj();
                     int i = blogIndex;
-                    for(Article article : articles){
+                    for (TXObject article : articles) {
                         Map map = new HashMap();
-                        map.put("blogId", article.getArticleID());
-                        map.put("blogAuthor", article.getAuthor());
-                        map.put("blogTime", Utils.formatTime(article.getTime()));
-                        map.put("blogTitle", article.getTitle());
-                        map.put("blogContent", article.getContent());
-                        map.put("blogLan", article.getViews());
-                        map.put("blogZan", article.getUps());
-                        map.put("blogCover", Config.bg[(i++)%10]);
+                        map.put("blogId", article.get("articleID"));
+                        map.put("blogAuthor", article.get("author"));
+                        map.put("blogTime", Utils.formatTime(article.getLong("time")));
+                        map.put("blogTitle", article.get("title"));
+                        map.put("blogContent", article.get("content"));
+                        map.put("blogLan", article.get("views"));
+                        map.put("blogZan", article.get("upVotes"));
+                        map.put("blogCover", Config.bg[(i++) % 10]);
                         favList.add(map);
                     }
-                    if(articles.size()==0){
+                    if (articles.size() == 0) {
                         toast("暂无更多");
                     }
                     MainActivity.favList = favList;
                     favAdapter.notifyDataSetChanged();
-                    if(flag==1) favLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                }else {
-                    if(flag==1) favLayout.refreshFinish(PullToRefreshLayout.FAIL);
+                    if (flag == 1) favLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                } else {
+                    if (flag == 1) favLayout.refreshFinish(PullToRefreshLayout.FAIL);
                 }
             }
         }.execute();
     }
 
-    public void LookArticleById(final int position){
-        new ServerTask(mContext){
+    public void LookArticleById(final int position) {
+        new ServerTask(mContext) {
             @Override
             protected Msg doInBackground(Object... params) {
-                int blogId = (int)newList.get(position).get("blogId");
-                return Server.getArticleById(blogId);
+                int blogId = (int) newList.get(position).get("blogId");
+                TXObject article = new TXObject();
+                article.set("articleID", blogId);
+                return Server.searchArticle(article);
             }
 
             @Override
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if(msg.getCode()==72200){
-                    Article article = (Article)msg.getObj();
-                    Intent intent =new Intent(mContext, BlogInfoActivity.class);
-                    intent.putExtra("blogId", article.getArticleID());
-                    intent.putExtra("blogUser", article.getAuthor());
-                    intent.putExtra("blogTime", Utils.formatTime(article.getTime()));
-                    intent.putExtra("blogTitle", article.getTitle());
-                    intent.putExtra("blogContent", article.getContent());
-                    intent.putExtra("blogLan", article.getViews());
-                    intent.putExtra("blogZan", article.getUps());
+                if (msg.getCode() == 72200) {
+                    TXObject article = (TXObject) msg.getObj();
+                    Intent intent = new Intent(mContext, BlogInfoActivity.class);
+                    intent.putExtra("blogId", article.get("articleID"));
+                    intent.putExtra("blogUser", article.get("author"));
+                    intent.putExtra("blogTime", Utils.formatTime(article.getLong("time")));
+                    intent.putExtra("blogTitle", article.get("time"));
+                    intent.putExtra("blogContent", article.get("content"));
+                    intent.putExtra("blogLan", article.get("views"));
+                    intent.putExtra("blogZan", article.get("upVotes"));
                     startActivity(intent);
                 }
             }
@@ -312,7 +318,7 @@ public class BlogFragment extends BaseFragment {
         public LayoutInflater mInflater;
         public List<Map<String, Object>> mList;
 
-        public ListAdapter(Context c, List<Map<String, Object>> list){
+        public ListAdapter(Context c, List<Map<String, Object>> list) {
             mInflater = LayoutInflater.from(c);
             mList = list;
         }
@@ -335,38 +341,45 @@ public class BlogFragment extends BaseFragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            log(""+position);
+            log("" + position);
             ViewHolder holder;
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.item_list_blog, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
-            }else{
-                holder = (ViewHolder)convertView.getTag();
+            } else {
+                holder = (ViewHolder) convertView.getTag();
             }
 
             holder.blogAuthor.setText(mList.get(position).get("blogAuthor").toString());
             holder.blogTime.setText(mList.get(position).get("blogTime").toString());
             holder.blogTitle.setText(mList.get(position).get("blogTitle").toString());
-            String content = "　"+Html.fromHtml(mList.get(position).get("blogContent").toString()).toString();
+            String content = "　" + Html.fromHtml(mList.get(position).get("blogContent").toString()).toString();
             holder.blogSummary.setText(content);
-            holder.image.setImageDrawable(getResources().getDrawable((int)mList.get(position).get("blogCover")));
+            holder.image.setImageDrawable(getResources().getDrawable((int) mList.get(position).get("blogCover")));
             holder.blogLan.setText(mList.get(position).get("blogLan").toString());
             holder.blogZan.setText(mList.get(position).get("blogZan").toString());
 
             return convertView;
         }
 
-        public class ViewHolder{
-            @Bind(R.id.title)       TextView blogTitle;
-            @Bind(R.id.author)      TextView blogAuthor;
-            @Bind(R.id.blogTime)    TextView blogTime;
-            @Bind(R.id.summary)     TextView blogSummary;
-            @Bind(R.id.blogLan)     TextView blogLan;
-            @Bind(R.id.blogZan)     TextView blogZan;
-            @Bind(R.id.image)       ImageView image;
+        public class ViewHolder {
+            @Bind(R.id.title)
+            TextView blogTitle;
+            @Bind(R.id.author)
+            TextView blogAuthor;
+            @Bind(R.id.blogTime)
+            TextView blogTime;
+            @Bind(R.id.summary)
+            TextView blogSummary;
+            @Bind(R.id.blogLan)
+            TextView blogLan;
+            @Bind(R.id.blogZan)
+            TextView blogZan;
+            @Bind(R.id.image)
+            ImageView image;
 
-            public ViewHolder(View mView){
+            public ViewHolder(View mView) {
                 ButterKnife.bind(this, mView);
             }
         }

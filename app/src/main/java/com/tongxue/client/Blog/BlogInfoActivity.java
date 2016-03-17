@@ -17,7 +17,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.tongxue.connector.Msg;
-import com.tongxue.connector.Objs.Comment;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Base.BaseBarActivity;
 import com.tongxue.client.Base.LearnApplication;
@@ -39,25 +39,44 @@ import jp.wasabeef.richeditor.RichEditor;
  * Created by chaosi on 2015/10/10.
  */
 public class BlogInfoActivity extends BaseBarActivity {
-    @Bind(R.id.toolbar)          Toolbar toolbar;
-    @Bind(R.id.back)             ImageView back;
-    @Bind(R.id.view)             View view;
-    @Bind(R.id.send)             Button send;
-    @Bind(R.id.comment)          EditText comment;
-    @Bind(R.id.blogUser)         TextView blogUserTv;
-    @Bind(R.id.blogTime)         TextView blogTimeTv;
-    @Bind(R.id.blogTitle)        TextView blogTitleTv;
-    @Bind(R.id.blogLan)          TextView blogLanTv;
-    @Bind(R.id.blogZan)          TextView blogZanTv;
-    @Bind(R.id.blogLun)          TextView blogLunTv;
-    @Bind(R.id.blogLunIv)        ImageView blogLunIv;
-    @Bind(R.id.blogZanIv)        ImageView blogZanIv;
-    @Bind(R.id.blogContent)      RichEditor blogContentRe;
-    @Bind(R.id.noComment)        TextView noComment;
-    @Bind(R.id.addCommentLayout) LinearLayout addCommentLayout;
-    @Bind(R.id.commentListView)  NoScrollListView listView;
-    @Bind(R.id.bottom1)          LinearLayout bottom1;
-    @Bind(R.id.bottom2)          RelativeLayout bottom2;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.back)
+    ImageView back;
+    @Bind(R.id.view)
+    View view;
+    @Bind(R.id.send)
+    Button send;
+    @Bind(R.id.comment)
+    EditText comment;
+    @Bind(R.id.blogUser)
+    TextView blogUserTv;
+    @Bind(R.id.blogTime)
+    TextView blogTimeTv;
+    @Bind(R.id.blogTitle)
+    TextView blogTitleTv;
+    @Bind(R.id.blogLan)
+    TextView blogLanTv;
+    @Bind(R.id.blogZan)
+    TextView blogZanTv;
+    @Bind(R.id.blogLun)
+    TextView blogLunTv;
+    @Bind(R.id.blogLunIv)
+    ImageView blogLunIv;
+    @Bind(R.id.blogZanIv)
+    ImageView blogZanIv;
+    @Bind(R.id.blogContent)
+    RichEditor blogContentRe;
+    @Bind(R.id.noComment)
+    TextView noComment;
+    @Bind(R.id.addCommentLayout)
+    LinearLayout addCommentLayout;
+    @Bind(R.id.commentListView)
+    NoScrollListView listView;
+    @Bind(R.id.bottom1)
+    LinearLayout bottom1;
+    @Bind(R.id.bottom2)
+    RelativeLayout bottom2;
     public MenuInflater menuInflater;
     public List<Map<String, Object>> list;
     public SimpleAdapter adapter;
@@ -69,7 +88,7 @@ public class BlogInfoActivity extends BaseBarActivity {
     public int blogZan;
     public int blogLun;
     public int blogId;
-    public int commentNum=0;
+    public int commentNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +100,13 @@ public class BlogInfoActivity extends BaseBarActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        blogId= intent.getIntExtra("blogId",0);
-        blogUser= intent.getStringExtra("blogUser");
-        blogTime= intent.getStringExtra("blogTime");
-        blogTitle= intent.getStringExtra("blogTitle");
-        blogContent= intent.getStringExtra("blogContent");
-        blogLan= intent.getIntExtra("blogLan", 0)+1;
-        blogZan= intent.getIntExtra("blogZan", 0);
+        blogId = intent.getIntExtra("blogId", 0);
+        blogUser = intent.getStringExtra("blogUser");
+        blogTime = intent.getStringExtra("blogTime");
+        blogTitle = intent.getStringExtra("blogTitle");
+        blogContent = intent.getStringExtra("blogContent");
+        blogLan = intent.getIntExtra("blogLan", 0) + 1;
+        blogZan = intent.getIntExtra("blogZan", 0);
 
         blogContentRe.setEditorHeight(200);
         blogContentRe.setEditorFontSize(20);
@@ -104,13 +123,13 @@ public class BlogInfoActivity extends BaseBarActivity {
         blogUserTv.setText(blogUser);
         blogTimeTv.setText(blogTime);
         blogTitleTv.setText(blogTitle);
-        blogLanTv.setText("浏览量："+blogLan);
-        blogZanTv.setText(blogZan+"");
+        blogLanTv.setText("浏览量：" + blogLan);
+        blogZanTv.setText(blogZan + "");
         blogLunTv.setText("10");
 
         list = new ArrayList<>();
         getList();
-        adapter = new SimpleAdapter(this, list, R.layout.item_list_blog_comment, new String[]{"userName","userTime","comment"}, new int[]{R.id.userName, R.id.userTime, R.id.comment});
+        adapter = new SimpleAdapter(this, list, R.layout.item_list_blog_comment, new String[]{"userName", "userTime", "comment"}, new int[]{R.id.userName, R.id.userTime, R.id.comment});
         listView.setAdapter(adapter);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -153,9 +172,9 @@ public class BlogInfoActivity extends BaseBarActivity {
             @Override
             public void onClick(View v) {
                 String str = comment.getText().toString().trim();
-                if(str.equals("")){
+                if (str.equals("")) {
                     toast("评论内容不能为空");
-                }else{
+                } else {
                     sendComment(str);
                 }
             }
@@ -164,30 +183,32 @@ public class BlogInfoActivity extends BaseBarActivity {
 
     }
 
-    public void getList(){
+    public void getList() {
         waitingDialogShow();
-        new ServerTask(this){
+        new ServerTask(this) {
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.getCommentsByArticleID(blogId);
+                TXObject article = new TXObject();
+                article.set("articleID", blogId);
+                return Server.getCommentsByArticle(article);
             }
 
             @Override
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if(msg.getCode()==79200){
-                    List<Comment> comments = (List<Comment>)msg.getObj();
+                if (msg.getCode() == 79200) {
+                    List<TXObject> comments = (List<TXObject>) msg.getObj();
                     commentNum = comments.size();
-                    for(Comment comment : comments){
+                    for (TXObject comment : comments) {
                         Map map = new HashMap();
-                        map.put("userName", comment.getAuthor());
-                        map.put("userTime", comment.getTime());
-                        map.put("comment", comment.getContent());
+                        map.put("userName", comment.get("author"));
+                        map.put("userTime", comment.get("time"));
+                        map.put("comment", comment.get("content"));
                         list.add(map);
                     }
                     adapter.notifyDataSetChanged();
-                    if(commentNum==0){
+                    if (commentNum == 0) {
                         listView.setVisibility(View.GONE);
                         noComment.setVisibility(View.VISIBLE);
                     }
@@ -196,27 +217,30 @@ public class BlogInfoActivity extends BaseBarActivity {
         }.execute();
     }
 
-    public void sendComment(final String c){
+    public void sendComment(final String content) {
         waitingDialogShow();
-        new ServerTask(this){
+        new ServerTask(this) {
             @Override
             protected Msg doInBackground(Object... params) {
-                return Server.makeComment(new Comment(blogId, c));
+                TXObject comment = new TXObject();
+                comment.set("articleID", blogId);
+                comment.set("content", content);
+                return Server.makeComment(comment);
             }
 
             @Override
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if(msg.getCode()==78200){
-                    String user = LearnApplication.preferences.getString("username","");
+                if (msg.getCode() == 78200) {
+                    String user = LearnApplication.preferences.getString("username", "");
                     Map map = new HashMap();
                     map.put("userName", user);
                     map.put("userTime", Utils.formatTime(System.currentTimeMillis()));
-                    map.put("comment", c);
+                    map.put("comment", content);
                     list.add(map);
                     adapter.notifyDataSetChanged();
-                    if(commentNum==0){
+                    if (commentNum == 0) {
                         listView.setVisibility(View.VISIBLE);
                         noComment.setVisibility(View.GONE);
                         commentNum++;
