@@ -16,9 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.tongxue.connector.Article;
 import com.tongxue.connector.Msg;
-import com.tongxue.connector.Objs.TXObject;
+import com.tongxue.connector.Objs.Comment;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Base.BaseBarActivity;
 import com.tongxue.client.Base.LearnApplication;
@@ -170,9 +169,7 @@ public class BlogInfoActivity extends BaseBarActivity {
         new ServerTask(this){
             @Override
             protected Msg doInBackground(Object... params) {
-                TXObject article = new TXObject();
-                article.set("articleID", blogId);
-                return Server.getCommentsByArticle(article);
+                return Server.getCommentsByArticleID(blogId);
             }
 
             @Override
@@ -180,13 +177,13 @@ public class BlogInfoActivity extends BaseBarActivity {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
                 if(msg.getCode()==79200){
-                    List<TXObject> comments = (List<TXObject>)msg.getObj();
+                    List<Comment> comments = (List<Comment>)msg.getObj();
                     commentNum = comments.size();
-                    for(TXObject comment : comments){
+                    for(Comment comment : comments){
                         Map map = new HashMap();
-                        map.put("userName", comment.get("author"));
-                        map.put("userTime", comment.get("time"));
-                        map.put("comment", comment.get("content"));
+                        map.put("userName", comment.getAuthor());
+                        map.put("userTime", comment.getTime());
+                        map.put("comment", comment.getContent());
                         list.add(map);
                     }
                     adapter.notifyDataSetChanged();
@@ -199,15 +196,12 @@ public class BlogInfoActivity extends BaseBarActivity {
         }.execute();
     }
 
-    public void sendComment(final String content){
+    public void sendComment(final String c){
         waitingDialogShow();
         new ServerTask(this){
             @Override
             protected Msg doInBackground(Object... params) {
-                TXObject comment = new TXObject();
-                comment.set("articleID", blogId);
-                comment.set("content", content);
-                return Server.makeComment(comment);
+                return Server.makeComment(new Comment(blogId, c));
             }
 
             @Override
@@ -219,7 +213,7 @@ public class BlogInfoActivity extends BaseBarActivity {
                     Map map = new HashMap();
                     map.put("userName", user);
                     map.put("userTime", Utils.formatTime(System.currentTimeMillis()));
-                    map.put("comment", content);
+                    map.put("comment", c);
                     list.add(map);
                     adapter.notifyDataSetChanged();
                     if(commentNum==0){

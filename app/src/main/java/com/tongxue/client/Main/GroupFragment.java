@@ -232,7 +232,8 @@ public class GroupFragment extends BaseFragment{
                             map.put("id",beans.get(0).getGroupId());
                             map.put("kind", beans.get(0).getKind());
                             map.put("intro",beans.get(0).getIntro());
-                            map.put("num",""+ new Random().nextInt(20));
+                            //TODO
+                            map.put("num","0");
                             Drawable drawable= getResources().getDrawable(Config.img[index++]);
                             map.put("img", drawable);
                             talkList.add(map);

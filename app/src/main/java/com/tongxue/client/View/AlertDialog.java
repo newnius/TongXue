@@ -38,6 +38,8 @@ public abstract class AlertDialog extends Dialog{
         setContentView(R.layout.dialog_alert);
         ButterKnife.bind(this);
 
+        setCancelable(false);
+
         text.setText(text_title);
         ok.setText(text_ok);
         cancel.setText(text_cancel);

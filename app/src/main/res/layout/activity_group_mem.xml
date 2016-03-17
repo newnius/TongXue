@@ -5,8 +5,26 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/toolbar">
+
+        <ImageView
+            android:id="@+id/actionbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"
+            android:background="@drawable/shape_button_add"/>
+
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/memIds"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
