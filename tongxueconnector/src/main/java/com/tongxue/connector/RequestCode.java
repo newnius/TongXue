@@ -38,4 +38,13 @@ public class RequestCode {
     public static final int SEARCH_QUESTION_ANSWER = 24;
     public static final int UPDATE_QUESTION_ANSWER = 25;
     public static final int DELETE_QUESTION_ANSWER = 26;
+
+
+    public static final int SEND_WHITEBOARD_ACTION = 27;
+    public static final int GET_WHITEBOARD_ACTION = 28;
+
+
+    /* received code */
+    public static final int NEW_MESSAGE = 1000;
+
 }

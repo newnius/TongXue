@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
@@ -219,10 +221,11 @@ public class BlogFragment extends BaseFragment {
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if (msg.getCode() == 75200) {
+                if (msg.getCode() == ErrorCode.SUCCESS) {
                     favList.clear();
                     List<TXObject> articles = (List<TXObject>) msg.getObj();
-                    int i = blogIndex;
+                    Log.i("blog",articles.size()+"");
+                    int i = 0;
                     for (TXObject article : articles) {
                         Map map = new HashMap();
                         map.put("blogId", article.get("articleID"));

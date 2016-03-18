@@ -144,9 +144,14 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
     }
 
     public static Msg searchQuestion(TXObject question) {
-        if(question==null)
+        try {
+            if (question == null)
+                return errorMsg;
+            return Question.searchQuestion(question);
+        }catch(Exception ex){
+            ex.printStackTrace();
             return errorMsg;
-        return Question.searchQuestion(question);
+        }
     }
 
     public static Msg updateQuestion(TXObject question) {
@@ -162,9 +167,14 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
     }
 
     public static Msg getQuestionAnswer(TXObject question) {
-        if(question==null)
+        try {
+            if (question == null)
+                return errorMsg;
+            return Question.searchQuestionAnswer(question);
+        }catch(Exception ex){
+            ex.printStackTrace();
             return errorMsg;
-        return Question.searchQuestionAnswer(question);
+        }
     }
 
     public static Msg answerQuestion(TXObject answer) {

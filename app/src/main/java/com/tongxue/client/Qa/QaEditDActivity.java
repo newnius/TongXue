@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
@@ -71,7 +72,7 @@ public class QaEditDActivity extends BaseActivity {
             @Override
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
-                if (msg.getCode() == 90200) {
+                if (msg.getCode() == ErrorCode.SUCCESS) {
                     toast("问题发布成功");
                     Intent intent = new Intent(QaEditDActivity.this, MainActivity.class);
                     intent.putExtra("qa", true);

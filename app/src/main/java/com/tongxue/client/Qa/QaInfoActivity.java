@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
@@ -79,60 +80,64 @@ public class QaInfoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qa_info);
-        ButterKnife.bind(this);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_qa_info);
+            ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        qaId = intent.getIntExtra("qaId", 0);
-        String qaAsker = intent.getStringExtra("qaAsker");
-        String qaTime = intent.getStringExtra("qaTime");
-        String qaBrief = intent.getStringExtra("qaBrief");
-        String qaDetail = intent.getStringExtra("qaDetail");
-        String qaLan = intent.getStringExtra("qaLan");
-        String qaDing = intent.getStringExtra("qaDing");
+            Intent intent = getIntent();
+            qaId = intent.getIntExtra("qaId", 0);
+            String qaAsker = intent.getStringExtra("qaAsker");
+            String qaTime = intent.getStringExtra("qaTime");
+            String qaBrief = intent.getStringExtra("qaBrief");
+            String qaDetail = intent.getStringExtra("qaDetail");
+            String qaLan = intent.getStringExtra("qaLan");
+            String qaDing = intent.getStringExtra("qaDing");
 
-        briefTv.setText(Html.fromHtml("<h4>" + qaBrief + "</h4>"));
-        briefTv.setMovementMethod(LinkMovementMethod.getInstance());
+            briefTv.setText(Html.fromHtml("<h4>" + qaBrief + "</h4>"));
+            briefTv.setMovementMethod(LinkMovementMethod.getInstance());
 
-        askerTv.setText(qaAsker);
-        qaTimeTv.setText(qaTime);
-        detailTv.setText("补充：" + qaDetail);
-        qaLanTv.setText("浏览" + qaLan + "次");
-        qaDingTv.setText("帮顶" + qaDing + "次");
-        imgIv.setImageDrawable(getResources().getDrawable(Config.img[new Random().nextInt(50)]));
+            askerTv.setText(qaAsker);
+            qaTimeTv.setText(qaTime);
+            detailTv.setText("补充：" + qaDetail);
+            qaLanTv.setText("浏览" + qaLan + "次");
+            qaDingTv.setText("帮顶" + qaDing + "次");
+            imgIv.setImageDrawable(getResources().getDrawable(Config.img[new Random().nextInt(50)]));
 
-        list = new ArrayList<>();
-        adapter = new SimpleAdapter(this, list, R.layout.item_list_qa_ans, new String[]{"userImg", "userName", "userTime", "comment"}, new int[]{R.id.userImg, R.id.userName, R.id.userTime, R.id.comment});
-        ansListView.setAdapter(adapter);
+            list = new ArrayList<>();
+            adapter = new SimpleAdapter(this, list, R.layout.item_list_qa_ans, new String[]{"userImg", "userName", "userTime", "comment"}, new int[]{R.id.userImg, R.id.userName, R.id.userTime, R.id.comment});
+            ansListView.setAdapter(adapter);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishThisActivity();
-            }
-        });
-
-        dingLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        submitAns.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String ans = ansEt.getText().toString().trim();
-                if (ans.equals("")) {
-                    toast("您还没有撰写答案呢");
-                } else {
-                    askQuestion(ans);
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finishThisActivity();
                 }
-            }
-        });
+            });
 
-        getAns();
+            dingLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            submitAns.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String ans = ansEt.getText().toString().trim();
+                    if (ans.equals("")) {
+                        toast("您还没有撰写答案呢");
+                    } else {
+                        askQuestion(ans);
+                    }
+                }
+            });
+
+            getAns();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
 
     }
 
@@ -151,7 +156,7 @@ public class QaInfoActivity extends BaseActivity {
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if (msg.getCode() == 98200) {
+                if (msg.getCode() == ErrorCode.SUCCESS) {
                     toast("提交成功");
                     ansEt.setText("");
                     if (ansNum == 0) {
@@ -184,7 +189,7 @@ public class QaInfoActivity extends BaseActivity {
             @Override
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
-                if (msg.getCode() == 97200) {
+                if (msg.getCode() == ErrorCode.SUCCESS) {
                     list.clear();
                     List<TXObject> answers = (List<TXObject>) msg.getObj();
                     index = 0;

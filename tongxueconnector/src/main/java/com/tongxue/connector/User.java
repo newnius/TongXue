@@ -26,7 +26,8 @@ public class User {
         } else {
             msg = new Gson().fromJson(res, Msg.class);
             if (msg.getCode() == ErrorCode.SUCCESS) {
-                user = user.fromJson(msg.getObj().toString());
+                String obj = new Gson().toJson(msg.getObj());
+                user = new Gson().fromJson(obj, TXObject.class);
                 new Thread(new Receiver(user)).start();
             }
         }

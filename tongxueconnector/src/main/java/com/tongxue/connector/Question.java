@@ -41,7 +41,8 @@ public class Question {
             msg = new Msg(ErrorCode.CONNECTION_FAIL);
         } else {
             msg = new Gson().fromJson(res, Msg.class);
-            List<TXObject> questions = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<TXObject>() {}.getType());
+            String obj = new Gson().toJson(msg.getObj());
+            List<TXObject> questions = new Gson().fromJson(obj, new TypeToken<List<TXObject>>() {}.getType());
             msg.setObj(questions);
         }
         return msg;
@@ -107,7 +108,7 @@ public class Question {
             msg = new Msg(ErrorCode.CONNECTION_FAIL);
         } else {
             msg = new Gson().fromJson(res, Msg.class);
-            List<TXObject> answers = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<TXObject>() {}.getType());
+            List<TXObject> answers = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<TXObject>>() {}.getType());
             msg.setObj(answers);
         }
         return msg;
@@ -116,8 +117,6 @@ public class Question {
     public static Msg answerQuestion(TXObject answer) {
         if (!answer.hasKey("questionID"))
             return new Msg(ErrorCode.QUESTION_NOT_EXIST);
-        if (!answer.hasKey("title"))
-            return new Msg(ErrorCode.TITLE_IS_EMPTY);
         if (!answer.hasKey("content"))
             return new Msg(ErrorCode.CONTENT_IS_EMPTY);
 

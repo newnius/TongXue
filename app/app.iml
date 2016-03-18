@@ -111,9 +111,9 @@
     <orderEntry type="library" exported="" name="avoscloud-push-v3.4.4" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-push-v3.3.5" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-search-v3.3.5" level="project" />
+    <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="1_httpmime-4.2.4" level="project" />
-    <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="weibo.sdk.android.sso.3.0.1-leancloud" level="project" />
     <orderEntry type="library" exported="" name="httpcore-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.1.38-leancloud" level="project" />

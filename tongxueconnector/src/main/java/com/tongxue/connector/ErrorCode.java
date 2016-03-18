@@ -17,6 +17,7 @@ public class ErrorCode {
     /*login*/
     public static final int USER_NOT_EXIST = 6;
     public static final int USERNAME_IS_EMPTY = 7;
+
     public static final int PASSWORD_IS_EMPTY = 8;
     public static final int EMAIL_IS_EMPTY = 9;
     public static final int WRONG_PASSWORD = 10;
@@ -57,6 +58,21 @@ public class ErrorCode {
     public static final int QUESTION_NOT_EXIST = 30;
     public static final int ANSWER_NOT_EXIST = 31;
     public static final int COMMENT_NOT_EXIST = 32;
+
+    public static final int USERNAME_IS_INVALID = 33;
+    public static final int EMAIL_IS_INVALID = 34;
+
+    public static final int LENGTH_NOT_MATCH = 35;
+
+    public static final int REJECTED = 36;
+
+    public static final int ALREADY_IN_GROUP = 37;
+    public static final int MESSAGE_IS_EMPTY = 38;
+
+    public static final int CONNECTION_CREATED = 39;
+    public static final int AUTH_FAIL = 40;
+
+
 
     public static String getMsg(int errorCode){
         return "Error (code:"+errorCode+")";

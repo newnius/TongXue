@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
@@ -24,7 +26,6 @@ import com.tongxue.client.View.PullableView.PullToRefreshLayout;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,6 +41,7 @@ public class QAFragment extends BaseFragment {
     public View mView;
     public List<Map<String, Object>> qaList;
     public SimpleAdapter adapter;
+    private int currentPage = 0;
 
     @Nullable
     @Override
@@ -55,14 +57,18 @@ public class QAFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LookQaById(position);
+                Log.i("blog", "clicked");
             }
         });
+
         listLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        currentPage = 0;
+                        qaList.clear();
                         getData(1);
                     }
                 }, 1000);
@@ -73,6 +79,7 @@ public class QAFragment extends BaseFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        getData(2);
                         listLayout.loadmoreFinish(PullToRefreshLayout.FULL);
                     }
                 }, 1000);
@@ -92,6 +99,8 @@ public class QAFragment extends BaseFragment {
             @Override
             protected Msg doInBackground(Object... params) {
                 TXObject question = new TXObject();
+                question.set("page-no", ++currentPage);
+                Log.i("blog", "getting data");
                 return Server.searchQuestion(question);
             }
 
@@ -99,12 +108,11 @@ public class QAFragment extends BaseFragment {
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if (msg.getCode() == 91200) {
-                    qaList.clear();
+                if (msg.getCode() == ErrorCode.SUCCESS) {
                     List<TXObject> questions = (List<TXObject>) msg.getObj();
                     for (TXObject question : questions) {
                         Map map = new HashMap();
-                        map.put("qaId", question.get("questionID"));
+                        map.put("qaId", question.getInt("questionID"));
                         map.put("qaAsker", question.get("author"));
                         map.put("qaTime", Utils.formatTime(question.getLong("time")));
                         map.put("qaBrief", question.get("title"));
@@ -118,9 +126,9 @@ public class QAFragment extends BaseFragment {
                     }
                     MainActivity.qaList = qaList;
                     adapter.notifyDataSetChanged();
-                    if (flag == 1) listLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                    if (flag > 0) listLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 } else {
-                    if (flag == 1) listLayout.refreshFinish(PullToRefreshLayout.FAIL);
+                    if (flag > 0) listLayout.refreshFinish(PullToRefreshLayout.FAIL);
                 }
             }
         }.execute();
@@ -131,27 +139,40 @@ public class QAFragment extends BaseFragment {
         new ServerTask(mContext) {
             @Override
             protected Msg doInBackground(Object... params) {
-                int qaId = (int) qaList.get(position).get("qaId");
-                TXObject question = new TXObject();
-                question.set("questionID", qaId);
-                return Server.searchQuestion(question);
+                try {
+                    int qaId = (int) qaList.get(position).get("qaId");
+                    TXObject question = new TXObject();
+                    question.set("questionID", qaId);
+                    Log.i("get by id", "aa");
+                    return Server.searchQuestion(question);
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                    return new Msg(ErrorCode.UNKNOWN);
+                }
             }
 
             @Override
             protected void onPostExecute(Msg msg) {
-                super.onPostExecute(msg);
-                waitingDialogDismiss();
-                if (msg.getCode() == 96200) {
-                    TXObject question = (TXObject) msg.getObj();
-                    Intent intent = new Intent(mContext, QaInfoActivity.class);
-                    intent.putExtra("qaId", question.get("questionID"));
-                    intent.putExtra("qaAsker", question.get("author"));
-                    intent.putExtra("qaTime", Utils.formatTime(question.getLong("time")));
-                    intent.putExtra("qaBrief", question.get("title"));
-                    intent.putExtra("qaDetail", question.get("content"));
-                    intent.putExtra("qaLan", question.get("views") + "");
-                    intent.putExtra("qaDing", question.get("upVotes"));
-                    startActivity(intent);
+                try {
+                    super.onPostExecute(msg);
+                    waitingDialogDismiss();
+                    if (msg.getCode() == ErrorCode.SUCCESS) {
+                        List<TXObject> questions = (List<TXObject>) msg.getObj();
+                        if (questions.size() == 0)
+                            return;
+                        TXObject question = questions.get(0);
+                        Intent intent = new Intent(mContext, QaInfoActivity.class);
+                        intent.putExtra("qaId", question.getInt("questionID"));
+                        intent.putExtra("qaAsker", question.get("author"));
+                        intent.putExtra("qaTime", Utils.formatTime(question.getLong("time")));
+                        intent.putExtra("qaBrief", question.get("title"));
+                        intent.putExtra("qaDetail", question.get("content"));
+                        intent.putExtra("qaLan", question.get("views") + "");
+                        intent.putExtra("qaDing", question.get("upVotes"));
+                        startActivity(intent);
+                    }
+                }catch(Exception ex){
+                    ex.printStackTrace();
                 }
             }
         }.execute();

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/tongxueconnector/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="ef1d4f864a74b62554becac3803e145bbab4b6aa">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-581bd36c2bd521bb48a61cebf8f79faa93d3d319.jar" />
+    </item>
+
+</items>
