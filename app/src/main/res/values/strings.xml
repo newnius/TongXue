@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">同学</string>
-    <string name="version">1.0</string>
-    <string name="update_url">https://dn-chaosi.qbox.me/tongxue_version.xml</string>
+    <string name="version">0.1.0</string>
+    <string name="update_url">http://tongxue.jluapp.com/api.php?action=latest-version</string>
 
     <!--Base-->
     <string name="hello_world">Hello world!</string>

@@ -200,48 +200,5 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
         return null;
     }
 
-    public static Msg checkForUpdate() {
-        try {
-            URL url = new URL("http://tongxue.jluapp.com/api.php?action=latest-version");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setDoInput(true);
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.connect();
-
-
-            InputStream is = conn.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String response = "";
-            String readLine;
-            while ((readLine = br.readLine()) != null) {
-                response = response + readLine;
-            }
-            is.close();
-            br.close();
-            conn.disconnect();
-
-            List<Course> courses = new ArrayList<>();
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode root = objectMapper.readTree(response);
-            int versionId = root.path("version_id").asInt();
-            String description = root.path("description").asText();
-            String downloadUrl = root.path("download_url").asText();
-
-            Msg msg = new Msg(versionId, downloadUrl);
-            msg.setMsg(description);
-
-            Log.i("update", new Gson().toJson(msg));
-            return msg;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-
-    }
-
 
 }

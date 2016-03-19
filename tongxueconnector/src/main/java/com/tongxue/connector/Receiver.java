@@ -16,7 +16,7 @@ import com.tongxue.connector.Objs.TXObject;
 
 public class Receiver implements Runnable {
 
-	private static Map<Integer, CallBackInterface> callbacks;
+	private static Map<Integer, CallBackInterface> callbacks = new HashMap<>();
 	private Socket socket;
 	private PrintWriter writer;
 	private BufferedReader reader;
@@ -28,8 +28,6 @@ public class Receiver implements Runnable {
 	}
 
 	public static boolean attachCallback(int code, CallBackInterface cbi){
-        if(callbacks == null)
-            callbacks = new HashMap<>();
         try {
             if (callbacks.containsKey(code))
                 ;
@@ -82,7 +80,6 @@ public class Receiver implements Runnable {
                 if(callbacks.containsKey(msg.getCode()))
                     callbacks.get(msg.getCode()).callBack(msg);
 			}
-
 			socket.close();
 		} catch (
 

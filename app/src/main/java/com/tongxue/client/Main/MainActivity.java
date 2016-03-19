@@ -30,7 +30,10 @@ import com.tongxue.client.Group.GroupVerifyActivity;
 import com.tongxue.client.Group.Search.SearchActivity;
 import com.tongxue.client.R;
 import com.tongxue.client.Utils.SerializableMapList;
+import com.tongxue.client.Utils.UpdateController;
+import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
 
 import java.io.Serializable;
@@ -222,13 +225,14 @@ public class MainActivity extends BaseBarActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                Msg msg = Server.checkForUpdate();
-                                int versionId = msg.getCode();
-                                String description = msg.getMsg();
-                                String downloadUrl = (String)msg.getObj();
-                                log(versionId+"");
-                                log(description);
-                                log(downloadUrl);
+                                Msg msg = UpdateController.checkForUpdate();
+                                if(msg.getCode()== ErrorCode.SUCCESS) {
+                                    TXObject info = (TXObject)msg.getObj();
+                                    log(info.get("versionID"));
+                                    log(info.get("minVersion"));
+                                    log(info.get("description"));
+                                    log(info.get("downloadUrlp"));
+                                }
                             }
                         }).start();
                         break;

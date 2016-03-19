@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
@@ -306,7 +307,7 @@ public class BlogEditActivity extends BaseActivity{
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if(msg.getCode()==70200){
+                if(msg.getCode()== ErrorCode.SUCCESS){
                     toast("发布成功！");
                     Intent intent = new Intent(BlogEditActivity.this, MainActivity.class);
                     intent.putExtra("blog", true);

@@ -40,7 +40,8 @@ public class Article {
             msg = new Msg(ErrorCode.CONNECTION_FAIL);
         } else {
             msg = new Gson().fromJson(res, Msg.class);
-            List<TXObject> articles = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<TXObject>>() {}.getType());
+            String obj = new Gson().toJson(msg.getObj());
+            List<TXObject> articles = new Gson().fromJson(obj, new TypeToken<List<TXObject>>() {}.getType());
             msg.setObj(articles);
         }
         return msg;
@@ -106,7 +107,8 @@ public class Article {
             msg = new Msg(ErrorCode.CONNECTION_FAIL);
         } else {
             msg = new Gson().fromJson(res, Msg.class);
-            List<TXObject> comments = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<TXObject>() {}.getType());
+            String obj = new Gson().toJson(msg.getObj());
+            List<TXObject> comments = new Gson().fromJson(obj, new TypeToken<List<TXObject>>() {}.getType());
             msg.setObj(comments);
         }
         return msg;

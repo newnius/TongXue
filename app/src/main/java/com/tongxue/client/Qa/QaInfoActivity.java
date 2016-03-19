@@ -91,8 +91,8 @@ public class QaInfoActivity extends BaseActivity {
             String qaTime = intent.getStringExtra("qaTime");
             String qaBrief = intent.getStringExtra("qaBrief");
             String qaDetail = intent.getStringExtra("qaDetail");
-            String qaLan = intent.getStringExtra("qaLan");
-            String qaDing = intent.getStringExtra("qaDing");
+            int qaLan = intent.getIntExtra("qaLan", 0);
+            int qaDing = intent.getIntExtra("qaDing", 0);
 
             briefTv.setText(Html.fromHtml("<h4>" + qaBrief + "</h4>"));
             briefTv.setMovementMethod(LinkMovementMethod.getInstance());

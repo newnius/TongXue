@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tongxue.client.Base.LearnApplication;
+import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
@@ -44,6 +45,7 @@ public class MeBlogActivity extends BaseActivity{
     @Bind(R.id.title)           TextView  title;
     public List<Map<String ,Object>> list;
     public ListAdapter adapter;
+    private int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,8 @@ public class MeBlogActivity extends BaseActivity{
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        currentPage = 0;
+                        list.clear();
                         getData(1);
                     }
                 },1000);
@@ -79,6 +83,7 @@ public class MeBlogActivity extends BaseActivity{
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        getData(2);
                         layout.loadmoreFinish(PullToRefreshLayout.FULL);
                     }
                 },1000);
@@ -102,6 +107,7 @@ public class MeBlogActivity extends BaseActivity{
             protected Msg doInBackground(Object... params) {
                 TXObject article = new TXObject();
                 article.set("author", LearnApplication.preferences.getString("username",""));
+                article.set("page-no", ++currentPage);
                 return Server.searchArticle(article);
             }
 
@@ -109,19 +115,19 @@ public class MeBlogActivity extends BaseActivity{
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if(msg.getCode()==73200){
-                    list.clear();
+                if(msg.getCode()== ErrorCode.SUCCESS){
+
                     List<TXObject> articles = (List<TXObject>)msg.getObj();
                     int i = 0;
                     for(TXObject article : articles){
                         Map map = new HashMap();
-                        map.put("blogId", article.get("articleID"));
+                        map.put("blogId", article.getInt("articleID"));
                         map.put("blogAuthor", article.get("author"));
                         map.put("blogTime", Utils.formatTime(article.getLong("time")));
                         map.put("blogTitle", article.get("title"));
                         map.put("blogContent", article.get("content"));
-                        map.put("blogLan", article.get("views"));
-                        map.put("blogZan", article.get("upVotes"));
+                        map.put("blogLan", article.getInt("views"));
+                        map.put("blogZan", article.getInt("upVotes"));
                         map.put("blogCover", Config.bg[(i++)%10]);
                         list.add(map);
                     }
@@ -151,16 +157,19 @@ public class MeBlogActivity extends BaseActivity{
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if(msg.getCode()==72200){
-                    TXObject article = (TXObject)msg.getObj();
+                if(msg.getCode()==ErrorCode.SUCCESS){
+                    List<TXObject> articles = (List<TXObject>) msg.getObj();
+                    if(articles.size()==0)
+                        return ;
+                    TXObject article = articles.get(0);
                     Intent intent =new Intent(MeBlogActivity.this, BlogInfoActivity.class);
-                    intent.putExtra("blogId", article.get("articleID"));
+                    intent.putExtra("blogId", article.getInt("articleID"));
                     intent.putExtra("blogUser", article.get("author"));
                     intent.putExtra("blogTime", Utils.formatTime(article.getLong("time")));
                     intent.putExtra("blogTitle", article.get("title"));
                     intent.putExtra("blogContent", article.get("content"));
-                    intent.putExtra("blogLan", article.get("views"));
-                    intent.putExtra("blogZan", article.get("upVotes"));
+                    intent.putExtra("blogLan", article.getInt("views"));
+                    intent.putExtra("blogZan", article.getInt("upVotes"));
                     startActivity(intent);
                 }
             }

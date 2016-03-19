@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Server;
@@ -98,16 +99,18 @@ public class BlogInfoActivity extends BaseBarActivity {
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-
-        Intent intent = getIntent();
-        blogId = intent.getIntExtra("blogId", 0);
-        blogUser = intent.getStringExtra("blogUser");
-        blogTime = intent.getStringExtra("blogTime");
-        blogTitle = intent.getStringExtra("blogTitle");
-        blogContent = intent.getStringExtra("blogContent");
-        blogLan = intent.getIntExtra("blogLan", 0) + 1;
-        blogZan = intent.getIntExtra("blogZan", 0);
-
+try {
+    Intent intent = getIntent();
+    blogId = intent.getIntExtra("blogId", 0);
+    blogUser = intent.getStringExtra("blogUser");
+    blogTime = intent.getStringExtra("blogTime");
+    blogTitle = intent.getStringExtra("blogTitle");
+    blogContent = intent.getStringExtra("blogContent");
+    blogLan = intent.getIntExtra("blogLan", 0);
+    blogZan = intent.getIntExtra("blogZan", 0);
+}catch(Exception ex){
+    ex.printStackTrace();
+}
         blogContentRe.setEditorHeight(200);
         blogContentRe.setEditorFontSize(20);
         blogContentRe.setEditorFontColor(Color.parseColor("#818181"));
@@ -197,21 +200,21 @@ public class BlogInfoActivity extends BaseBarActivity {
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if (msg.getCode() == 79200) {
+                if (msg.getCode() == ErrorCode.SUCCESS) {
                     List<TXObject> comments = (List<TXObject>) msg.getObj();
-                    commentNum = comments.size();
-                    for (TXObject comment : comments) {
-                        Map map = new HashMap();
-                        map.put("userName", comment.get("author"));
-                        map.put("userTime", comment.get("time"));
-                        map.put("comment", comment.get("content"));
-                        list.add(map);
-                    }
-                    adapter.notifyDataSetChanged();
-                    if (commentNum == 0) {
+                    if (comments.size() == 0) {
                         listView.setVisibility(View.GONE);
                         noComment.setVisibility(View.VISIBLE);
+                        return ;
                     }
+                    for (TXObject comment : comments) {
+                        Map map = new HashMap();
+                            map.put("userName", comment.get("author"));
+                            map.put("userTime", comment.getLong("time"));
+                            map.put("comment", comment.get("content"));
+                            list.add(map);
+                    }
+                    adapter.notifyDataSetChanged();
                 }
             }
         }.execute();
@@ -232,7 +235,7 @@ public class BlogInfoActivity extends BaseBarActivity {
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
                 waitingDialogDismiss();
-                if (msg.getCode() == 78200) {
+                if (msg.getCode() == ErrorCode.SUCCESS) {
                     String user = LearnApplication.preferences.getString("username", "");
                     Map map = new HashMap();
                     map.put("userName", user);

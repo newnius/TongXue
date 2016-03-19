@@ -167,8 +167,8 @@ public class QAFragment extends BaseFragment {
                         intent.putExtra("qaTime", Utils.formatTime(question.getLong("time")));
                         intent.putExtra("qaBrief", question.get("title"));
                         intent.putExtra("qaDetail", question.get("content"));
-                        intent.putExtra("qaLan", question.get("views") + "");
-                        intent.putExtra("qaDing", question.get("upVotes"));
+                        intent.putExtra("qaLan", question.getInt("views"));
+                        intent.putExtra("qaDing", question.getInt("upVotes"));
                         startActivity(intent);
                     }
                 }catch(Exception ex){

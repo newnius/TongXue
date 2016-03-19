@@ -7,27 +7,21 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.util.Xml;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.tongxue.client.Base.BaseActivity;
 import com.tongxue.client.R;
-import com.tongxue.client.Utils.UpdateUtils;
+import com.tongxue.client.Utils.UpdateController;
 import com.tongxue.client.Utils.Utils;
 import com.tongxue.client.View.AlertDialog;
-
-import org.xmlpull.v1.XmlPullParser;
+import com.tongxue.connector.ErrorCode;
+import com.tongxue.connector.Msg;
+import com.tongxue.connector.Objs.TXObject;
 
 import java.io.File;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,10 +29,11 @@ import butterknife.ButterKnife;
 /**
  * Created by chaosi on 2015/9/5.
  */
-public class IndexActivity extends BaseActivity{
-    @Bind(R.id.layout) LinearLayout layout;
-    @Bind(R.id.ImageView) ImageView image;
-    public Map<String,String> updateInfo;
+public class IndexActivity extends BaseActivity {
+    @Bind(R.id.layout)
+    LinearLayout layout;
+    @Bind(R.id.ImageView)
+    ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,92 +44,87 @@ public class IndexActivity extends BaseActivity{
         image.setVisibility(View.GONE);
 
 
-        new AsyncTask<Object,Integer,Integer>(){
+        new AsyncTask<Void, Void, TXObject>() {
             @Override
-            protected Integer doInBackground(Object... params) {
+            protected TXObject doInBackground(Void... params) {
                 try {
-                    URL url = new URL(getUpdateUrl());
-                    HttpURLConnection conn =  (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(5000);
-                    InputStream is =conn.getInputStream();
-                    updateInfo =  UpdateUtils.getUpdataInfo(is);
-
-                    if(updateInfo.get("version").equals(getCurrentVersion())){
-                        return 1;
-                    }else{
-                        return 2;
-                    }
+                    Msg msg = UpdateController.checkForUpdate();
+                    return msg.getCode() == ErrorCode.SUCCESS ? (TXObject) msg.getObj() : null;
                 } catch (Exception e) {
-                    return 0;
+                    return null;
                 }
             }
 
             @Override
-            protected void onPostExecute(Integer msg) {
-                super.onPostExecute(msg);
-                switch (msg){
-                    case 0:
-                        Utils.log("网络错误，获取更新信息失败！");
-                        toLogin();
-                        break;
-                    case 1:
-                        Utils.log("版本号相同，无需更新");
-                        toLogin();
-                        break;
-                    case 2:
-                        Utils.log("版本号不同，提醒用户更新");
-                        showUpdateDialog();             //提醒更新
+            protected void onPostExecute(TXObject info) {
+                if (info == null) {
+                    Utils.log("网络错误，获取更新信息失败！");
+                    toLogin();
+                } else if (UpdateController.compareVersion(info.get("versionID"), getCurrentVersion()) == 0) {
+                    Utils.log("版本号相同，无需更新");
+                    toLogin();
+                } else if (UpdateController.compareVersion(info.get("versionID"), getCurrentVersion()) > 0) {
+                    Utils.log("版本号不同，提醒用户更新");
+                    boolean forceUpdate = UpdateController.compareVersion(info.get("minVersion"), getCurrentVersion()) > 0;
+                    showUpdateDialog(info, forceUpdate);             //提醒更新
+                } else {
+                    Utils.log("update error");
+                    toLogin();
                 }
             }
         }.execute();
 
-
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void toLogin(){
+    public void toLogin() {
         layout.setBackground(getResources().getDrawable(R.drawable.welcome_1));
         image.setVisibility(View.VISIBLE);
         startIntent(LoginActivity.class);
         overridePendingTransition(R.anim.in_login, R.anim.empty);
     }
 
-    public void showUpdateDialog(){
-        new AlertDialog(this,updateInfo.get("description"),"下次再更新","立即更新"){
+    public void showUpdateDialog(final TXObject info, final boolean forceUpdate) {
+        new AlertDialog(this, info.get("description"), "下次再更新", "立即更新") {
             @Override
             public void onOkClick() {
                 this.cancel();
-                downLoadApk();
+                downLoadApk(info.get("downloadUrl"));
             }
 
             @Override
             public void onNoClick() {
+                if(forceUpdate){
+                    Toast.makeText(IndexActivity.this, "低版本不再支持，请更新", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 this.cancel();
                 toLogin();
             }
         }.show();
     }
 
-    protected void downLoadApk() {
-        final ProgressDialog pd = new  ProgressDialog(this);              //进度条对话框
+    protected void downLoadApk(final String url) {
+        final ProgressDialog pd = new ProgressDialog(this);              //进度条对话框
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pd.setCancelable(false);
         pd.setMessage("正在下载更新");
         pd.show();
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 try {
-                    File file = UpdateUtils.getFileFromServer(updateInfo.get("url"), pd);
-                    sleep(3000);
+                    File file = UpdateController.getFileFromServer(url, pd);
+                    sleep(2000);
                     installApk(file);
                     pd.dismiss();                                        //结束掉进度条对话框
                     finishThisActivity();
                 } catch (Exception e) {
-                    Utils.log("新安装包下载错误！");
+                    Utils.log("安装包下载错误！");
                     toLogin();
                 }
-            }}.start();
+            }
+        }.start();
     }
 
     protected void installApk(File file) {
@@ -145,13 +135,8 @@ public class IndexActivity extends BaseActivity{
     }
 
 
-
-    public String getCurrentVersion(){
+    public String getCurrentVersion() {
         return getResources().getString(R.string.version);
-    }
-
-    public String getUpdateUrl(){
-        return getResources().getString(R.string.update_url);
     }
 
 }
