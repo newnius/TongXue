@@ -38,7 +38,7 @@ public class AuthActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(AuthActivity.this, KindActivity.class);
-                intent.putExtra("autho", "接受所有申请");
+                intent.putExtra("public", "接受所有申请");
                 startActivity(intent);
                 overridePendingTransition(R.anim.common_right_in, R.anim.empty);
             }
@@ -48,7 +48,7 @@ public class AuthActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(AuthActivity.this, KindActivity.class);
-                intent.putExtra("autho", "验证后接受申请");
+                intent.putExtra("public", "验证后接受申请");
                 startActivity(intent);
                 overridePendingTransition(R.anim.common_right_in, R.anim.empty);
             }
@@ -58,7 +58,7 @@ public class AuthActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(AuthActivity.this, KindActivity.class);
-                intent.putExtra("autho", "拒绝所有申请");
+                intent.putExtra("public", "拒绝所有申请");
                 startActivity(intent);
                 overridePendingTransition(R.anim.common_right_in, R.anim.empty);
             }

@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
 import com.avoscloud.leanchatlib.activity.ChatActivity;
 import com.avoscloud.leanchatlib.controller.ChatManager;
 import com.tongxue.client.Adapter.GroupAdapter;
@@ -35,9 +34,12 @@ import com.tongxue.client.Bean.GroupBean;
 import com.tongxue.client.Bean.LatestGroup;
 import com.tongxue.client.Group.GroupChatActivity;
 import com.tongxue.client.R;
-import com.tongxue.client.Service.AVService;
 import com.tongxue.client.Utils.Config;
 import com.tongxue.client.View.PullableView.PullToRefreshLayout;
+import com.tongxue.connector.ErrorCode;
+import com.tongxue.connector.Msg;
+import com.tongxue.connector.Objs.TXObject;
+import com.tongxue.connector.Server;
 
 import net.tsz.afinal.FinalDb;
 
@@ -152,23 +154,13 @@ public class GroupFragment extends BaseFragment{
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String groupName = (String)groupList.get(position).get("name");
-                if (!TextUtils.isEmpty(groupName)) {
-                    final ChatManager chatManager = ChatManager.getInstance();
-                    chatManager.fetchConversationWithGroupName(groupName, new AVIMConversationCreatedCallback() {
-                        @Override
-                        public void done(AVIMConversation conversation, AVException e) {
-                            if (e != null) {
-                                Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
-                            } else {
-                                chatManager.registerConversation(conversation);
-                                Intent intent = new Intent(mContext, GroupChatActivity.class);
-                                intent.putExtra(ChatActivity.CONVID, conversation.getConversationId());
-                                intent.putExtra("group_name",groupName);
-                                startActivity(intent);
-                            }
-                        }
-                    });
+                final int groupID = ((TXObject)groupList.get(position)).getInt("groupID");
+                final String groupName = ((TXObject)groupList.get(position)).get("groupName");
+                if (groupID!=0) {
+                    Intent intent = new Intent(mContext, GroupChatActivity.class);
+                    intent.putExtra("groupID", groupID);
+                    intent.putExtra("group_name", groupName);
+                    startActivity(intent);
                 }
             }
         });
@@ -216,7 +208,8 @@ public class GroupFragment extends BaseFragment{
             protected Integer doInBackground(Object[] params) {
                 try{
                     FinalDb db = FinalDb.create(mContext);
-                    String username = LearnApplication.preferences.getString("username","");
+
+                    String username = LearnApplication.preferences.getString("username", "");
                     List<LatestGroup> talkBeans= db.findAllByWhere(LatestGroup.class, "username=\"" + username + "\"");
                     log("talkBeans "+ talkBeans.size());
 
@@ -266,73 +259,85 @@ public class GroupFragment extends BaseFragment{
     }
 
     private void getGroupData(final int flag){
-        String username= LearnApplication.preferences.getString("username","");
-        AVService.getGroupList(username, new AVIMConversationQueryCallback() {
+        final String username= LearnApplication.preferences.getString("username","");
+        new AsyncTask<Void, Void, Msg>() {
             @Override
-            public void done(List<AVIMConversation> conversations, AVException e) {
-                if (e != null) {
-                    Toast.makeText(mContext, "世界上最遥远的距离就是没网,请检查网络连接！", Toast.LENGTH_LONG).show();
-                    Log.i("learn", "Exception:" + e.getCode() + e.getMessage());
-                    if(flag==1){
-                        groupLayout.refreshFinish(PullToRefreshLayout.FAIL);
-                    }
-                } else {
-                    SharedPreferences.Editor editor = LearnApplication.preferences.edit();
-                    editor.putInt("groupSize", conversations.size());
-                    editor.apply();
+            protected Msg doInBackground(Void... params) {
+                TXObject user = new TXObject();
+                user.set("username", username);
+                return Server.searchGroup(user);
+            }
 
-                    groupList.clear();
-                    if (conversations.size() > 0) {
-                        log("size ： "+conversations.size());
-                        int index = groupIndex;
-                        for (AVIMConversation conv : conversations) {
-                            Map<String, Object> map = new HashMap<>();
-                            map.put("name", conv.getAttribute("GroupName").toString());
-                            map.put("kind", conv.getAttribute("kind").toString());
-                            map.put("intro", conv.getAttribute("intro").toString());
-                            map.put("id", conv.getConversationId());
-                            Drawable drawable = getResources().getDrawable(Config.img[index++]);
-                            map.put("img", drawable);
-                            groupList.add(map);
-
+            @Override
+            protected void onPostExecute(Msg msg) {
+                log("dsadsa");
+                try {
+                    if (msg == null || msg.getCode() != ErrorCode.SUCCESS) {
+                        Toast.makeText(mContext, "世界上最遥远的距离就是没网,请检查网络连接！(" + ErrorCode.getMsg(msg.getCode()) + ")", Toast.LENGTH_SHORT).show();
+                        if (flag == 1) {
+                            groupLayout.refreshFinish(PullToRefreshLayout.FAIL);
                         }
-                        log("List : "+groupList.size());
-                        groupAdapter.notifyDataSetChanged();
-                        if(flag==1){
-                            groupLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                        }
-
-                        if (MainActivity.shouldRecord) {
-                            Log.i("learn", "记录到数据库啦！");
-                            String username = LearnApplication.preferences.getString("username", "");
-                            FinalDb db = FinalDb.create(mContext);
-                            db.deleteByWhere(GroupBean.class, "username=\"" + username + "\"");
-                            for (int i = 0; i < groupList.size(); i++) {
-                                GroupBean bean = new GroupBean();
-                                bean.setUsername(username);
-                                bean.setGroupName(groupList.get(i).get("name").toString());
-                                bean.setGroupId(groupList.get(i).get("id").toString());
-                                bean.setKind(groupList.get(i).get("kind").toString());
-                                bean.setIntro(groupList.get(i).get("intro").toString());
-                                db.save(bean);
-                            }
-                            MainActivity.shouldRecord = false;
-                        }
-
                     } else {
-                        groupAdapter.notifyDataSetChanged();
-                        Toast.makeText(mContext, "您暂时没有学习小组，赶快去添加一个小组吧！", Toast.LENGTH_LONG).show();
-                        if(flag==1){
-                            groupLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                        }
-                        Log.i("learn", "没有小组，我把数据库的数据全删了吧!");
-                        FinalDb db = FinalDb.create(mContext);
-                        db.deleteAll(GroupBean.class);
+                        List<TXObject> groups = (List<TXObject>) msg.getObj();
+                        Log.i("aa", groups == null?"y":"n");
+                        log("size ： " + groups.size());
+                        SharedPreferences.Editor editor = LearnApplication.preferences.edit();
+                        editor.putInt("groupSize", groups.size());
+                        editor.apply();
+                        int index = 0;
+                        groupList.clear();
+                        if (groups.size() > 0) {
+                            for (TXObject group : groups) {
+                                Map<String, Object> map = new HashMap<>();
+                                map.put("name", group.get("groupName"));
+                                map.put("kind", group.getInt("category") + "");
+                                map.put("intro", group.get("introduction"));
+                                map.put("id", group.get("groupID"));
+                                Drawable drawable = getResources().getDrawable(Config.img[(index++)%50]);
+                                map.put("img", drawable);
+                                groupList.add(map);
 
+                            }
+                            log("List : " + groupList.size());
+                            groupAdapter.notifyDataSetChanged();
+                            if (flag == 1) {
+                                groupLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                            }
+
+                            if (MainActivity.shouldRecord) {
+                                Log.i("learn", "记录到数据库啦！");
+                                String username = LearnApplication.preferences.getString("username", "");
+                                FinalDb db = FinalDb.create(mContext);
+                                db.deleteByWhere(GroupBean.class, "username=\"" + username + "\"");
+                                for (int i = 0; i < groupList.size(); i++) {
+                                    GroupBean bean = new GroupBean();
+                                    bean.setUsername(username);
+                                    bean.setGroupName(groupList.get(i).get("name").toString());
+                                    bean.setGroupId(groupList.get(i).get("id").toString());
+                                    bean.setKind(groupList.get(i).get("kind").toString());
+                                    bean.setIntro(groupList.get(i).get("intro").toString());
+                                    db.save(bean);
+                                }
+                                MainActivity.shouldRecord = false;
+                            }
+
+                        } else {
+                            groupAdapter.notifyDataSetChanged();
+                            Toast.makeText(mContext, "您暂时没有学习小组，赶快去添加一个小组吧！", Toast.LENGTH_LONG).show();
+                            if (flag == 1) {
+                                groupLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                            }
+                            Log.i("learn", "没有小组，我把数据库的数据全删了吧!");
+                            FinalDb db = FinalDb.create(mContext);
+                            db.deleteAll(GroupBean.class);
+                        }
                     }
+                }catch (Exception ex){
+                    ex.printStackTrace();
                 }
             }
-        });
+        }.execute();
+
     }
 
     private class MyPagerAdapter extends PagerAdapter {

@@ -46,10 +46,9 @@ class Communicator {
 			Log.i(TAG, "Received: " + str);
 			return str;
 		} catch (Exception ex) {
-            socket = null;
-            writer = null;
-            reader = null;
-            Log.e(TAG, "Error occur during close.");
+            close();
+            Log.e(TAG, "Error occur during send.");
+			ex.printStackTrace();
 			return null;
 		}
 	}

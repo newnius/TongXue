@@ -34,34 +34,45 @@ public class Group {
     }
 
     public static Msg searchGroup(TXObject group) {
-        String con = new Gson().toJson(new Msg(RequestCode.SEARCH_GROUP, group));
-        String res = Communicator.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(ErrorCode.CONNECTION_FAIL);
-        } else {
-            msg = new Gson().fromJson(res, Msg.class);
-            List<TXObject> groups = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<TXObject>() {}.getType());
-            msg.setObj(groups);
+        try {
+            String con = new Gson().toJson(new Msg(RequestCode.SEARCH_GROUP, group));
+            String res = Communicator.send(con);
+            Msg msg;
+            if (res == null) {
+                msg = new Msg(ErrorCode.CONNECTION_FAIL);
+            } else {
+                msg = new Gson().fromJson(res, Msg.class);
+                List<TXObject> groups = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<TXObject>>() {
+                }.getType());
+                msg.setObj(groups);
+            }
+            return msg;
+        }catch(Exception ex){
+            ex.printStackTrace();;
+            return new Msg(ErrorCode.UNKNOWN);
         }
-        return msg;
     }
 
     public static Msg createGroup(TXObject group) {
-        if (!group.hasKey("groupName"))
-            return new Msg(ErrorCode.GROUP_NAME_IS_EMPTY);
-        if (!group.hasKey("category"))
-            return new Msg(ErrorCode.CATEGORY_IS_EMPTY);
+        try {
+            if (!group.hasKey("groupName"))
+                return new Msg(ErrorCode.GROUP_NAME_IS_EMPTY);
+            if (!group.hasKey("category"))
+                return new Msg(ErrorCode.CATEGORY_IS_EMPTY);
 
-        String con = new Gson().toJson(new Msg(RequestCode.CREATE_GROUP, group));
-        String res = Communicator.send(con);
-        Msg msg;
-        if (res == null) {
-            msg = new Msg(ErrorCode.CONNECTION_FAIL);
-        } else {
-            msg = new Gson().fromJson(res, Msg.class);
+            String con = new Gson().toJson(new Msg(RequestCode.CREATE_GROUP, group));
+            String res = Communicator.send(con);
+            Msg msg;
+            if (res == null) {
+                msg = new Msg(ErrorCode.CONNECTION_FAIL);
+            } else {
+                msg = new Gson().fromJson(res, Msg.class);
+            }
+            return msg;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return new Msg(ErrorCode.CONNECTION_FAIL);
         }
-        return msg;
     }
 
     public static Msg updateGroup(TXObject group) {

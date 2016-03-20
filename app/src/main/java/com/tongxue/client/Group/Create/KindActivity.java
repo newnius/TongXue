@@ -29,7 +29,7 @@ public class KindActivity extends BaseActivity {
         setContentView(R.layout.activity_group_create_kind);
         ButterKnife.bind(this);
 
-        final String autho= getIntent().getStringExtra("autho");
+        final String auth= getIntent().getStringExtra("autho");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +44,7 @@ public class KindActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent= new Intent(KindActivity.this, InfoActivity.class);
-                intent.putExtra("autho",autho);
+                intent.putExtra("public",auth);
                 intent.putExtra("kind", arr[position]);
                 startActivity(intent);
                 overridePendingTransition(R.anim.common_right_in, R.anim.empty);

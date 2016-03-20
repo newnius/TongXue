@@ -5,8 +5,15 @@
         jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/tongxueconnector/unspecified/jars/classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="4d8eae3c67deceece3c28cddbb71f0d2c7f0c04a">
+        sha1="9acf7413309795a954ef19b91ff03c03fb2b877a">
         <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-581bd36c2bd521bb48a61cebf8f79faa93d3d319.jar" />
+    </item>
+    <item
+        jar="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/exploded-aar/TongXue/leanchatlib/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8d83c8b4d692346fc1ed65aaa170e94dde5b1db2">
+        <dex dex="/home/newnius/AndroidStudioProjects/TongXue/app/build/intermediates/pre-dexed/debug/classes-060d86c9355c013eee61991bb1f0e7e5dca01ea1.jar" />
     </item>
 
 </items>

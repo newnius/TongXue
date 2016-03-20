@@ -49,9 +49,9 @@ public class GroupChatActivity extends ChatActivity {
         addLocationBtn.setVisibility(View.VISIBLE);
         username = LearnApplication.preferences.getString("username","");
         groupName = getIntent().getStringExtra("group_name");
-        groupId = getIntent().getStringExtra(ChatActivity.CONVID);
-        String filename = getIntent().getStringExtra("filename");
-        threatFileName(filename);
+        groupId = getIntent().getStringExtra("groupID");
+        //String filename = getIntent().getStringExtra("filename");
+        //threatFileName(filename);
         waitingDialog = new WaitingDialog(this);
     }
 
@@ -86,6 +86,9 @@ public class GroupChatActivity extends ChatActivity {
         MainActivity.shouldRefresh= true;
     }
 
+
+
+
     @Override
     public void addWhiteBoard(){
         startActivity(new Intent(GroupChatActivity.this, WhiteBoardActivity.class));
@@ -93,15 +96,24 @@ public class GroupChatActivity extends ChatActivity {
         finish();
     }
 
+
+
+
     @Override
     protected void onAddLocationButtonClicked(View v) {
         toast("这里可以跳转到地图界面，选取地址");
     }
 
+
+
+
     @Override
     protected void onLocationMessageViewClicked(AVIMLocationMessage locationMessage) {
         toast("onLocationMessageViewClicked");
     }
+
+
+
 
     public void searchById(String mid) {
         waitingDialog.show();

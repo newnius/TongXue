@@ -52,6 +52,15 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
         return Group.createGroup(group);
     }
 
+    public static void createGroup(final TXObject group,final CallBackInterface callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                callback.callBack(createGroup(group));
+            }
+        }).start();
+    }
+
 
     public static Msg searchGroup(TXObject group) {
         if(group==null)
