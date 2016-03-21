@@ -104,7 +104,8 @@
     <string name="hot_group">小组推荐</string>
     <string name="cancel">取消</string>
     <string name="whiteboardedit">白板共享中...</string>
-    <string name="send">结束</string>
+    <string name="stop">结束</string>
+    <string name="send">发送</string>
     <string name="bt_pen">橡皮</string>
     <string name="bt_text">文字</string>
     <string name="bt_pic">图片</string>
@@ -115,6 +116,7 @@
     <string name="bt_clear">清除</string>
     <string name="bt_save">截屏</string>
     <string name="bt_video">视频</string>
+    <string name="bt_voice">声音</string>
     <string name="groupId">小组编号</string>
     <string name="groupInfoKind">小组类别</string>
     <string name="groupInfoSize">小组人数</string>
