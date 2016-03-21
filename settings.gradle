@@ -1,1 +1,1 @@
-include ':app', ':leanchatlib', ':flyrefreshlib',':tongxueconnector'
+include ':app', ':leanchatlib', ':tongxueconnector', ':flyrefreshlib'
