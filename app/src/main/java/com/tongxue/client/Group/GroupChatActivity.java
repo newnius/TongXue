@@ -75,6 +75,13 @@ public class GroupChatActivity extends ChatActivity {
     }
 
     @Override
+    public void onMessageClick() {
+        startActivity(new Intent(GroupChatActivity.this, WhiteBoardActivity.class));
+        overridePendingTransition(R.anim.common_right_in, R.anim.empty);
+        finish();
+    }
+
+    @Override
     public void sendText() {
         super.sendText();
         FinalDb db = FinalDb.create(this);
@@ -88,6 +95,7 @@ public class GroupChatActivity extends ChatActivity {
 
     @Override
     public void addWhiteBoard(){
+        sendWhiteBoard("您的好友"+ username +"发起白板共享，快点此消息加入吧");
         startActivity(new Intent(GroupChatActivity.this, WhiteBoardActivity.class));
         overridePendingTransition(R.anim.common_right_in, R.anim.empty);
         finish();
