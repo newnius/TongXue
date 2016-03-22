@@ -103,6 +103,7 @@ public class WhiteBoardActivity extends BaseActivity {
     public String filename;
     public String groupName;
     private List<HashMap<String, Object>> messageList;
+    private SimpleAdapter adapterForChatList;
 
 
     @Override
@@ -116,6 +117,10 @@ public class WhiteBoardActivity extends BaseActivity {
             }
 
             messageList = new ArrayList<>();
+
+            //创建SimpleAdapter适配器将数据绑定到item显示控件上
+            adapterForChatList = new SimpleAdapter(WhiteBoardActivity.this, messageList, R.layout.item_whiteboard_message,
+                    new String[]{"sender", "content"}, new int[]{R.id.sender, R.id.content});
 
             groupName = getIntent().getStringExtra("groupName");
             WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
@@ -133,7 +138,6 @@ public class WhiteBoardActivity extends BaseActivity {
                 messages.add(message);
             }
             initChatList(messages);
-
 
             bt_pen.setOnClickListener(new OnClickListener() {
                 @Override
@@ -310,10 +314,15 @@ public class WhiteBoardActivity extends BaseActivity {
     }
 
     public void addNewMessage(TXObject message){
-        HashMap<String, Object> item = new HashMap<>();
-        item.put("sender", message.get("sender"));
-        item.put("content", message.get("content"));
-        messageList.add(item);
+        try {
+            HashMap<String, Object> item = new HashMap<>();
+            item.put("sender", message.get("sender"));
+            item.put("content", message.get("content"));
+            messageList.add(0, item);
+            adapterForChatList.notifyDataSetChanged();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     public void initChatList(List<TXObject> messages) {
@@ -321,13 +330,10 @@ public class WhiteBoardActivity extends BaseActivity {
             HashMap<String, Object> item = new HashMap<>();
             item.put("sender", message.get("sender"));
             item.put("content", message.get("content"));
-            messageList.add(item);
+            messageList.add(0, item);
         }
-        //创建SimpleAdapter适配器将数据绑定到item显示控件上
-        SimpleAdapter adapter = new SimpleAdapter(WhiteBoardActivity.this, messageList, R.layout.item_whiteboard_message,
-                new String[]{"sender", "content"}, new int[]{R.id.sender, R.id.content});
         //实现列表的显示
-        chatView.setAdapter(adapter);
+        chatView.setAdapter(adapterForChatList);
     }
 
     public void initSize() {
