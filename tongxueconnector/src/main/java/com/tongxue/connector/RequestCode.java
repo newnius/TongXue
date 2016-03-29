@@ -46,6 +46,7 @@ public class RequestCode {
     public static final int QUIT_DISCUSS = 31;
     public static final int SEND_BOARD_MESSAGE = 32;
     public static final int GET_BOARD_MESSAGE = 33;
+    public static final int GET_ALL_DISCUSSES = 34;
 
 
     /* received code */

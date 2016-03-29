@@ -200,5 +200,9 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
         return null;
     }
 
+    public static Msg getAllDiscusses(TXObject discuss){
+        return Discuss.getDiscusses(discuss);
+    }
+
 
 }

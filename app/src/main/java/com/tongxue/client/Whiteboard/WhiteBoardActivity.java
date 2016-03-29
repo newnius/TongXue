@@ -47,6 +47,7 @@ import com.tongxue.client.Base.LearnApplication;
 import com.tongxue.client.Group.GroupChatActivity;
 import com.tongxue.client.R;
 import com.tongxue.client.Utils.Utils;
+import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
 
 import butterknife.Bind;
@@ -326,6 +327,21 @@ public class WhiteBoardActivity extends BaseActivity {
     }
 
     public void initChatList(List<TXObject> messages) {
+        new AsyncTask<Void, Void, Msg>(){
+            @Override
+            protected Msg doInBackground(Void... params) {
+                
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Msg msg) {
+                super.onPostExecute(msg);
+            }
+        }.execute();
+
+
+
         for (final TXObject message : messages) {
             HashMap<String, Object> item = new HashMap<>();
             item.put("sender", message.get("sender"));

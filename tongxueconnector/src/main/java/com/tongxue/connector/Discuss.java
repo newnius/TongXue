@@ -27,6 +27,28 @@ public class Discuss {
         return msg;
     }
 
+    public static Msg getDiscusses(TXObject discuss){
+        try {
+            String con = new Gson().toJson(new Msg(RequestCode.GET_ALL_DISCUSSES, discuss));
+            String res = Communicator.send(con);
+            Msg msg;
+            if (res == null) {
+                msg = new Msg(ErrorCode.CONNECTION_FAIL);
+            } else {
+                msg = new Gson().fromJson(res, Msg.class);
+                List<TXObject> discusses = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<TXObject>>() {
+                }.getType());
+                msg.setObj(discusses);
+            }
+            return msg;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return new Msg(ErrorCode.UNKNOWN);
+        }
+    }
+
+
+
     public static Msg joinDiscuss(TXObject discuss){
         if (!discuss.hasKey("discussID"))
             return new Msg(ErrorCode.DISCUSS_NOT_EXIST);

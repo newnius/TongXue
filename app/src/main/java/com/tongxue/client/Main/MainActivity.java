@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -67,7 +68,6 @@ public class MainActivity extends BaseBarActivity {
     public Animation rightAnim;
     public Animation leftAnim;
     public boolean isAddPressed= false;
-    public static List<Map<String,Object>> talkList;
     public static List<Map<String,Object>> groupList;
     public static List<Map<String,Object>> newList;
     public static List<Map<String,Object>> favList;
@@ -87,100 +87,96 @@ public class MainActivity extends BaseBarActivity {
         ButterKnife.bind(this);
         initToolBar();
         initAnim();
+try {
+    Intent intent = getIntent();
 
-        Intent intent=getIntent();
-        Serializable obj1= intent.getSerializableExtra("talkList");
-        if(obj1== null){
-            talkList= new ArrayList<>();
-        }else{
-            talkList= ((SerializableMapList)obj1).getMapList();
-        }
+    Serializable obj2 = intent.getSerializableExtra("groupList");
+    if (obj2 == null) {
+        groupList = new ArrayList<>();
+    } else {
+        groupList = ((SerializableMapList) obj2).getMapList();
+    }
 
-        Serializable obj2= intent.getSerializableExtra("groupList");
-        if(obj2== null){
-            groupList= new ArrayList<>();
-        }else{
-            groupList= ((SerializableMapList)obj2).getMapList();
-        }
+    newList = new ArrayList<>();
+    favList = new ArrayList<>();
+    qaList = new ArrayList<>();
 
-        newList = new ArrayList<>();
-        favList = new ArrayList<>();
-        qaList = new ArrayList<>();
+    mFragmentManager = getSupportFragmentManager();
+    groupFragment = new GroupFragment();
+    qaFragment = new QAFragment();
+    blogFragment = new BlogFragment();
+    meFragment = new MeFragment();
+    writeFragment = new WriteFragment();
 
-        mFragmentManager= getSupportFragmentManager();
-        groupFragment= new GroupFragment();
-        qaFragment= new QAFragment();
-        blogFragment= new BlogFragment();
-        meFragment= new MeFragment();
-        writeFragment= new WriteFragment();
+    final boolean toBlogFragment = intent.getBooleanExtra("blog", false);
+    boolean toQaFragment = intent.getBooleanExtra("qa", false);
 
-        final boolean toBlogFragment = intent.getBooleanExtra("blog",false);
-        boolean toQaFragment = intent.getBooleanExtra("qa",false);
+    if (toQaFragment) {
+        changeFragment(2);
+        shouldQaRefresh = true;
+    } else if (toBlogFragment) {
+        changeFragment(3);
+        shouldBlogRefresh = true;
+    } else {
+        changeFragment(1);
+    }
 
-        if(toQaFragment){
-            changeFragment(2);
-            shouldQaRefresh = true;
-        }else if(toBlogFragment){
-            changeFragment(3);
-            shouldBlogRefresh = true;
-        }else{
+    bottom_group.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
             changeFragment(1);
         }
+    });
 
-        bottom_group.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeFragment(1);
+    bottom_qa.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeFragment(2);
+        }
+    });
+
+    bottom_blog.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeFragment(3);
+        }
+    });
+
+    bottom_me.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeFragment(4);
+        }
+    });
+
+    bottom_add.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (isAddPressed) {
+                changeFragment();
+            } else {
+                addImg.startAnimation(rightAnim);
+                toolbar.setVisibility(View.GONE);
+                mFragmentManager.beginTransaction().replace(R.id.main_container_layout, writeFragment).commit();
+                isAddPressed = true;
             }
-        });
+        }
+    });
 
-        bottom_qa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               changeFragment(2);
-            }
-        });
+    head.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mDrawerLayout.closeDrawers();
+            changeFragment(4);
+        }
+    });
 
-        bottom_blog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeFragment(3);
-            }
-        });
+    username.setText(LearnApplication.preferences.getString("username", ""));
 
-        bottom_me.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeFragment(4);
-            }
-        });
-
-        bottom_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isAddPressed) {
-                    changeFragment();
-                } else {
-                    addImg.startAnimation(rightAnim);
-                    toolbar.setVisibility(View.GONE);
-                    mFragmentManager.beginTransaction().replace(R.id.main_container_layout, writeFragment).commit();
-                    isAddPressed = true;
-                }
-            }
-        });
-
-        head.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.closeDrawers();
-                changeFragment(4);
-            }
-        });
-
-        username.setText(LearnApplication.preferences.getString("username", ""));
-
-        //Server.getCourses();
-
+    //Server.getCourses();
+}catch (Exception ex){
+    ex.printStackTrace();
+}
 
     }
 
