@@ -1,6 +1,6 @@
-package com.tongxue.client.Whiteboard.commands;
+package com.tongxue.client.Discuss.commands;
 
-import com.tongxue.client.Whiteboard.FloatPoint;
+import com.tongxue.client.Discuss.FloatPoint;
 
 import java.util.ArrayList;
 import java.util.List;

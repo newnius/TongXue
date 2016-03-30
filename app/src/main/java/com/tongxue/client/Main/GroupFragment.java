@@ -37,7 +37,7 @@ import com.tongxue.client.R;
 import com.tongxue.client.Service.AVService;
 import com.tongxue.client.Utils.Config;
 import com.tongxue.client.View.PullableView.PullToRefreshLayout;
-import com.tongxue.client.Whiteboard.WhiteBoardActivity;
+import com.tongxue.client.Discuss.WhiteBoardActivity;
 import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
@@ -123,7 +123,7 @@ public class GroupFragment extends BaseFragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     Intent intent = new Intent(mContext, WhiteBoardActivity.class);
-                    intent.putExtra("discussID", 1);
+                    intent.putExtra("discussID", discusses.get(position).getInt("discussID"));
                     startActivity(intent);
                 }
             });

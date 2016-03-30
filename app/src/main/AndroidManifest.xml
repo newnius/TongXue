@@ -72,8 +72,9 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Whiteboard.WhiteBoardActivity"
-            android:screenOrientation="portrait" >
+            android:name=".Discuss.WhiteBoardActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".Group.GroupVerifyActivity"

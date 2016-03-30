@@ -1,4 +1,4 @@
-package com.tongxue.client.Whiteboard.actions;
+package com.tongxue.client.Discuss.actions;
 
 
 import android.graphics.Paint;
@@ -6,10 +6,10 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 
-import com.tongxue.client.Whiteboard.CanvasContext;
-import com.tongxue.client.Whiteboard.FloatPoint;
-import com.tongxue.client.Whiteboard.commands.Command;
-import com.tongxue.client.Whiteboard.commands.EraserCommand;
+import com.tongxue.client.Discuss.CanvasContext;
+import com.tongxue.client.Discuss.FloatPoint;
+import com.tongxue.client.Discuss.commands.Command;
+import com.tongxue.client.Discuss.commands.EraserCommand;
 
 import java.util.Iterator;
 

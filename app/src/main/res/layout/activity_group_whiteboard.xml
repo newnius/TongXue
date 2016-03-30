@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:screenOrientation="landscape">
+    android:screenOrientation="landscape"
+    >
 
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -45,7 +46,7 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
-        <com.tongxue.client.Whiteboard.PenSizeView
+        <com.tongxue.client.Discuss.PenSizeView
             android:id="@+id/penSizeIv"
             android:layout_width="@dimen/penSizeView_Width"
             android:layout_height="@dimen/penSizeView_Height"
@@ -66,7 +67,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar">
 
-        <com.tongxue.client.Whiteboard.MyView
+        <com.tongxue.client.Discuss.MyView
             android:id="@+id/myView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

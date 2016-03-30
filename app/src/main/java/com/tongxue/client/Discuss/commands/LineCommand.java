@@ -1,4 +1,4 @@
-package com.tongxue.client.Whiteboard.commands;
+package com.tongxue.client.Discuss.commands;
 
 /**
  * Created by newnius on 16-2-19.

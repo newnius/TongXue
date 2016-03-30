@@ -204,5 +204,35 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
         return Discuss.getDiscusses(discuss);
     }
 
+    public static Msg joinDiscuss(TXObject discuss){
+        return Discuss.joinDiscuss(discuss);
+    }
+
+    public static Msg quitDiscuss(TXObject discuss){
+        return Discuss.quitDiscuss(discuss);
+    }
+
+    public static Msg createDiscuss(TXObject discuss){
+        return Discuss.createDiscuss(discuss);
+    }
+
+    public static Msg getBoardActions(TXObject discuss){
+        return Discuss.getBoardActions(discuss);
+    }
+
+    public static Msg sendBoardAction(TXObject action){
+        return Discuss.sendBoardAction(action);
+    }
+
+    public static Msg sendDiscussMessage(TXObject message){
+        return Discuss.sendDiscussMessage(message);
+    }
+
+    public static Msg getDiscussMessage(TXObject discuss){
+        return Discuss.getDiscussMessage(discuss);
+    }
+
+
+
 
 }

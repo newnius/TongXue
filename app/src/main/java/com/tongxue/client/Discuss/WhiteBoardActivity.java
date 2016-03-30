@@ -1,7 +1,7 @@
-package com.tongxue.client.Whiteboard;
+package com.tongxue.client.Discuss;
 
 import android.content.ContentResolver;
-import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
@@ -18,37 +18,36 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.im.v2.AVIMConversation;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
-import com.avoscloud.leanchatlib.activity.ChatActivity;
-import com.avoscloud.leanchatlib.controller.ChatManager;
+
+import com.google.gson.Gson;
 import com.tongxue.client.Base.BaseActivity;
 import com.tongxue.client.Base.LearnApplication;
-import com.tongxue.client.Group.GroupChatActivity;
 import com.tongxue.client.R;
 import com.tongxue.client.Utils.Utils;
+import com.tongxue.connector.CallBackInterface;
+import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
+import com.tongxue.connector.Receiver;
+import com.tongxue.connector.RequestCode;
+import com.tongxue.connector.Server;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,7 +55,7 @@ import butterknife.ButterKnife;
 /**
  * Created by chaosi on 2015/9/20.
  */
-public class WhiteBoardActivity extends BaseActivity {
+public class WhiteBoardActivity extends BaseActivity implements CallBackInterface {
     @Bind(R.id.myView)
     MyView myView;
     @Bind(R.id.bt_pen)
@@ -102,9 +101,27 @@ public class WhiteBoardActivity extends BaseActivity {
     public static int ScreenWidth;
     public static int ScreenHeight;
     public String filename;
-    public String groupName;
     private List<HashMap<String, Object>> messageList;
     private SimpleAdapter adapterForChatList;
+    private int discussID = 0;
+    private String groupName = "";
+
+
+    // When an android device changes orientation usually the activity is destroyed and recreated with a new
+    // orientation layout. This method, along with a setting in the the manifest for this activity
+    // tells the OS to let us handle it instead.
+    //
+    // This increases performance and gives us greater control over activity creation and destruction for simple
+    // activities.
+    //
+    // Must place this into the AndroidManifest.xml file for this activity in order for this to work properly
+    //   android:configChanges="keyboardHidden|orientation"
+    //   optionally
+    //   android:screenOrientation="landscape"
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 
 
     @Override
@@ -112,18 +129,21 @@ public class WhiteBoardActivity extends BaseActivity {
         try {
             super.onCreate(savedInstanceState);
 
-            /* 设置横屏 */
-            if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            }
-
             messageList = new ArrayList<>();
 
             //创建SimpleAdapter适配器将数据绑定到item显示控件上
             adapterForChatList = new SimpleAdapter(WhiteBoardActivity.this, messageList, R.layout.item_whiteboard_message,
                     new String[]{"sender", "content"}, new int[]{R.id.sender, R.id.content});
 
-            groupName = getIntent().getStringExtra("groupName");
+            if (getIntent().hasExtra("discussID")) {
+                discussID = getIntent().getIntExtra("discussID", 0);
+                joinDiscuss(discussID);
+            } else {
+                //do create discuss
+                createDiscuss(1);
+            }
+            Log.i("discuss", discussID + "");
+
             WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
             ScreenWidth = wm.getDefaultDisplay().getWidth();
             ScreenHeight = wm.getDefaultDisplay().getHeight();
@@ -131,14 +151,13 @@ public class WhiteBoardActivity extends BaseActivity {
             ButterKnife.bind(this);
             initSize();
 
-            List<TXObject> messages = new ArrayList<>();
-            for (int i = 0; i < 25; i++) {
-                TXObject message = new TXObject();
-                message.set("sender", "sender" + i);
-                message.set("content", "content" + i);
-                messages.add(message);
-            }
-            initChatList(messages);
+            Receiver.attachCallback(RequestCode.NEW_BOARD_MESSAGE, this);
+
+
+            initChatList(discussID);
+
+            //实现列表的显示
+            chatView.setAdapter(adapterForChatList);
 
             bt_pen.setOnClickListener(new OnClickListener() {
                 @Override
@@ -245,15 +264,16 @@ public class WhiteBoardActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     toast(messageInput.getText().toString());
-                    if(messageInput.getText().toString().length()!=0){
+                    if (messageInput.getText().toString().length() != 0) {
                         TXObject message = new TXObject();
-                        message.set("sender", LearnApplication.preferences.getString("username", "sender"));
+                        message.set("discussID", discussID);
+                        message.set("type", "text");
+                        message.set("username", LearnApplication.preferences.getString("username", "sender"));
                         message.set("content", messageInput.getText().toString());
                         addNewMessage(message);
                     }
                 }
             });
-
 
             penSizeSb.setMax(80);
             penSizeSb.setProgress(10);
@@ -276,36 +296,7 @@ public class WhiteBoardActivity extends BaseActivity {
             finish.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bitmap bm = myView.getBitmap();
-                    filename = Utils.getRandomString(15);
-                    waitingDialogShow();
-                    boolean b = Utils.savePic(bm, filename);
-
-                    if (b) {
-                        final ChatManager chatManager = ChatManager.getInstance();
-                        chatManager.fetchConversationWithGroupName(groupName, new AVIMConversationCreatedCallback() {
-                            @Override
-                            public void done(AVIMConversation conversation, AVException e) {
-                                if (e != null) {
-                                    e.getMessage();
-                                    waitingDialogDismiss();
-                                    toast("网络错误");
-                                } else {
-                                    chatManager.registerConversation(conversation);
-                                    Intent intent = new Intent(WhiteBoardActivity.this, GroupChatActivity.class);
-                                    intent.putExtra(ChatActivity.CONVID, conversation.getConversationId());
-                                    intent.putExtra("group_name", groupName);
-                                    intent.putExtra("filename", filename);
-                                    waitingDialogDismiss();
-                                    startActivity(intent);
-                                    finish();
-                                    overridePendingTransition(R.anim.common_left_in, R.anim.common_right_out);
-                                }
-                            }
-                        });
-                    } else {
-                        toast("绘图中出现错误");
-                    }
+                    finish();
                 }
             });
         } catch (Exception ex) {
@@ -314,42 +305,154 @@ public class WhiteBoardActivity extends BaseActivity {
 
     }
 
-    public void addNewMessage(TXObject message){
-        try {
-            HashMap<String, Object> item = new HashMap<>();
-            item.put("sender", message.get("sender"));
-            item.put("content", message.get("content"));
-            messageList.add(0, item);
-            adapterForChatList.notifyDataSetChanged();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void initChatList(List<TXObject> messages) {
-        new AsyncTask<Void, Void, Msg>(){
+    private void joinDiscuss(final int discussID) {
+        new AsyncTask<Void, Void, Msg>() {
             @Override
             protected Msg doInBackground(Void... params) {
-                
-                return null;
+                TXObject discuss = new TXObject();
+                discuss.set("discussID", discussID);
+                Msg msg = Server.joinDiscuss(discuss);
+                return msg;
             }
 
             @Override
             protected void onPostExecute(Msg msg) {
                 super.onPostExecute(msg);
+                if (msg.getCode() == ErrorCode.SUCCESS) {
+                    Log.i("join", "ok");
+                    getActions(discussID);
+                } else {
+                    Log.i("join", ErrorCode.getMsg(msg.getCode()));
+                }
+
             }
         }.execute();
+    }
+
+    private void quitDiscuss(final int discussID) {
+        new AsyncTask<Void, Void, Msg>() {
+            @Override
+            protected Msg doInBackground(Void... params) {
+                TXObject discuss = new TXObject();
+                discuss.set("discussID", discussID);
+                Msg msg = Server.quitDiscuss(discuss);
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(Msg msg) {
+                super.onPostExecute(msg);
+                if (msg.getCode() == ErrorCode.SUCCESS) {
+                    Log.i("quit", "ok");
+                } else {
+                    Log.i("quit", ErrorCode.getMsg(msg.getCode()));
+                }
+
+            }
+        }.execute();
+    }
+
+    private void getActions(final int discussID) {
+        new AsyncTask<Void, Void, Msg>() {
+            @Override
+            protected Msg doInBackground(Void... params) {
+                TXObject discuss = new TXObject();
+                discuss.set("discussID", discussID);
+                Msg msg = Server.getBoardActions(discuss);
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(Msg msg) {
+                super.onPostExecute(msg);
+                if (msg.getCode() == ErrorCode.SUCCESS) {
+                    Log.i("board", "ok");
+                } else {
+                    Log.i("board", ErrorCode.getMsg(msg.getCode()));
+                }
+
+            }
+        }.execute();
+    }
+
+    private void createDiscuss(final int groupID) {
+        new AsyncTask<Void, Void, Msg>() {
+            @Override
+            protected Msg doInBackground(Void... params) {
+                TXObject discuss = new TXObject();
+                discuss.set("groupID", groupID);
+                discuss.set("name", "discuss" + groupID);
+                Msg msg = Server.createDiscuss(discuss);
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(Msg msg) {
+                super.onPostExecute(msg);
+                if (msg.getCode() == ErrorCode.SUCCESS) {
+                    Log.i("create", "ok");
+                } else {
+                    Log.i("create", ErrorCode.getMsg(msg.getCode()));
+                }
+
+            }
+        }.execute();
+    }
 
 
+    public void addNewMessage(final TXObject message) {
+        try {
+            new AsyncTask<Void, Void, Msg>() {
+                @Override
+                protected Msg doInBackground(Void... params) {
+                    Msg msg = Server.sendDiscussMessage(message);
+                    return msg;
+                }
 
-        for (final TXObject message : messages) {
-            HashMap<String, Object> item = new HashMap<>();
-            item.put("sender", message.get("sender"));
-            item.put("content", message.get("content"));
-            messageList.add(0, item);
+                @Override
+                protected void onPostExecute(Msg msg) {
+                    super.onPostExecute(msg);
+                    if (msg.getCode() == ErrorCode.SUCCESS) {
+                        HashMap<String, Object> item = new HashMap<>();
+                        item.put("sender", message.get("username"));
+                        item.put("content", message.get("content"));
+                        messageList.add(0, item);
+                        adapterForChatList.notifyDataSetChanged();
+                    }
+                }
+            }.execute();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        //实现列表的显示
-        chatView.setAdapter(adapterForChatList);
+    }
+
+
+    public void initChatList(final int discussID) {
+        new AsyncTask<Void, Void, Msg>() {
+            @Override
+            protected Msg doInBackground(Void... params) {
+                TXObject discuss = new TXObject();
+                discuss.set("discussID", discussID);
+                Msg msg = Server.getDiscussMessage(discuss);
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(Msg msg) {
+                super.onPostExecute(msg);
+                if (msg.getCode() == ErrorCode.SUCCESS) {
+                    List<TXObject> messages = (List<TXObject>) msg.getObj();
+                    for (final TXObject message : messages) {
+                        HashMap<String, Object> item = new HashMap<>();
+                        item.put("sender", message.get("username"));
+                        item.put("content", message.get("content"));
+                        messageList.add(item);
+                    }
+                    adapterForChatList.notifyDataSetChanged();
+                }
+
+            }
+        }.execute();
     }
 
     public void initSize() {
@@ -405,6 +508,31 @@ public class WhiteBoardActivity extends BaseActivity {
             }
         }.execute();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("activity", "destroy");
+        quitDiscuss(discussID);
+        Receiver.detachCallback(RequestCode.NEW_BOARD_MESSAGE);
+    }
+
+    @Override
+    public void callBack(final Msg msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("board", "new message");
+                String tmp = new Gson().toJson(msg.getObj());
+                TXObject message = new Gson().fromJson(tmp, TXObject.class);
+                HashMap<String, Object> item = new HashMap<>();
+                item.put("sender", message.get("username"));
+                item.put("content", message.get("content"));
+                messageList.add(0, item);
+                adapterForChatList.notifyDataSetChanged();
+            }
+        });
     }
 
 }

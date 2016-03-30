@@ -1,12 +1,12 @@
-package com.tongxue.client.Whiteboard.actions;
+package com.tongxue.client.Discuss.actions;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
-import com.tongxue.client.Whiteboard.CanvasContext;
-import com.tongxue.client.Whiteboard.FloatPoint;
-import com.tongxue.client.Whiteboard.commands.Command;
-import com.tongxue.client.Whiteboard.commands.ImageCommand;
+import com.tongxue.client.Discuss.CanvasContext;
+import com.tongxue.client.Discuss.FloatPoint;
+import com.tongxue.client.Discuss.commands.Command;
+import com.tongxue.client.Discuss.commands.ImageCommand;
 
 /**
  * Created by newnius on 16-2-23.

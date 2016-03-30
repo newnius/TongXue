@@ -173,8 +173,8 @@ public class LoginActivity extends BaseActivity {
                             map.put("intro", bean.getIntro());
                             groupList.add(map);
                         }
+                        Log.i("group size", groupBeans.size()+"");
                     }
-                    SerializableMapList talkSml = new SerializableMapList();
                     SerializableMapList groupSml = new SerializableMapList();
                     groupSml.setMapList(groupList);
                     Bundle bundle = new Bundle();

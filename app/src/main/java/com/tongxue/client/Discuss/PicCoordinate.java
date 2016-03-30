@@ -1,4 +1,4 @@
-package com.tongxue.client.Whiteboard;
+package com.tongxue.client.Discuss;
 
 /**
  * 辅助类 ---用于标记画一个样式中的图片的位置x,y

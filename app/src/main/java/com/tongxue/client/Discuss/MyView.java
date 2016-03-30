@@ -1,4 +1,4 @@
-package com.tongxue.client.Whiteboard;
+package com.tongxue.client.Discuss;
 
 import java.util.Iterator;
 
@@ -25,15 +25,15 @@ import android.widget.VideoView;
 import com.google.gson.Gson;
 import com.tongxue.connector.CallBackInterface;
 import com.tongxue.connector.Msg;
+import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Receiver;
-import com.tongxue.connector.RequestCode;
 import com.tongxue.connector.Server;
-import com.tongxue.client.Whiteboard.actions.Action;
-import com.tongxue.client.Whiteboard.actions.CurveAction;
-import com.tongxue.client.Whiteboard.actions.EraserAction;
-import com.tongxue.client.Whiteboard.commands.Command;
-import com.tongxue.client.Whiteboard.commands.CurveCommand;
-import com.tongxue.client.Whiteboard.commands.EraserCommand;
+import com.tongxue.client.Discuss.actions.Action;
+import com.tongxue.client.Discuss.actions.CurveAction;
+import com.tongxue.client.Discuss.actions.EraserAction;
+import com.tongxue.client.Discuss.commands.Command;
+import com.tongxue.client.Discuss.commands.CurveCommand;
+import com.tongxue.client.Discuss.commands.EraserCommand;
 import com.tongxue.client.R;
 /**
  * 涂鸦View
@@ -118,6 +118,8 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
                     @Override
                     public void run() {
                         Server.sendBoardAction(new Gson().toJson(new Msg(50, command)));
+                        TXObject action = new TXObject();
+						//Server.sendBoardAction(action);
                     }
                 }).start();
                     currentAction = null;

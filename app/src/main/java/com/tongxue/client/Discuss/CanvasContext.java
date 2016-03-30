@@ -1,9 +1,9 @@
-package com.tongxue.client.Whiteboard;
+package com.tongxue.client.Discuss;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import com.tongxue.client.Whiteboard.actions.Action;
+import com.tongxue.client.Discuss.actions.Action;
 
 import java.util.ArrayList;
 import java.util.List;

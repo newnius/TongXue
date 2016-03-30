@@ -1,4 +1,4 @@
-package com.tongxue.client.Whiteboard;
+package com.tongxue.client.Discuss;
 
 import android.os.Bundle;
 import android.app.Dialog;

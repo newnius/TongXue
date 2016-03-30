@@ -30,7 +30,7 @@ public class Receiver implements Runnable {
 	public static boolean attachCallback(int code, CallBackInterface cbi){
         try {
             if (callbacks.containsKey(code))
-                ;
+                callbacks.remove(code);
             else callbacks.put(code, cbi);
         }catch (Exception ex){
             ex.printStackTrace();

@@ -93,8 +93,26 @@ public class Discuss {
         return msg;
     }
 
-    public static Msg getBoardActions(){
-        return new Msg(ErrorCode.SUCCESS);
+    public static Msg getBoardActions(TXObject discuss){
+        if(discuss==null || !discuss.hasKey("discussID"))
+            return new Msg(ErrorCode.DISCUSS_NOT_EXIST);
+        try {
+            String con = new Gson().toJson(new Msg(RequestCode.GET_WHITEBOARD_ACTION, discuss));
+            String res = Communicator.send(con);
+            Msg msg;
+            if (res == null) {
+                msg = new Msg(ErrorCode.CONNECTION_FAIL);
+            } else {
+                msg = new Gson().fromJson(res, Msg.class);
+                List<TXObject> actions = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<TXObject>>() {
+                }.getType());
+                msg.setObj(actions);
+            }
+            return msg;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return new Msg(ErrorCode.UNKNOWN);
+        }
     }
 
     public static Msg sendDiscussMessage(TXObject message){
@@ -127,7 +145,7 @@ public class Discuss {
             msg = new Msg(ErrorCode.CONNECTION_FAIL);
         } else {
             msg = new Gson().fromJson(res, Msg.class);
-            List<TXObject> messages = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<TXObject>() {}.getType());
+            List<TXObject> messages = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<TXObject>>() {}.getType());
             msg.setObj(messages);
         }
         return msg;

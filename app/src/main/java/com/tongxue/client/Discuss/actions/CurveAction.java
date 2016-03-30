@@ -1,12 +1,12 @@
-package com.tongxue.client.Whiteboard.actions;
+package com.tongxue.client.Discuss.actions;
 
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import com.tongxue.client.Whiteboard.CanvasContext;
-import com.tongxue.client.Whiteboard.FloatPoint;
-import com.tongxue.client.Whiteboard.commands.Command;
-import com.tongxue.client.Whiteboard.commands.CurveCommand;
+import com.tongxue.client.Discuss.CanvasContext;
+import com.tongxue.client.Discuss.FloatPoint;
+import com.tongxue.client.Discuss.commands.Command;
+import com.tongxue.client.Discuss.commands.CurveCommand;
 
 import java.util.Iterator;
 

@@ -1,6 +1,6 @@
-package com.tongxue.client.Whiteboard.commands;
+package com.tongxue.client.Discuss.commands;
 
-import com.tongxue.client.Whiteboard.FloatPoint;
+import com.tongxue.client.Discuss.FloatPoint;
 
 /**
  * Created by newnius on 16-2-23.

@@ -1,4 +1,4 @@
-package com.tongxue.client.Whiteboard;
+package com.tongxue.client.Discuss;
 
 import java.io.File;
 import java.io.FileInputStream;

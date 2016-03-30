@@ -1,6 +1,6 @@
-package com.tongxue.client.Whiteboard.actions;
+package com.tongxue.client.Discuss.actions;
 
-import com.tongxue.client.Whiteboard.commands.Command;
+import com.tongxue.client.Discuss.commands.Command;
 
 /**
  * Created by newnius on 16-2-24.

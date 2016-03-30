@@ -20,7 +20,7 @@ import com.tongxue.client.Base.ActivityManager;
 import com.tongxue.client.Base.LearnApplication;
 import com.tongxue.client.Bean.LatestGroup;
 import com.tongxue.client.Group.Search.SInfoActivity;
-import com.tongxue.client.Whiteboard.WhiteBoardActivity;
+import com.tongxue.client.Discuss.WhiteBoardActivity;
 import com.tongxue.client.Main.MainActivity;
 
 import net.tsz.afinal.FinalDb;
