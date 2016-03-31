@@ -5,15 +5,17 @@ import android.graphics.Matrix;
 
 import com.tongxue.client.Discuss.CanvasContext;
 import com.tongxue.client.Discuss.FloatPoint;
-import com.tongxue.client.Discuss.commands.Command;
-import com.tongxue.client.Discuss.commands.ImageCommand;
+import com.tongxue.connector.Objs.TXObject;
 
 /**
  * Created by newnius on 16-2-23.
  */
 public class ImageAction extends Action{
     private Bitmap image;
-    private ImageCommand command;
+
+    private String imageUrl;// image web url
+    private FloatPoint LTPoint;//left and top
+    private FloatPoint RBPoint;//right and bottom
 
     public ImageAction(CanvasContext canvasContext, Bitmap image) {
         super(canvasContext);
@@ -34,12 +36,10 @@ public class ImageAction extends Action{
         if(image == null)
             return ;
         canvasContext.getCanvas().drawBitmap(image, point.getX(), point.getY(), null);
-        command = new ImageCommand();
-        command.setLTPoint(point);
     }
 
     @Override
-    public void draw(Command command) {
+    public void draw(TXObject command) {
         super.draw(command);
     }
 
@@ -49,7 +49,7 @@ public class ImageAction extends Action{
     }
 
     @Override
-    public Command toCommand() {
+    public TXObject toCommand() {
         return null;
     }
 }

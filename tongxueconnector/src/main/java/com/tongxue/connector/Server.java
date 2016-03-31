@@ -102,11 +102,6 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
         return Group.getGroupMessage(group);
     }
 
-
-    public static Msg sendBoardAction(String action) {
-        return errorMsg;
-    }
-
     public static Msg postArticle(TXObject article) {
         if(article==null)
             return errorMsg;
@@ -144,14 +139,9 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
     }
 
     public static Msg searchQuestion(TXObject question) {
-        try {
             if (question == null)
                 return errorMsg;
             return Question.searchQuestion(question);
-        }catch(Exception ex){
-            ex.printStackTrace();
-            return errorMsg;
-        }
     }
 
     public static Msg updateQuestion(TXObject question) {
@@ -167,14 +157,9 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
     }
 
     public static Msg getQuestionAnswer(TXObject question) {
-        try {
             if (question == null)
                 return errorMsg;
             return Question.searchQuestionAnswer(question);
-        }catch(Exception ex){
-            ex.printStackTrace();
-            return errorMsg;
-        }
     }
 
     public static Msg answerQuestion(TXObject answer) {
@@ -220,8 +205,8 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
         return Discuss.getBoardActions(discuss);
     }
 
-    public static Msg sendBoardAction(TXObject action){
-        return Discuss.sendBoardAction(action);
+    public static Msg sendBoardAction(TXObject command){
+        return Discuss.sendBoardAction(command);
     }
 
     public static Msg sendDiscussMessage(TXObject message){

@@ -104,7 +104,6 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
     private List<HashMap<String, Object>> messageList;
     private SimpleAdapter adapterForChatList;
     private int discussID = 0;
-    private String groupName = "";
 
 
     // When an android device changes orientation usually the activity is destroyed and recreated with a new

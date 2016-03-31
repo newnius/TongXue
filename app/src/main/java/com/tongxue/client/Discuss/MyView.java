@@ -23,17 +23,16 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.google.gson.Gson;
+import com.tongxue.client.Discuss.actions.ActionFactory;
 import com.tongxue.connector.CallBackInterface;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
 import com.tongxue.connector.Receiver;
+import com.tongxue.connector.RequestCode;
 import com.tongxue.connector.Server;
 import com.tongxue.client.Discuss.actions.Action;
 import com.tongxue.client.Discuss.actions.CurveAction;
 import com.tongxue.client.Discuss.actions.EraserAction;
-import com.tongxue.client.Discuss.commands.Command;
-import com.tongxue.client.Discuss.commands.CurveCommand;
-import com.tongxue.client.Discuss.commands.EraserCommand;
 import com.tongxue.client.R;
 /**
  * 涂鸦View
@@ -49,7 +48,6 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
     private Action currentAction;
     public static String TAG = "WhiteBoard";
 
-	VideoView videoView = (VideoView)findViewById(R.id.video_view);
 
 	// 背景图片
 	Bitmap bgBitmap;
@@ -88,7 +86,7 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
         canvasContext.setCanvas(new Canvas(mBitmap));
         canvasContext.getCanvas().setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
 
-        Receiver.attachCallback(5, this);
+        Receiver.attachCallback(RequestCode.NEW_BOARD_ACTION, this);
 	}
 
 
@@ -113,13 +111,12 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
                 currentAction.finish(new FloatPoint(mX, mY));
                 if (currentAction != null) {
                     canvasContext.getActions().add(currentAction);
-                final Command command = currentAction.toCommand();
+                final TXObject command = currentAction.toCommand();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Server.sendBoardAction(new Gson().toJson(new Msg(50, command)));
-                        TXObject action = new TXObject();
-						//Server.sendBoardAction(action);
+                        command.set("discussID", 11);
+						Server.sendBoardAction(command);
                     }
                 }).start();
                     currentAction = null;
@@ -202,35 +199,17 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
 		Log.i(TAG, "surfaceDestroyed...");
 	}
 
-
-
     @Override
     public void callBack(Msg msg) {
-        Command command = new Gson().fromJson(msg.getObj().toString(), Command.class);
-		Action action = null;
-		switch(command.getCommandType()){
-			case Command.COMMAND_TYPE_CURVE:
-				command = new Gson().fromJson(msg.getObj().toString(), CurveCommand.class);
-				action = new CurveAction(canvasContext);
-				break;
-			case Command.COMMAND_TYPE_ERASER:
-				command = new Gson().fromJson(msg.getObj().toString(), EraserCommand.class);
-				action = new EraserAction(canvasContext);
-				break;
-		}
-
-		if(action != null)
-        	action.draw(command);
-    }
-
-    public void playVideo(String url, Activity activity){
-        MediaController mc = new MediaController(activity);
-        mc.setAnchorView(videoView);
-        videoView.setMediaController(mc);
-        // videoView.setVideoPath("file:///my.mp4");
-        videoView.setVideoURI(Uri.parse(url));
-        videoView.requestFocus();
-        videoView.start();
+        try {
+            String obj = new Gson().toJson(msg.getObj());
+            TXObject command = new Gson().fromJson(obj, TXObject.class);
+            Action action = ActionFactory.toAction(command, canvasContext);
+            if (action != null)
+                action.draw(command);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 
 
@@ -365,5 +344,6 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
 	public void setPen() {
 		canvasContext.setCurrentActionType(CanvasContext.ACTION_TYPE_CURVE);
 	}
+
 
 }

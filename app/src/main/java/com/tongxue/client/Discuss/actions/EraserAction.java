@@ -6,12 +6,15 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tongxue.client.Discuss.CanvasContext;
 import com.tongxue.client.Discuss.FloatPoint;
-import com.tongxue.client.Discuss.commands.Command;
-import com.tongxue.client.Discuss.commands.EraserCommand;
+import com.tongxue.connector.Objs.TXObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by newnius on 16-2-23.
@@ -19,7 +22,8 @@ import java.util.Iterator;
 public class EraserAction extends Action{
     private Path path;
     private FloatPoint lastPoint;
-    private EraserCommand command;
+    private List<FloatPoint> points;
+
     public EraserAction(CanvasContext canvasContext) {
         super(canvasContext);
         paint.setStrokeWidth(canvasContext.getWeight());
@@ -36,8 +40,8 @@ public class EraserAction extends Action{
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         path.moveTo(point.getX(), point.getY());
         lastPoint = new FloatPoint(point.getX(), point.getY());
-        command = new EraserCommand();
-        command.addPoint(lastPoint);
+        points = new ArrayList<>();
+        points.add(lastPoint);
     }
 
     @Override
@@ -47,7 +51,7 @@ public class EraserAction extends Action{
         if (dx >= 4 || dy >= 4) {
             path.quadTo(lastPoint.getX(), lastPoint.getY(), (point.getX() + lastPoint.getX()) / 2, (point.getY() + lastPoint.getY()) / 2);
             lastPoint = new FloatPoint(point.getX(), point.getY());
-            command.addPoint(lastPoint);
+            points.add(lastPoint);
             canvasContext.getCanvas().drawPath(path, paint);
         }
     }
@@ -58,10 +62,16 @@ public class EraserAction extends Action{
     }
 
     @Override
-    public void draw(Command command) {
-        if(!(command instanceof EraserCommand))
+    public void draw(TXObject command) {
+        if(!command.hasKey("type"))
             return ;
-        Iterator<FloatPoint> points = ((EraserCommand) command).getPoints().iterator();
+        if(command.getInt("type")!=Action.ACTION_TYPE_ERASER)
+            return;
+        if(!command.hasKey("points"))
+            return;
+
+        List<FloatPoint> pointsArray = new Gson().fromJson(command.get("points"), new TypeToken<List<FloatPoint>>(){}.getType());
+        Iterator<FloatPoint> points = pointsArray.iterator();
         if(points.hasNext()){//get start point
             FloatPoint point = points.next();
             lastPoint = new FloatPoint(point.getX(), point.getY());
@@ -81,7 +91,10 @@ public class EraserAction extends Action{
     }
 
     @Override
-    public Command toCommand() {
+    public TXObject toCommand() {
+        TXObject command = new TXObject();
+        command.set("type", Action.ACTION_TYPE_ERASER);
+        command.set("points", new Gson().toJson(points));
         return command;
     }
 }

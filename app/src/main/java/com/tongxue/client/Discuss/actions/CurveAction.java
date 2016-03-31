@@ -3,12 +3,15 @@ package com.tongxue.client.Discuss.actions;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tongxue.client.Discuss.CanvasContext;
 import com.tongxue.client.Discuss.FloatPoint;
-import com.tongxue.client.Discuss.commands.Command;
-import com.tongxue.client.Discuss.commands.CurveCommand;
+import com.tongxue.connector.Objs.TXObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by newnius on 16-2-23.
@@ -16,7 +19,7 @@ import java.util.Iterator;
 public class CurveAction extends Action{
     private Path path;
     private FloatPoint lastPoint;
-    private CurveCommand command;
+    private List<FloatPoint> points;
 
     public CurveAction(CanvasContext canvasContext) {
         super(canvasContext);
@@ -34,8 +37,8 @@ public class CurveAction extends Action{
         paint.setStyle(Paint.Style.STROKE);
         path.moveTo(point.getX(), point.getY());
         lastPoint = new FloatPoint(point.getX(), point.getY());
-        command = new CurveCommand();
-        command.addPoint(lastPoint);
+        points = new ArrayList<>();
+        points.add(lastPoint);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class CurveAction extends Action{
         if (dx >= 4 || dy >= 4) {
             path.quadTo(lastPoint.getX(), lastPoint.getY(), (point.getX() + lastPoint.getX()) / 2, (point.getY() + lastPoint.getY()) / 2);
             lastPoint = new FloatPoint(point.getX(), point.getY());
-            command.addPoint(lastPoint);
+            points.add(lastPoint);
             canvasContext.getCanvas().drawPath(path, paint);
         }
     }
@@ -56,10 +59,17 @@ public class CurveAction extends Action{
     }
 
     @Override
-    public void draw(Command command) {
-        if(!(command instanceof CurveCommand))
+    public void draw(TXObject command) {
+        if(!command.hasKey("type"))
             return ;
-        Iterator<FloatPoint> points = ((CurveCommand) command).getPoints().iterator();
+        if(command.getInt("type")!=Action.ACTION_TYPE_CURVE)
+            return;
+        if(!command.hasKey("points"))
+            return;
+
+
+        List<FloatPoint> pointsArray = new Gson().fromJson(command.get("points"), new TypeToken<List<FloatPoint>>(){}.getType());
+        Iterator<FloatPoint> points = pointsArray.iterator();
         if(points.hasNext()){//get start point
             FloatPoint point = points.next();
             lastPoint = new FloatPoint(point.getX(), point.getY());
@@ -79,7 +89,10 @@ public class CurveAction extends Action{
     }
 
     @Override
-    public Command toCommand() {
+    public TXObject toCommand() {
+        TXObject command = new TXObject();
+        command.set("type", Action.ACTION_TYPE_CURVE);
+        command.set("points", new Gson().toJson(points));
         return command;
     }
 }
