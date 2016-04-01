@@ -3,9 +3,11 @@ package com.tongxue.client.Discuss;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+
 import com.tongxue.client.Discuss.actions.Action;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -19,11 +21,11 @@ public class CanvasContext {
     private int weight = 10;
     private int screenWidth;
     private int screenHeight;
-    private Bitmap bgImage;
-    private int currentActionType = ACTION_TYPE_CURVE;
+    Bitmap bgBitmap;
+    Bitmap imageBitmap;
+    Bitmap mainBitmap;
+    private int currentActionType = Action.ACTION_TYPE_CURVE;
 
-    public static final int ACTION_TYPE_CURVE = 1;
-    public static final int ACTION_TYPE_ERASER = 2;
 
     public CanvasContext() {
         this.actions = new ArrayList<>();
@@ -48,10 +50,6 @@ public class CanvasContext {
 
     public List<Action> getCancelledActions() {
         return cancelledActions;
-    }
-
-    public void setCancelledActions(List<Action> cancelledActions) {
-        this.cancelledActions = cancelledActions;
     }
 
     public int getColor() {
@@ -93,4 +91,43 @@ public class CanvasContext {
     public void setCurrentActionType(int currentActionType) {
         this.currentActionType = currentActionType;
     }
+
+
+    public Bitmap getBgBitmap() {
+        return bgBitmap;
+    }
+
+    public void setBgBitmap(Bitmap bgBitmap) {
+        this.bgBitmap = bgBitmap;
+    }
+
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
+    }
+
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
+    }
+
+    public Bitmap getMainBitmap() {
+        return mainBitmap;
+    }
+
+    public void setMainBitmap(Bitmap mainBitmap) {
+        this.mainBitmap = mainBitmap;
+    }
+
+
+    public void rePaint(){
+        mainBitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(mainBitmap);
+        if (actions != null) {
+            Iterator<Action> iterator = actions.iterator();
+            while (iterator.hasNext()) {
+                Action action = iterator.next();
+                action.draw();
+            }
+        }
+    }
+
 }

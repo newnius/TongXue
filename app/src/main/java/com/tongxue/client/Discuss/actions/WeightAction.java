@@ -7,13 +7,21 @@ import com.tongxue.connector.Objs.TXObject;
  * Created by newnius on 16-3-31.
  */
 public class WeightAction extends Action{
+    private int weight;
     public WeightAction(CanvasContext canvasContext) {
         super(canvasContext);
     }
 
     @Override
     public void draw(TXObject command) {
-        super.draw(command);
+        if(command==null)
+            return;
+        if(!command.hasKey("type") || command.getInt("type")!=Action.ACTION_TYPE_WEIGHT)
+            return;
+        if(!command.hasKey("weight"))
+            return;
+        this.weight = command.getInt("weight");
+        canvasContext.setColor(weight);
     }
 
     @Override
@@ -23,6 +31,9 @@ public class WeightAction extends Action{
 
     @Override
     public TXObject toCommand() {
-        return null;
+        TXObject command = new TXObject();
+        command.set("type", Action.ACTION_TYPE_WEIGHT);
+        command.set("weight", weight);
+        return command;
     }
 }

@@ -184,6 +184,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 @Override
                 public void onClick(View v) {
                     toast("暂不提供此功能");
+                    myView.setLine();
                 }
             });
 

@@ -1,7 +1,6 @@
 package com.tongxue.client.Discuss.actions;
 
 import com.tongxue.client.Discuss.CanvasContext;
-import com.tongxue.client.Discuss.commands.Command;
 import com.tongxue.connector.Objs.TXObject;
 
 /**
@@ -10,6 +9,10 @@ import com.tongxue.connector.Objs.TXObject;
 public class ColorAction extends Action{
     private int color;
 
+    public ColorAction(CanvasContext canvasContext) {
+        super(canvasContext);
+    }
+
     public ColorAction(CanvasContext canvasContext, int color) {
         super(canvasContext);
         this.color = color;
@@ -17,6 +20,10 @@ public class ColorAction extends Action{
 
     public int getColor() {
         return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     @Override
@@ -28,6 +35,7 @@ public class ColorAction extends Action{
         if(!command.hasKey("color"))
             return;
         this.color = command.getInt("color");
+        canvasContext.setColor(color);
     }
 
     @Override

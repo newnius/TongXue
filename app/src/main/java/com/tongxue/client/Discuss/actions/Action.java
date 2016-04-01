@@ -4,7 +4,6 @@ import android.graphics.Paint;
 
 import com.tongxue.client.Discuss.CanvasContext;
 import com.tongxue.client.Discuss.FloatPoint;
-import com.tongxue.client.Discuss.commands.Command;
 import com.tongxue.connector.Objs.TXObject;
 
 /**
@@ -31,6 +30,11 @@ public abstract class Action {
     public Action(CanvasContext canvasContext) {
         this.canvasContext = canvasContext;
         paint = new Paint();
+    }
+
+    public Action setCanvasContext(CanvasContext canvasContext) {
+        this.canvasContext = canvasContext;
+        return this;
     }
 
     public void start(FloatPoint point){}
