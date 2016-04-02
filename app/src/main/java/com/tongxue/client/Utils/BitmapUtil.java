@@ -1,4 +1,4 @@
-package com.tongxue.client.Discuss;
+package com.tongxue.client.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;

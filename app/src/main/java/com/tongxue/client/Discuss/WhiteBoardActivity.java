@@ -1,6 +1,8 @@
 package com.tongxue.client.Discuss;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -19,11 +21,14 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
+import android.webkit.WebHistoryItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -142,6 +147,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 createDiscuss(1);
             }
             Log.i("discuss", discussID + "");
+            getInformation(discussID);
 
             WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
             ScreenWidth = wm.getDefaultDisplay().getWidth();
@@ -151,8 +157,6 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
             initSize();
 
             Receiver.attachCallback(RequestCode.NEW_BOARD_MESSAGE, this);
-
-
             initChatList(discussID);
 
             //实现列表的显示
@@ -263,7 +267,6 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
             btn_send.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    toast(messageInput.getText().toString());
                     if (messageInput.getText().toString().length() != 0) {
                         TXObject message = new TXObject();
                         message.set("discussID", discussID);
@@ -320,7 +323,9 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 super.onPostExecute(msg);
                 if (msg.getCode() == ErrorCode.SUCCESS) {
                     Log.i("join", "ok");
-                    getActions(discussID);
+                    TXObject discuss = new TXObject();
+                    discuss.set("discussID", discussID);
+                    myView.setDiscuss(discuss);
                 } else {
                     Log.i("join", ErrorCode.getMsg(msg.getCode()));
                 }
@@ -336,44 +341,16 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 TXObject discuss = new TXObject();
                 discuss.set("discussID", discussID);
                 Msg msg = Server.quitDiscuss(discuss);
-                return msg;
-            }
-
-            @Override
-            protected void onPostExecute(Msg msg) {
-                super.onPostExecute(msg);
                 if (msg.getCode() == ErrorCode.SUCCESS) {
                     Log.i("quit", "ok");
                 } else {
                     Log.i("quit", ErrorCode.getMsg(msg.getCode()));
                 }
-
-            }
-        }.execute();
-    }
-
-    private void getActions(final int discussID) {
-        new AsyncTask<Void, Void, Msg>() {
-            @Override
-            protected Msg doInBackground(Void... params) {
-                TXObject discuss = new TXObject();
-                discuss.set("discussID", discussID);
-                Msg msg = Server.getBoardActions(discuss);
                 return msg;
             }
-
-            @Override
-            protected void onPostExecute(Msg msg) {
-                super.onPostExecute(msg);
-                if (msg.getCode() == ErrorCode.SUCCESS) {
-                    Log.i("board", "ok");
-                } else {
-                    Log.i("board", ErrorCode.getMsg(msg.getCode()));
-                }
-
-            }
         }.execute();
     }
+
 
     private void createDiscuss(final int groupID) {
         new AsyncTask<Void, Void, Msg>() {
@@ -533,6 +510,94 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 adapterForChatList.notifyDataSetChanged();
             }
         });
+    }
+
+
+    public void init(final TXObject discuss) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Msg msg = Server.getBoardActions(discuss);
+                try {
+                    if (msg.getCode() == ErrorCode.SUCCESS) {
+                        Log.i("board", "ok");
+                        long t = 0;
+                        for (final TXObject action : (List<TXObject>) msg.getObj()) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    myView.callBack(new Msg(RequestCode.NEW_BOARD_ACTION, action));
+                                }
+                            });
+                            //if (t != 0)
+                              //  Thread.sleep((action.getLong("time") - t));
+                            t = action.getLong("time");
+                        }
+                    } else {
+                        Log.i("board", ErrorCode.getMsg(msg.getCode()));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void getInformation(final int discussID) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.dialog_discuss_detail,
+                (ViewGroup) findViewById(R.id.discuss_detail));
+        final AlertDialog.Builder builder = new AlertDialog.Builder(WhiteBoardActivity.this);
+        builder.setTitle("课程信息").setView(layout);
+        builder.setNegativeButton("leave", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                WhiteBoardActivity.this.finish();
+            }
+        });
+
+
+
+        new AsyncTask<Void, Void, Msg>() {
+            @Override
+            protected Msg doInBackground(Void... params) {
+                TXObject discuss = new TXObject();
+                discuss.set("discussID", discussID);
+                Msg msg = Server.getDiscussById(discuss);
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(Msg msg) {
+                try {
+                    if (msg.getCode() == ErrorCode.SUCCESS) {
+                        final TXObject discuss = (TXObject) msg.getObj();
+                        builder.setPositiveButton("join", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                init(discuss);
+                            }
+                        });
+                        AlertDialog dialog = builder.show();
+                        final TextView nameView = (TextView) dialog.findViewById(R.id.discuss_name);
+                        final TextView introductionView = (TextView) dialog.findViewById(R.id.discuss_introduction);
+                        final TextView controllerView = (TextView) dialog.findViewById(R.id.discuss_controller);
+                        final TextView statusView = (TextView) dialog.findViewById(R.id.discuss_status);
+                        final TextView publicView = (TextView) dialog.findViewById(R.id.discuss_public);
+                        nameView.setText(discuss.get("name"));
+                        introductionView.setText(discuss.get("introduction"));
+                        controllerView.setText(discuss.get("controller"));
+                        statusView.setText(discuss.getInt("status") == 0 ? "直播中" : "已结束");
+                        publicView.setText(discuss.getInt("public") == 0 ? "公开" : "有权限");
+
+
+
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }.execute();
     }
 
 }

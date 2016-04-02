@@ -32,49 +32,52 @@ import com.tongxue.client.Discuss.actions.Action;
 import com.tongxue.client.Discuss.actions.CurveAction;
 import com.tongxue.client.Discuss.actions.EraserAction;
 import com.tongxue.client.R;
+
+import java.util.List;
+
 /**
  * 涂鸦View
- * 
+ *
  * @author guo
- * 
  */
 @SuppressLint("ClickableViewAccessibility")
-public class MyView extends SurfaceView implements Callback, CallBackInterface{
+public class MyView extends SurfaceView implements Callback, CallBackInterface {
 
     private CanvasContext canvasContext;
     private SurfaceHolder holder;
     private Action currentAction;
     public static String TAG = "WhiteBoard";
+    private TXObject discuss;
 
 
     DrawThread mThread;
     Matrix matrix;
 
-	public void setSize(int weight) {
-		canvasContext.setWeight(weight);
-	}
+    public void setSize(int weight) {
+        canvasContext.setWeight(weight);
+    }
 
-	public void setColor(int color) {
-		canvasContext.setColor(color);
-	}
+    public void setColor(int color) {
+        canvasContext.setColor(color);
+    }
 
-	private DrawThread getThread() {
-		if (mThread == null) {
-			mThread = new DrawThread();
-		}
-		return mThread;
-	}
+    private DrawThread getThread() {
+        if (mThread == null) {
+            mThread = new DrawThread();
+        }
+        return mThread;
+    }
 
-	public MyView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    public MyView(Context context, AttributeSet attrs) {
+        super(context, attrs);
         canvasContext = new CanvasContext();
-		canvasContext.setScreenWidth(WhiteBoardActivity.ScreenWidth);
-		canvasContext.setScreenHeight(WhiteBoardActivity.ScreenHeight);
+        canvasContext.setScreenWidth(WhiteBoardActivity.ScreenWidth);
+        canvasContext.setScreenHeight(WhiteBoardActivity.ScreenHeight);
 
-		holder = this.getHolder();
-		holder.addCallback(this);
-		this.setFocusable(true);
-	    Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.smallpaper00);
+        holder = this.getHolder();
+        holder.addCallback(this);
+        this.setFocusable(true);
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.smallpaper00);
         canvasContext.setBgBitmap(FitScreenImage(bm));
 
         Bitmap tmp = Bitmap.createBitmap(canvasContext.getScreenWidth(), canvasContext.getScreenHeight(), Config.ARGB_8888);
@@ -83,11 +86,11 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
         canvasContext.getCanvas().setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
 
         Receiver.attachCallback(RequestCode.NEW_BOARD_ACTION, this);
-	}
+    }
 
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
         try {
             int action = event.getAction();
             float mX = event.getX();
@@ -112,98 +115,98 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
                 }
             }
             return true;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return true;
-	}
+    }
 
 
+    private void setCurAction(float mX, float mY) {
+        switch (canvasContext.getCurrentActionType()) {
+            case Action.ACTION_TYPE_CURVE:// 光滑曲线
+                currentAction = new CurveAction(canvasContext);
+                break;
 
-	private void setCurAction(float mX, float mY) {
-		switch (canvasContext.getCurrentActionType()) {
-		    case Action.ACTION_TYPE_CURVE:// 光滑曲线
-			    currentAction = new CurveAction(canvasContext);
-			    break;
-
-		    case Action.ACTION_TYPE_ERASER:// 橡皮擦
-			    currentAction = new EraserAction(canvasContext);
-			    break;
+            case Action.ACTION_TYPE_ERASER:// 橡皮擦
+                currentAction = new EraserAction(canvasContext);
+                break;
 
             case Action.ACTION_TYPE_LINE:
                 currentAction = new LineAction(canvasContext);
                 break;
-		}
+        }
         currentAction.start(new FloatPoint(mX, mY));
-	}
+    }
 
-	/*
-	 * 创建把图片转换成一张全屏的图片
-	 */
-	private Bitmap FitScreenImage(Bitmap m) {
-		float width = (float) (canvasContext.getScreenWidth()) / m.getWidth();
-		float height = (float) (canvasContext.getScreenHeight()) / m.getHeight();
-		Matrix matrix = new Matrix();
-		matrix.postScale(width, height);
-		return Bitmap.createBitmap(m, 0, 0, m.getWidth(), m.getHeight(),matrix, true);
-	}
+    /*
+     * 创建把图片转换成一张全屏的图片
+     */
+    private Bitmap FitScreenImage(Bitmap m) {
+        float width = (float) (canvasContext.getScreenWidth()) / m.getWidth();
+        float height = (float) (canvasContext.getScreenHeight()) / m.getHeight();
+        Matrix matrix = new Matrix();
+        matrix.postScale(width, height);
+        return Bitmap.createBitmap(m, 0, 0, m.getWidth(), m.getHeight(), matrix, true);
+    }
 
 
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		isRun = true;
-		getThread().start();
-		Log.i(TAG, "surfaceCreated...");
-	}
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        isRun = true;
+        getThread().start();
+        Log.i(TAG, "surfaceCreated...");
+    }
 
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		Log.i(TAG, "surfaceChanged...");
-	}
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Log.i(TAG, "surfaceChanged...");
+    }
 
-	/*
-	 * surfaceview失去焦点，
-	 */
-	@Override
-	public void onWindowFocusChanged(boolean hasWindowFocus) {
-		if (!hasWindowFocus) {
-			isFreeze = true;
-			Log.i(TAG, "noWindowFocus..");
-		} else {
-			Log.i(TAG, "hasWindowFocus");
-			isFreeze = false;
-		}
-		super.onWindowFocusChanged(hasWindowFocus);
-	}
+    /*
+     * surfaceview失去焦点，
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        if (!hasWindowFocus) {
+            isFreeze = true;
+            Log.i(TAG, "noWindowFocus..");
+        } else {
+            Log.i(TAG, "hasWindowFocus");
+            isFreeze = false;
+        }
+        super.onWindowFocusChanged(hasWindowFocus);
+    }
 
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		isRun = false;
-		boolean retry = true;
-		while (retry) {
-			try {
-				getThread().join();
-				retry = false;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		mThread = null;
-		Log.i(TAG, "surfaceDestroyed...");
-	}
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        isRun = false;
+        boolean retry = true;
+        while (retry) {
+            try {
+                getThread().join();
+                retry = false;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        mThread = null;
+        Log.i(TAG, "surfaceDestroyed...");
+    }
 
     @Override
     public void callBack(Msg msg) {
+        Log.i(TAG, "new action");
         try {
             String obj = new Gson().toJson(msg.getObj());
             TXObject command = new Gson().fromJson(obj, TXObject.class);
             Action action = ActionFactory.toAction(command, canvasContext);
-            if (action != null){
-                if(action instanceof CurveAction || action instanceof EraserAction || action instanceof LineAction)
+            if (action != null) {
+                if (action instanceof CurveAction || action instanceof EraserAction || action instanceof LineAction)
                     canvasContext.getActions().add(action);
                 action.draw(command);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -215,121 +218,125 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface{
     /*
      * 画图线程
      */
-	class DrawThread extends Thread {
-		@Override
-		public void run() {
+    class DrawThread extends Thread {
+        @Override
+        public void run() {
 
-			while (isRun) {
-				Canvas mCanvas = null;
-				try {
-					mCanvas = holder.lockCanvas();
-					synchronized (holder) {
-						drawView(mCanvas);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					if (mCanvas != null)
-						holder.unlockCanvasAndPost(mCanvas);
-					if (isFreeze) {
-						try {
-							Thread.sleep(50);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		}
-	}
+            while (isRun) {
+                Canvas mCanvas = null;
+                try {
+                    mCanvas = holder.lockCanvas();
+                    synchronized (holder) {
+                        drawView(mCanvas);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (mCanvas != null)
+                        holder.unlockCanvasAndPost(mCanvas);
+                    if (isFreeze) {
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
-	public void drawView(Canvas mCanvas) {
-		// 画背景
-			mCanvas.drawBitmap(canvasContext.getBgBitmap(), 0, 0, null);
-		// 画打开的图片--如，相册的照片。
-		if (canvasContext.getImageBitmap() != null)
-			mCanvas.drawBitmap(canvasContext.getImageBitmap(), matrix, null);
-		mCanvas.drawBitmap(canvasContext.getMainBitmap(), 0, 0, null);
-	}
+    public void drawView(Canvas mCanvas) {
+        // 画背景
+        mCanvas.drawBitmap(canvasContext.getBgBitmap(), 0, 0, null);
+        // 画打开的图片--如，相册的照片。
+        if (canvasContext.getImageBitmap() != null)
+            mCanvas.drawBitmap(canvasContext.getImageBitmap(), matrix, null);
+        mCanvas.drawBitmap(canvasContext.getMainBitmap(), 0, 0, null);
+    }
 
-	// 撤销
-	public void undo() {
+    // 撤销
+    public void undo() {
         new UndoAction(canvasContext).draw(null);
         sendAction(new UndoAction(canvasContext));
-	}
+    }
 
-	/*
-	 * 取消撤销，前进
-	 */
-	public void redo() {
+    /*
+     * 取消撤销，前进
+     */
+    public void redo() {
         new RedoAction(canvasContext).draw(null);
         sendAction(new RedoAction(canvasContext));
-	}
+    }
 
-	/*
-	 * 
-	 */
-	public void setBitmap(Bitmap bm) {
-		matrix = new Matrix();
-		int trX = 0;
-		if (bm.getWidth() < canvasContext.getScreenWidth()) {
-			trX = canvasContext.getScreenWidth() / 2 - bm.getWidth() / 2;
-		}
-		matrix.postTranslate(trX, canvasContext.getScreenHeight() / 2 - bm.getHeight() / 2);
-		// m 是图片居中显示
+    /*
+     *
+     */
+    public void setBitmap(Bitmap bm) {
+        matrix = new Matrix();
+        int trX = 0;
+        if (bm.getWidth() < canvasContext.getScreenWidth()) {
+            trX = canvasContext.getScreenWidth() / 2 - bm.getWidth() / 2;
+        }
+        matrix.postTranslate(trX, canvasContext.getScreenHeight() / 2 - bm.getHeight() / 2);
+        // m 是图片居中显示
         canvasContext.setImageBitmap(bm);
-	}
+    }
 
-	/*
-	 * 清屏操作
-	 */
-	public void clear() {
+    /*
+     * 清屏操作
+     */
+    public void clear() {
         new ClearAction(canvasContext).draw(null);
         sendAction(new ClearAction(canvasContext));
-	}
+    }
 
-	/*
-	 * 用于保存涂鸦完，按了保存按钮返回的图片
-	 */
-	public Bitmap getBitmap() {
-        Bitmap bitmap= Bitmap.createBitmap(canvasContext.getScreenWidth(), canvasContext.getScreenHeight(), Config.ARGB_8888);
+    /*
+     * 用于保存涂鸦完，按了保存按钮返回的图片
+     */
+    public Bitmap getBitmap() {
+        Bitmap bitmap = Bitmap.createBitmap(canvasContext.getScreenWidth(), canvasContext.getScreenHeight(), Config.ARGB_8888);
         Canvas tCanvas = new Canvas(bitmap);
         tCanvas.drawBitmap(canvasContext.getBgBitmap(), 0, 0, null);
-        if(canvasContext.getImageBitmap() != null){
+        if (canvasContext.getImageBitmap() != null) {
             tCanvas.drawBitmap(canvasContext.getImageBitmap(), matrix, null);
         }
         tCanvas.drawBitmap(canvasContext.getMainBitmap(), 0, 0, null);
         tCanvas.save(Canvas.ALL_SAVE_FLAG);
         tCanvas.restore();
-		return bitmap;
-	}
+        return bitmap;
+    }
 
-	public void setEraser() {
-		canvasContext.setCurrentActionType(Action.ACTION_TYPE_ERASER);
-	}
+    public void setEraser() {
+        canvasContext.setCurrentActionType(Action.ACTION_TYPE_ERASER);
+    }
 
-	public void setPen() {
-		canvasContext.setCurrentActionType(Action.ACTION_TYPE_CURVE);
-	}
+    public void setPen() {
+        canvasContext.setCurrentActionType(Action.ACTION_TYPE_CURVE);
+    }
 
-    public void setLine(){
+    public void setLine() {
         canvasContext.setCurrentActionType(Action.ACTION_TYPE_LINE);
     }
 
-    public void sendAction(Action action){
+    public void sendAction(Action action) {
         final TXObject command = action.toCommand();
-        if(command==null){
+        if (command == null) {
             Log.i(TAG, "command is null");
             return;
         }
         new Thread(new Runnable() {
             @Override
             public void run() {
-                command.set("discussID", 11);
+                command.set("discussID", discuss.getInt("discussID"));
                 Server.sendBoardAction(command);
             }
         }).start();
+    }
+
+    public void setDiscuss(TXObject discuss){
+        this.discuss = discuss;
     }
 
 }

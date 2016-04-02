@@ -186,7 +186,11 @@ import com.tongxue.connector.video.IMOOCCourseGetTask;
     }
 
     public static Msg getAllDiscusses(TXObject discuss){
-        return Discuss.getDiscusses(discuss);
+        return Discuss.getAllDiscusses(discuss);
+    }
+
+    public static Msg getDiscussById(TXObject discuss){
+        return Discuss.getDiscussByID(discuss);
     }
 
     public static Msg joinDiscuss(TXObject discuss){

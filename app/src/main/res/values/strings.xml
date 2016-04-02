@@ -155,5 +155,11 @@
     <string name="createG">创建</string>
     <string name="next">继续</string>
 
+    <string name="discussName">名称</string>
+    <string name="discussIntroduction">介绍</string>
+    <string name="discussStatus">状态</string>
+    <string name="discussController">主讲</string>
+    <string name="discussPublic">权限</string>
+
 
 </resources>

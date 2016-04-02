@@ -27,7 +27,7 @@ public class Discuss {
         return msg;
     }
 
-    public static Msg getDiscusses(TXObject discuss){
+    public static Msg getAllDiscusses(TXObject discuss){
         try {
             String con = new Gson().toJson(new Msg(RequestCode.GET_ALL_DISCUSSES, discuss));
             String res = Communicator.send(con);
@@ -39,6 +39,26 @@ public class Discuss {
                 List<TXObject> discusses = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<List<TXObject>>() {
                 }.getType());
                 msg.setObj(discusses);
+            }
+            return msg;
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return new Msg(ErrorCode.UNKNOWN);
+        }
+    }
+
+    public static Msg getDiscussByID(TXObject discuss){
+        try {
+            String con = new Gson().toJson(new Msg(RequestCode.GET_DISCUSS_BY_DISCUSS_ID, discuss));
+            String res = Communicator.send(con);
+            Msg msg;
+            if (res == null) {
+                msg = new Msg(ErrorCode.CONNECTION_FAIL);
+            } else {
+                msg = new Gson().fromJson(res, Msg.class);
+                TXObject discusstmp = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<TXObject>() {
+                }.getType());
+                msg.setObj(discusstmp);
             }
             return msg;
         }catch(Exception ex){
