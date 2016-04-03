@@ -23,6 +23,9 @@ public class Discuss {
             msg = new Msg(ErrorCode.CONNECTION_FAIL);
         } else {
             msg = new Gson().fromJson(res, Msg.class);
+            TXObject discusstmp = new Gson().fromJson(new Gson().toJson(msg.getObj()), new TypeToken<TXObject>() {
+            }.getType());
+            msg.setObj(discusstmp);
         }
         return msg;
     }

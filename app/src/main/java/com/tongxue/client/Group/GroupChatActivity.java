@@ -76,7 +76,8 @@ public class GroupChatActivity extends ChatActivity {
 
     @Override
     public void onMessageClick() {
-        startActivity(new Intent(GroupChatActivity.this, WhiteBoardActivity.class));
+        /* lack of discussID, this can not work */
+        //startActivity(new Intent(GroupChatActivity.this, WhiteBoardActivity.class));
         overridePendingTransition(R.anim.common_right_in, R.anim.empty);
         finish();
     }
@@ -85,7 +86,7 @@ public class GroupChatActivity extends ChatActivity {
     public void sendText() {
         super.sendText();
         FinalDb db = FinalDb.create(this);
-        db.deleteByWhere(LatestGroup.class, "groupName=\""+ groupName + "\" and username=\""+username+"\"");
+        db.deleteByWhere(LatestGroup.class, "groupName=\"" + groupName + "\" and username=\"" + username + "\"");
         LatestGroup bean= new LatestGroup();
         bean.setUsername(username);
         bean.setGroupName(groupName);
@@ -95,7 +96,8 @@ public class GroupChatActivity extends ChatActivity {
 
     @Override
     public void addWhiteBoard(){
-        sendWhiteBoard("您的好友"+ username +"发起白板共享，快点此消息加入吧");
+        /* lack of discussID, this can not work */
+        //sendWhiteBoard("您的好友"+ username +"发起白板共享，快去看看吧");
         startActivity(new Intent(GroupChatActivity.this, WhiteBoardActivity.class));
         overridePendingTransition(R.anim.common_right_in, R.anim.empty);
         finish();

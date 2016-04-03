@@ -33,8 +33,6 @@ import com.tongxue.client.Discuss.actions.CurveAction;
 import com.tongxue.client.Discuss.actions.EraserAction;
 import com.tongxue.client.R;
 
-import java.util.List;
-
 /**
  * 涂鸦View
  *
@@ -42,16 +40,18 @@ import java.util.List;
  */
 @SuppressLint("ClickableViewAccessibility")
 public class MyView extends SurfaceView implements Callback, CallBackInterface {
+    public static String TAG = "WhiteBoard";
 
     private CanvasContext canvasContext;
     private SurfaceHolder holder;
     private Action currentAction;
-    public static String TAG = "WhiteBoard";
-    private TXObject discuss;
 
+    private TXObject discuss;
+    private boolean canOperate = false;
 
     DrawThread mThread;
     Matrix matrix;
+
 
     public void setSize(int weight) {
         canvasContext.setWeight(weight);
@@ -62,9 +62,8 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
     }
 
     private DrawThread getThread() {
-        if (mThread == null) {
+        if (mThread == null)
             mThread = new DrawThread();
-        }
         return mThread;
     }
 
@@ -84,6 +83,11 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
         canvasContext.setMainBitmap(tmp);
         canvasContext.setCanvas(new Canvas(tmp));
         canvasContext.getCanvas().setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));
+    }
+
+    public void init(TXObject discuss){
+        this.discuss = discuss;
+
 
         Receiver.attachCallback(RequestCode.NEW_BOARD_ACTION, this);
     }
@@ -91,6 +95,10 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(!canOperate){
+            Log.i(TAG, "No access to operate on this board");
+            return false;
+        }
         try {
             int action = event.getAction();
             float mX = event.getX();
@@ -140,7 +148,7 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
     }
 
     /*
-     * 创建把图片转换成一张全屏的图片
+     * 把图片转换成一张全屏的图片
      */
     private Bitmap FitScreenImage(Bitmap m) {
         float width = (float) (canvasContext.getScreenWidth()) / m.getWidth();
@@ -258,6 +266,8 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
 
     // 撤销
     public void undo() {
+        if(!canOperate)
+            return;
         new UndoAction(canvasContext).draw(null);
         sendAction(new UndoAction(canvasContext));
     }
@@ -266,6 +276,8 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
      * 取消撤销，前进
      */
     public void redo() {
+        if(!canOperate)
+            return;
         new RedoAction(canvasContext).draw(null);
         sendAction(new RedoAction(canvasContext));
     }
@@ -274,6 +286,8 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
      *
      */
     public void setBitmap(Bitmap bm) {
+        if(!canOperate)
+            return;
         matrix = new Matrix();
         int trX = 0;
         if (bm.getWidth() < canvasContext.getScreenWidth()) {
@@ -288,6 +302,8 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
      * 清屏操作
      */
     public void clear() {
+        if(!canOperate)
+            return;
         new ClearAction(canvasContext).draw(null);
         sendAction(new ClearAction(canvasContext));
     }
@@ -309,14 +325,20 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
     }
 
     public void setEraser() {
+        if(!canOperate)
+            return;
         canvasContext.setCurrentActionType(Action.ACTION_TYPE_ERASER);
     }
 
     public void setPen() {
+        if(!canOperate)
+            return;
         canvasContext.setCurrentActionType(Action.ACTION_TYPE_CURVE);
     }
 
     public void setLine() {
+        if(!canOperate)
+            return;
         canvasContext.setCurrentActionType(Action.ACTION_TYPE_LINE);
     }
 
@@ -335,8 +357,8 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
         }).start();
     }
 
-    public void setDiscuss(TXObject discuss){
-        this.discuss = discuss;
+    public void setCanOperate(boolean value){
+        this.canOperate = value;
     }
 
 }
