@@ -89,8 +89,7 @@ public class GroupFragment extends BaseFragment {
             mTitleList = new ArrayList<>();
             mViewList = new ArrayList<>();
 
-            discusses = new ArrayList<>();
-            getTalkData(0);
+            discusses = MainActivity.discusses;
 
             groupList = MainActivity.groupList;
 
@@ -187,6 +186,7 @@ public class GroupFragment extends BaseFragment {
                 }
             }, 1);
 
+
             if (MainActivity.shouldRefresh || groupList.size() <= 0) {
                 getTalkData(0);
                 getGroupData(0);
@@ -196,7 +196,6 @@ public class GroupFragment extends BaseFragment {
             } else {
                 if (MainActivity.firstRefresh) {
                     Log.i("learn", "已从本地数据库获取小组信息");
-                    getTalkData(0);
                     getGroupData(0);
                     MainActivity.firstRefresh = false;
                 } else {
@@ -234,6 +233,7 @@ public class GroupFragment extends BaseFragment {
                     discusses.addAll((List<TXObject>) msg.getObj());
                     Log.i("Discuss size", discusses.size() + "");
                     talkLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                    MainActivity.discusses = discusses;
                 }else{
                     talkLayout.refreshFinish(PullToRefreshLayout.FAIL);
                     Toast.makeText(mContext, ErrorCode.getMsg(msg.getCode()), Toast.LENGTH_LONG).show();

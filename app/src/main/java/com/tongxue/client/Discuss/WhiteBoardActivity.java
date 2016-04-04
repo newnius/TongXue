@@ -93,12 +93,18 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
     @Bind(R.id.message)
     EditText messageInput;
 
-    @Bind(R.id.bt_hide)
-    Button bt_hide;
     @Bind(R.id.bt_show)
     Button bt_show;
     @Bind(R.id.toolbar)
     ScrollView toolbarLayout;
+
+    @Bind(R.id.bt_show_chat_panel)
+    Button bt_show_chat_panel;
+    @Bind(R.id.chat_panel)
+    LinearLayout chatPanelLayout;
+
+    @Bind(R.id.transparent_view)
+    View transparentView;
 
     private List<HashMap<String, Object>> messageList;
     private SimpleAdapter adapterForChatList;
@@ -143,7 +149,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
 
             chatView.setAdapter(adapterForChatList);
             /* prevent from operating before initialed */
-            //waitingDialog.show();
+            waitingDialog.show();
 
             /* judge if join or create */
             if (!getIntent().hasExtra("discussID")) {
@@ -575,6 +581,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                     message.set("type", "text");
                     message.set("username", LearnApplication.preferences.getString("username", "sender"));
                     message.set("content", messageInput.getText().toString());
+                    messageInput.setText("");
                     addNewMessage(message);
                 }
             }
@@ -605,17 +612,28 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
             }
         });
 
-        bt_hide.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toolbarLayout.setVisibility(View.INVISIBLE);
-            }
-        });
-
         bt_show.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 toolbarLayout.setVisibility(View.VISIBLE);
+                transparentView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        bt_show_chat_panel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transparentView.setVisibility(View.VISIBLE);
+                chatPanelLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        transparentView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toolbarLayout.setVisibility(View.GONE);
+                chatPanelLayout.setVisibility(View.GONE);
+                transparentView.setVisibility(View.GONE);
             }
         });
     }

@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+
+import com.tongxue.client.Discuss.WhiteBoardActivity;
 import com.tongxue.client.R;
 import com.tongxue.connector.Objs.TXObject;
 
@@ -16,7 +18,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- *
  * Created by chaosi on 2015/8/11.
  */
 public class TalkAdapter extends BaseAdapter {
@@ -25,8 +26,8 @@ public class TalkAdapter extends BaseAdapter {
     private List<TXObject> list;
 
     public TalkAdapter(Context c, List<TXObject> list) {
-        mInflater=LayoutInflater.from(c);
-        this.list=list;
+        mInflater = LayoutInflater.from(c);
+        this.list = list;
     }
 
     @Override
@@ -57,27 +58,46 @@ public class TalkAdapter extends BaseAdapter {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            Log.i("position", position+"");
-            holder.tv_name.setText( list.get(position).get("discussName"));
-            holder.tv_kind.setText(list.get(position).get("category"));
+            holder.tv_name.setText(list.get(position).get("discussName"));
+
+            int category = list.get(position).getInt("category");
+            holder.tv_kind.setText("类别" + category);
+
             holder.tv_intro.setText(list.get(position).get("introduction"));
-            holder.tv_num.setText(list.get(position).get("status"));
+
+            String status = "";
+            switch (list.get(position).getInt("status")) {
+                case WhiteBoardActivity.DISCUSS_STATUS_LIVE:
+                    status = "直播中";
+                    break;
+                case WhiteBoardActivity.DISCUSS_STATUS_PAUSE:
+                    status = "暂停";
+                    break;
+                case WhiteBoardActivity.DISCUSS_STATUS_FINISHED:
+                    status = "已结束";
+                    break;
+            }
+            holder.tv_num.setText(status);
             //holder.image.setImageDrawable(R.drawable.head38);
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return convertView;
     }
 
-    public class ViewHolder{
+    public class ViewHolder {
         //@Bind(R.id.image)  ImageView image;
-        @Bind(R.id.name)  TextView tv_name;
-        @Bind(R.id.tv_kind)  TextView tv_kind;
-        @Bind(R.id.tv_intro)  TextView tv_intro;
-        @Bind(R.id.tv_num)  TextView tv_num;
+        @Bind(R.id.name)
+        TextView tv_name;
+        @Bind(R.id.tv_kind)
+        TextView tv_kind;
+        @Bind(R.id.tv_intro)
+        TextView tv_intro;
+        @Bind(R.id.tv_num)
+        TextView tv_num;
 
-        public ViewHolder(View mView){
+        public ViewHolder(View mView) {
             ButterKnife.bind(this, mView);
         }
     }

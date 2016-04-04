@@ -240,6 +240,7 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
             while (isRun) {
                 Canvas mCanvas = null;
                 try {
+                    /* sometimes mCanvas would be null, don't know why */
                     mCanvas = holder.lockCanvas();
                     synchronized (holder) {
                         drawView(mCanvas);
@@ -263,6 +264,7 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
 
 
     public void drawView(Canvas mCanvas) {
+
         // 画背景
         mCanvas.drawBitmap(canvasContext.getBgBitmap(), 0, 0, null);
         // 画打开的图片--如，相册的照片。

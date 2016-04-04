@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:screenOrientation="landscape"
-    >
+    android:screenOrientation="landscape">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -74,12 +73,17 @@
 
     </FrameLayout>
 
+    <View android:id="@+id/transparent_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:clickable="true"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
-        >
+        android:layout_below="@+id/header">
+
         <Button
             android:id="@+id/bt_show"
             android:layout_width="wrap_content"
@@ -91,210 +95,212 @@
             android:textSize="16sp" />
     </LinearLayout>
 
+
     <ScrollView
         android:id="@+id/toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/header"
-        android:visibility="gone"
         android:scrollbars="none"
-        >
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/oldlace"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/bt_pen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_pen"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/bt_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_text"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/bt_color"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_color"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+
+                <Button
+                    android:id="@+id/bt_size"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_size"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/bt_undo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_undo"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/bt_redo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_redo"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/bt_pic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_pic"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/bt_save"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_save"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/bt_voice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_voice"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/bt_clear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_button_search"
+                    android:text="@string/bt_clear"
+                    android:textColor="@color/lightblue2"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@color/oldlace"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/header">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/bt_show_chat_panel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/bt_pen"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_pen"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/bt_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_text"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/bt_color"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_color"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-
-            <Button
-                android:id="@+id/bt_size"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_size"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/bt_undo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_undo"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/bt_redo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_redo"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/bt_pic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_pic"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/bt_save"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_save"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/bt_voice"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_voice"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/bt_clear"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/bt_clear"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/bt_hide"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_weight="2"
-                android:background="@drawable/shape_button_search"
-                android:text="@string/hide"
-                android:textColor="@color/lightblue2"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
+            android:layout_margin="2dp"
+            android:background="@drawable/shape_button_search"
+            android:text="@string/show"
+            android:textColor="@color/lightblue2"
+            android:textSize="16sp" />
     </LinearLayout>
 
-</ScrollView>
 
     <LinearLayout
         android:id="@+id/chat_panel"
-        android:layout_width="200dp"
+        android:layout_width="160dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/header"
         android:background="@color/oldlace"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:clickable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -326,6 +332,7 @@
                 android:id="@+id/chat_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
             </com.tongxue.client.View.ListViewInScrollView>
 
         </ScrollView>
