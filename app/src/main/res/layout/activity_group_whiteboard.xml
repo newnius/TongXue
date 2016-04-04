@@ -76,11 +76,34 @@
 
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        >
+        <Button
+            android:id="@+id/bt_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="@drawable/shape_button_search"
+            android:text="@string/show"
+            android:textColor="@color/lightblue2"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <ScrollView
         android:id="@+id/toolbar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/header"
+        android:visibility="gone"
+        android:scrollbars="none"
+        >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/oldlace"
         android:orientation="vertical">
 
@@ -260,6 +283,8 @@
         </LinearLayout>
 
     </LinearLayout>
+
+</ScrollView>
 
     <LinearLayout
         android:id="@+id/chat_panel"

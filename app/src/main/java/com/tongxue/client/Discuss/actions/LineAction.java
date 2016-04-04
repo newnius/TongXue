@@ -31,7 +31,7 @@ public class LineAction extends Action {
             paint.setStrokeJoin(Paint.Join.ROUND);
             paint.setStrokeCap(Paint.Cap.ROUND);
             paint.setStyle(Paint.Style.STROKE);
-            path.moveTo(startPoint.getX(), startPoint.getY());
+            path.moveTo(startPoint.x, startPoint.y);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -40,7 +40,7 @@ public class LineAction extends Action {
     @Override
     public void finish(FloatPoint point) {
         this.endPoint = point;
-        path.lineTo(point.getX(), point.getY());
+        path.lineTo(point.x, point.y);
         canvasContext.getCanvas().drawPath(path, paint);
     }
 
@@ -54,8 +54,8 @@ public class LineAction extends Action {
             return;
         if (!command.hasKey("endX") || !command.hasKey("endY"))
             return;
-        startPoint = new FloatPoint(command.getFloat("startX"), command.getFloat("startY"));
-        endPoint = new FloatPoint(command.getFloat("endX"), command.getFloat("endY"));
+        startPoint = new FloatPoint(command.getFloat("startX")*canvasContext.getScreenWidth(), command.getFloat("startY")*canvasContext.getScreenHeight());
+        endPoint = new FloatPoint(command.getFloat("endX")*canvasContext.getScreenWidth(), command.getFloat("endY")*canvasContext.getScreenHeight());
         start(startPoint);
         finish(endPoint);
         super.draw(command);
@@ -70,10 +70,10 @@ public class LineAction extends Action {
     public TXObject toCommand() {
         TXObject command = new TXObject();
         command.set("type", ACTION_TYPE_LINE);
-        command.set("startX", startPoint.getX());
-        command.set("startY", startPoint.getY());
-        command.set("endX", endPoint.getX());
-        command.set("endY", endPoint.getY());
+        command.set("startX", startPoint.x / canvasContext.getScreenWidth());
+        command.set("startY", startPoint.y / canvasContext.getScreenHeight());
+        command.set("endX", endPoint.x / canvasContext.getScreenWidth());
+        command.set("endY", endPoint.y / canvasContext.getScreenHeight());
         return command;
     }
 }

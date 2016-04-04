@@ -9,12 +9,14 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 import com.google.gson.Gson;
 import com.tongxue.client.Discuss.actions.ActionFactory;
@@ -70,8 +72,14 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
     public MyView(Context context, AttributeSet attrs) {
         super(context, attrs);
         canvasContext = new CanvasContext();
-        canvasContext.setScreenWidth(WhiteBoardActivity.ScreenWidth);
-        canvasContext.setScreenHeight(WhiteBoardActivity.ScreenHeight);
+
+        /* get screen width and height */
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Point size = new Point();
+        wm.getDefaultDisplay().getSize(size);
+
+        canvasContext.setScreenWidth(size.x);
+        canvasContext.setScreenHeight(size.y);
 
         holder = this.getHolder();
         holder.addCallback(this);

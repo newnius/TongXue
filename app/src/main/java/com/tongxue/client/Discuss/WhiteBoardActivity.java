@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.os.Bundle;
 
 import java.io.FileNotFoundException;
@@ -14,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -25,11 +23,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SimpleAdapter;
@@ -96,13 +94,11 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
 
     @Bind(R.id.bt_hide)
     Button bt_hide;
-
+    @Bind(R.id.bt_show)
+    Button bt_show;
     @Bind(R.id.toolbar)
-    LinearLayout toolbarLayout;
+    ScrollView toolbarLayout;
 
-
-    public static int ScreenWidth;
-    public static int ScreenHeight;
     private List<HashMap<String, Object>> messageList;
     private SimpleAdapter adapterForChatList;
     private TXObject currentDiscuss = null;
@@ -140,12 +136,6 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
             adapterForChatList = new SimpleAdapter(WhiteBoardActivity.this, messageList, R.layout.item_whiteboard_message,
                     new String[]{"sender", "content"}, new int[]{R.id.sender, R.id.content});
 
-            /* get screen width and height */
-            WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-            Point size = new Point();
-            wm.getDefaultDisplay().getSize(size);
-            ScreenWidth = size.x;
-            ScreenHeight = size.y;
 
             setContentView(R.layout.activity_group_whiteboard);
             ButterKnife.bind(this);
@@ -623,6 +613,13 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
             @Override
             public void onClick(View v) {
                 toolbarLayout.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        bt_show.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toolbarLayout.setVisibility(View.VISIBLE);
             }
         });
     }

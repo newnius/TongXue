@@ -35,19 +35,19 @@ public class CurveAction extends Action{
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStyle(Paint.Style.STROKE);
-        path.moveTo(point.getX(), point.getY());
-        lastPoint = new FloatPoint(point.getX(), point.getY());
+        path.moveTo(point.x, point.y);
+        lastPoint = point;
         points = new ArrayList<>();
         points.add(lastPoint);
     }
 
     @Override
     public void move(FloatPoint point) {
-        float dx = Math.abs(point.getX() - lastPoint.getX());
-        float dy = Math.abs(point.getY() - lastPoint.getY());
+        float dx = Math.abs(point.x - lastPoint.x);
+        float dy = Math.abs(point.y - lastPoint.y);
         if (dx >= 4 || dy >= 4) {
-            path.quadTo(lastPoint.getX(), lastPoint.getY(), (point.getX() + lastPoint.getX()) / 2, (point.getY() + lastPoint.getY()) / 2);
-            lastPoint = new FloatPoint(point.getX(), point.getY());
+            path.quadTo(lastPoint.x, lastPoint.y, (point.x + lastPoint.x) / 2, (point.y + lastPoint.y) / 2);
+            lastPoint = point;
             points.add(lastPoint);
             canvasContext.getCanvas().drawPath(path, paint);
         }
@@ -61,24 +61,27 @@ public class CurveAction extends Action{
     @Override
     public void draw(TXObject command) {
         if(!command.hasKey("type"))
-            return ;
+            return;
         if(command.getInt("type")!=Action.ACTION_TYPE_CURVE)
             return;
         if(!command.hasKey("points"))
             return;
 
-
         List<FloatPoint> pointsArray = new Gson().fromJson(command.get("points"), new TypeToken<List<FloatPoint>>(){}.getType());
         Iterator<FloatPoint> points = pointsArray.iterator();
         if(points.hasNext()){//get start point
             FloatPoint point = points.next();
-            lastPoint = new FloatPoint(point.getX(), point.getY());
+            point.x = point.x * canvasContext.getScreenWidth();
+            point.y = point.y * canvasContext.getScreenHeight();
+            lastPoint = point;
             start(point);
         }
         while (points.hasNext()) {
             FloatPoint point = points.next();
-            path.quadTo(lastPoint.getX(), lastPoint.getY(), (point.getX() + lastPoint.getX()) / 2, (point.getY() + lastPoint.getY()) / 2);
-            lastPoint = new FloatPoint(point.getX(), point.getY());
+            point.x = point.x * canvasContext.getScreenWidth();
+            point.y = point.y * canvasContext.getScreenHeight();
+            path.quadTo(lastPoint.x, lastPoint.y, (point.x + lastPoint.x) / 2, (point.y + lastPoint.y) / 2);
+            lastPoint = point;
             canvasContext.getCanvas().drawPath(path, paint);
         }
     }
@@ -91,8 +94,12 @@ public class CurveAction extends Action{
     @Override
     public TXObject toCommand() {
         TXObject command = new TXObject();
+        List<FloatPoint> pointstmp = new ArrayList<>();
+        for(FloatPoint point: points){
+            pointstmp.add(new FloatPoint(point.x/canvasContext.getScreenWidth(), point.y/canvasContext.getScreenHeight()));
+        }
         command.set("type", Action.ACTION_TYPE_CURVE);
-        command.set("points", new Gson().toJson(points));
+        command.set("points", new Gson().toJson(pointstmp));
         return command;
     }
 }

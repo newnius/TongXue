@@ -35,7 +35,7 @@ public class ImageAction extends Action{
     public void finish(FloatPoint point) {
         if(image == null)
             return ;
-        canvasContext.getCanvas().drawBitmap(image, point.getX(), point.getY(), null);
+        canvasContext.getCanvas().drawBitmap(image, point.x, point.y, null);
     }
 
     @Override
