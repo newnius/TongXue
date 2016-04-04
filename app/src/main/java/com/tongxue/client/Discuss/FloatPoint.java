@@ -2,6 +2,7 @@ package com.tongxue.client.Discuss;
 
 
 /**
+ *
  * Created by newnius on 16-2-23.
  */
 public class FloatPoint {

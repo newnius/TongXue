@@ -7,6 +7,7 @@ import com.tongxue.client.Discuss.FloatPoint;
 import com.tongxue.connector.Objs.TXObject;
 
 /**
+ *
  * Created by newnius on 16-2-23.
  */
 public abstract class Action {

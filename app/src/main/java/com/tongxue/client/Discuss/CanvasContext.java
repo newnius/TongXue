@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ *
  * Created by newnius on 16-2-23.
  */
 public class CanvasContext {
@@ -122,9 +123,7 @@ public class CanvasContext {
         mainBitmap = Bitmap.createBitmap(screenWidth, screenHeight, Bitmap.Config.ARGB_8888);
         canvas.setBitmap(mainBitmap);
         if (actions != null) {
-            Iterator<Action> iterator = actions.iterator();
-            while (iterator.hasNext()) {
-                Action action = iterator.next();
+            for (Action action : actions) {
                 action.draw();
             }
         }

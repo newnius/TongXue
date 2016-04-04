@@ -8,6 +8,7 @@ import com.tongxue.client.Discuss.FloatPoint;
 import com.tongxue.connector.Objs.TXObject;
 
 /**
+ *
  * Created by newnius on 16-4-1.
  */
 public class LineAction extends Action {

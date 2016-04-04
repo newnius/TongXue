@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ *
  * Created by newnius on 16-3-16.
  */
 public class TXObject {

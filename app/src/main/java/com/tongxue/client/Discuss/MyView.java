@@ -45,7 +45,7 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
     public static String TAG = "WhiteBoard";
 
     private CanvasContext canvasContext;
-    private SurfaceHolder holder;
+    private final SurfaceHolder holder;
     private Action currentAction;
 
     private TXObject discuss;
@@ -95,8 +95,7 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
 
     public void init(TXObject discuss){
         this.discuss = discuss;
-
-
+        Log.i(TAG, "myView init");
         Receiver.attachCallback(RequestCode.NEW_BOARD_ACTION, this);
     }
 

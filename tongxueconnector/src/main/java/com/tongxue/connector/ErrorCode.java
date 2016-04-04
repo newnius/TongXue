@@ -1,6 +1,7 @@
 package com.tongxue.connector;
 
 /**
+ *
  * Created by newnius on 16-3-16.
  */
 public class ErrorCode {
@@ -79,7 +80,40 @@ public class ErrorCode {
 
 
     public static String getMsg(int errorCode){
-        return "Error (code:"+errorCode+")";
+        switch (errorCode){
+            case SUCCESS:
+                return "成功";
+            case CONNECTION_FAIL:
+                return "连接服务器失败";
+            case INVALID_DATA_FORMAT:
+                return "数据格式错误";
+            case NOT_LOGED:
+                return "未登录或离线";
+            case UNKNOWN:
+                return "未知错误";
+            case TXOBJECT_IS_NULL:
+                return "参数为空";
+            case USER_NOT_EXIST:
+                return "用户不存在";
+            case USERNAME_IS_EMPTY:
+                return "用户名为空";
+            case PASSWORD_IS_EMPTY:
+                return "密码未空";
+            case EMAIL_IS_EMPTY:
+                return "邮箱为空";
+            case WRONG_PASSWORD:
+                return "密码不正确";
+            case NOT_VERIFIED:
+                return "尚未验证";
+            case INVALID_EMAIL:
+                return "无效的邮箱";
+            case USERNAME_OCCUPIED:
+                return "用户名已被使用";
+            case EMAIL_OCCUPIED:
+                return "邮箱已被使用";
+            default:
+                return "Error (code:"+errorCode+")";
+        }
     }
 
 

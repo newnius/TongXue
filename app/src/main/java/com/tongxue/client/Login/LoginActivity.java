@@ -2,9 +2,7 @@ package com.tongxue.client.Login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +13,6 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avoscloud.leanchatlib.controller.ChatManager;
-import com.tongxue.client.Utils.Config;
 import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
@@ -24,19 +21,12 @@ import com.tongxue.client.Base.ActivityManager;
 import com.tongxue.client.Base.BaseActivity;
 import com.tongxue.client.Base.LearnApplication;
 import com.tongxue.client.Base.ServerTask;
-import com.tongxue.client.Bean.GroupBean;
-import com.tongxue.client.Bean.LatestGroup;
 import com.tongxue.client.Main.MainActivity;
 import com.tongxue.client.R;
-import com.tongxue.client.Utils.SerializableMapList;
-
-import net.tsz.afinal.FinalDb;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -126,7 +116,7 @@ public class LoginActivity extends BaseActivity {
                 super.onPostExecute(msg);
 
                 if (msg.getCode() == ErrorCode.SUCCESS) {
-                    log("登上自己的服务器了");
+                    log("Login success");
                     SharedPreferences.Editor edit = LearnApplication.preferences.edit();
                     edit.putBoolean("Remember", true);
                     edit.putString("username", username);
@@ -138,12 +128,13 @@ public class LoginActivity extends BaseActivity {
                     chatManager.openClientWithSelfId(username, new AVIMClientCallback() {
                         @Override
                         public void done(AVIMClient avimClient, AVException e) {
+                            waitingDialogDismiss();
                             if (e != null) {
                                 toast("网络错误，稍后再试");
                                 log(e.getCode() + e.toString());
-                                waitingDialogDismiss();
                             } else {
-                                getPreData();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
                             }
                         }
                     });
@@ -152,44 +143,6 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         }.execute();
-    }
-
-    private void getPreData() {
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    FinalDb db = FinalDb.create(LoginActivity.this);
-                    List<GroupBean> groupBeans = db.findAllByWhere(GroupBean.class, "username=\"" + username + "\"");
-
-                    if (groupBeans.size() > 0) {
-                        for (GroupBean bean : groupBeans) {
-                            Map<String, Object> map = new HashMap<>();
-                            map.put("name", bean.getGroupName());
-                            map.put("id", bean.getGroupId());
-                            map.put("kind", bean.getKind());
-                            map.put("intro", bean.getIntro());
-                            groupList.add(map);
-                        }
-                        Log.i("group size", groupBeans.size()+"");
-                    }
-                    SerializableMapList groupSml = new SerializableMapList();
-                    groupSml.setMapList(groupList);
-                    Bundle bundle = new Bundle();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    bundle.putSerializable("groupList", groupSml);
-                    bundle.putBoolean("shouldRefresh", false);
-                    intent.putExtras(bundle);
-                    waitingDialogDismiss();
-                    startActivity(intent);
-                    LoginActivity.this.finish();
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-        }).start();
     }
 
 }

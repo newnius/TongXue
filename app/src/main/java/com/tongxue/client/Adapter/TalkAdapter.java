@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ *
  * Created by chaosi on 2015/8/11.
  */
 public class TalkAdapter extends BaseAdapter {

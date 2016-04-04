@@ -338,28 +338,3 @@ public class BlogEditActivity extends BaseActivity{
         }
     }
 }
-
-
-//AVObject post = new AVObject("Blog");
-//post.put("blogUser", blogUser);
-//        post.put("blogTime", blogTime);
-//        post.put("blogTitle", blogTitle);
-//        post.put("blogContent", blogContent);
-//        post.put("blogZan",0);
-//        post.put("blogLan",0);
-//        post.put("blogLun",0);
-//        post.saveInBackground(new SaveCallback() {
-//@Override
-//public void done(AVException e) {
-//        waitingDialogDismiss();
-//        if(e==null){
-//        toast("发布成功！");
-//        Intent intent = new Intent(BlogEditActivity.this, MainActivity.class);
-//        intent.putExtra("blog",true);
-//        startActivity(intent);
-//        }else{
-//        log(e.getCode()+e.toString());
-//        toast("网络错误");
-//        }
-//        }
-//        });

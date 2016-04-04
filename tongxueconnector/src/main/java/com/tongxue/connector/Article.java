@@ -7,6 +7,7 @@ import com.tongxue.connector.Objs.TXObject;
 import java.util.List;
 
 /**
+ *
  * Created by newnius on 16-3-16.
  */
 public class Article {

@@ -37,7 +37,7 @@ public class Config {
 	}
 	
 
-    public static int getFileport() {
+    public static int getFilePort() {
 		return FILEPORT;
 	}
 

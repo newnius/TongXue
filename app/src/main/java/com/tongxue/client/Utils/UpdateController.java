@@ -64,7 +64,7 @@ public class UpdateController {
             return msg;
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.e("checkForUpdate", ex.getMessage());
             return new Msg(ErrorCode.CONNECTION_FAIL);
         }
 

@@ -1,6 +1,7 @@
 package com.tongxue.connector.course;
 
 /**
+ *
  * Created by newnius on 16-3-14.
  */
 public class IMOOCCourse extends Course {

@@ -52,6 +52,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ *
  * Created by chaosi on 2015/9/20.
  */
 public class WhiteBoardActivity extends BaseActivity implements CallBackInterface {
@@ -182,8 +183,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
         new AsyncTask<Void, Void, Msg>() {
             @Override
             protected Msg doInBackground(Void... params) {
-                Msg msg = Server.joinDiscuss(discuss);
-                return msg;
+                return Server.joinDiscuss(discuss);
             }
 
             @Override
@@ -227,8 +227,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 discuss.set("groupID", groupID);
                 discuss.set("name", "Discuss Of " + groupID);
                 discuss.set("introduction", "Introduction");
-                Msg msg = Server.createDiscuss(discuss);
-                return msg;
+                return Server.createDiscuss(discuss);
             }
 
             @Override
@@ -257,8 +256,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
             new AsyncTask<Void, Void, Msg>() {
                 @Override
                 protected Msg doInBackground(Void... params) {
-                    Msg msg = Server.sendDiscussMessage(message);
-                    return msg;
+                    return Server.sendDiscussMessage(message);
                 }
 
                 @Override
@@ -286,8 +284,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 /* create new object to cut down json length */
                 TXObject discuss = new TXObject();
                 discuss.set("discussID", currentDiscuss.getInt("discussID"));
-                Msg msg = Server.getDiscussMessage(discuss);
-                return msg;
+                return Server.getDiscussMessage(discuss);
             }
 
             @Override
@@ -432,8 +429,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
             protected Msg doInBackground(Void... params) {
                 TXObject discuss = new TXObject();
                 discuss.set("discussID", discussID);
-                Msg msg = Server.getDiscussById(discuss);
-                return msg;
+                return Server.getDiscussById(discuss);
             }
 
             @Override

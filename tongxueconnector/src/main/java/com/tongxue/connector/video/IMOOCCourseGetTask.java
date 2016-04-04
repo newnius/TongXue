@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * Created by newnius on 16-3-14.
  */
 public class IMOOCCourseGetTask {

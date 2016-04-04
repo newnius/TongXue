@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ *
  * Created by chaosi on 2015/8/11.
  */
 public class GroupAdapter extends BaseAdapter {
@@ -57,7 +58,7 @@ public class GroupAdapter extends BaseAdapter {
         holder.image.setImageDrawable((Drawable)mAppList.get(position).get("img"));
         holder.tv_name.setText((String)mAppList.get(position).get("name"));
         holder.tv_kind.setText((String)mAppList.get(position).get("kind"));
-        holder.tv_intro.setText("签名:"+mAppList.get(position).get("intro"));
+        holder.tv_intro.setText("介绍:"+mAppList.get(position).get("intro"));
 
         return convertView;
     }

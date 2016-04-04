@@ -6,6 +6,7 @@ import com.tongxue.connector.Objs.TXObject;
 import java.util.Random;
 
 /**
+ *
  * Created by newnius on 16-3-16.
  */
 public class User {
@@ -16,8 +17,9 @@ public class User {
             return new Msg(ErrorCode.USERNAME_IS_EMPTY);
         if (!user.hasKey("password"))
             return new Msg(ErrorCode.PASSWORD_IS_EMPTY);
+        if(!validateUsername(user.get("username")))
+            return new Msg(ErrorCode.USERNAME_IS_INVALID);
         user.set("password", cryptPwd(user.get("password")));
-
         String con = new Gson().toJson(new Msg(RequestCode.LOGIN, user));
         String res = Communicator.send(con);
         Msg msg;
@@ -41,6 +43,10 @@ public class User {
             return new Msg(ErrorCode.PASSWORD_IS_EMPTY);
         if(!user.hasKey("email"))
             return new Msg(ErrorCode.EMAIL_IS_EMPTY);
+        if(!validateUsername(user.get("username")))
+            return new Msg(ErrorCode.USERNAME_IS_INVALID);
+        if(!validateEmail(user.get("email")))
+            return new Msg(ErrorCode.EMAIL_IS_INVALID);
         user.set("password", cryptPwd(user.get("password")));
 
         String con = new Gson().toJson(new Msg(RequestCode.REGISTER, user));
@@ -75,10 +81,7 @@ public class User {
             return false;
         }
 
-        if (username.length() < 1 || username.length() > 12) {
-            return false;
-        }
-        return true;
+        return !(username.length() < 1 || username.length() > 12);
     }
 
 

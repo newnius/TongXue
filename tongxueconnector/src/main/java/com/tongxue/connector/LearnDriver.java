@@ -1,6 +1,5 @@
 package com.tongxue.connector;
 
-import com.google.gson.Gson;
 
 
 /**

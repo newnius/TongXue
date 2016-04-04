@@ -55,6 +55,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ *
  * Created by chaosi on 2015/9/12.
  */
 public class GroupFragment extends BaseFragment {
@@ -210,40 +211,35 @@ public class GroupFragment extends BaseFragment {
     }
 
     private void getTalkData(final int flag) {
-        new AsyncTask<Object, Integer, Integer>() {
+        new AsyncTask<Object, Void, Msg>() {
             @Override
-            protected Integer doInBackground(Object[] params) {
+            protected Msg doInBackground(Object[] params) {
                 try {
-                    discusses.clear();
-
                     Msg msg = Server.getAllDiscusses(null);
-                    if (msg.getCode() == ErrorCode.SUCCESS) {
-                        discusses.addAll((List<TXObject>) msg.getObj());
-                        Log.i("size", discusses.size() + "");
-                        return 1;
-                    } else
-                        return 2;
+                    return msg;
                 } catch (Exception e) {
                     log(e.getCause() + "---" + e.toString());
-                    return 0;
+                    return null;
                 }
             }
 
             @Override
-            protected void onPostExecute(Integer msg) {
-                super.onPostExecute(msg);
-                talkAdapter.notifyDataSetChanged();
-                Log.i("size", discusses.size() + "");
-                if (msg == 0 && flag == 1) {
-                    talkLayout.refreshFinish(PullToRefreshLayout.FAIL);
-                } else if (msg == 1) {
-                    talkAdapter.notifyDataSetChanged();
-                    if (flag == 1) talkLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
-                } else {
-                    talkAdapter.notifyDataSetChanged();
-                    Toast.makeText(mContext, "暂时没有近期会话", Toast.LENGTH_LONG).show();
-                    if (flag == 1) talkLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+            protected void onPostExecute(Msg msg) {
+                if(msg == null) {
+                    Log.e("getTalkData", "msg is null");
+                    return;
                 }
+                if (msg.getCode() == ErrorCode.SUCCESS) {
+                    discusses.clear();
+                    discusses.addAll((List<TXObject>) msg.getObj());
+                    Log.i("Discuss size", discusses.size() + "");
+                    talkLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+                }else{
+                    talkLayout.refreshFinish(PullToRefreshLayout.FAIL);
+                    Toast.makeText(mContext, ErrorCode.getMsg(msg.getCode()), Toast.LENGTH_LONG).show();
+                }
+                talkAdapter.notifyDataSetChanged();
+
             }
         }.execute();
     }

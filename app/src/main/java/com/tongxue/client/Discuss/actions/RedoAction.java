@@ -4,6 +4,7 @@ import com.tongxue.client.Discuss.CanvasContext;
 import com.tongxue.connector.Objs.TXObject;
 
 /**
+ *
  * Created by newnius on 16-4-1.
  */
 public class RedoAction extends Action{
