@@ -129,6 +129,8 @@ public class RegisterActivity extends BaseActivity{
                     startIntent(LoginActivity.class);
                     finishThisActivity();
                     overridePendingTransition(R.anim.out_register, R.anim.empty);
+                }else{
+                    toast("注册失败，"+ErrorCode.getMsg(msg.getCode()));
                 }
             }
         }.execute();

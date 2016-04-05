@@ -140,6 +140,7 @@ public class LoginActivity extends BaseActivity {
                     });
                 } else {
                     waitingDialogDismiss();
+                    toast("登录失败，"+ErrorCode.getMsg(msg.getCode()));
                 }
             }
         }.execute();
