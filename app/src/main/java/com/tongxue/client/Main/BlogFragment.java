@@ -106,6 +106,16 @@ public class BlogFragment extends BaseFragment {
                 LookArticleById(position);
             }
         });
+
+        newListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                waitingDialogShow();
+                deleteArticle(position);
+                return true;
+            }
+        });
+
         newLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
@@ -285,6 +295,40 @@ public class BlogFragment extends BaseFragment {
                     intent.putExtra("blogLan", article.getInt("views"));
                     intent.putExtra("blogZan", article.getInt("upVotes"));
                     startActivity(intent);
+                }
+            }
+        }.execute();
+    }
+
+    public void deleteArticle(final int position) {
+        new ServerTask(mContext) {
+            @Override
+            protected Msg doInBackground(Object... params) {
+                int blogId = (int) newList.get(position).get("blogId");
+                TXObject article = new TXObject();
+                article.set("articleID", blogId);
+                return Server.deleteArticle(article);
+            }
+
+            @Override
+            protected void onPostExecute(Msg msg) {
+                super.onPostExecute(msg);
+                waitingDialogDismiss();
+                try {
+                    waitingDialogDismiss();
+                    if(msg==null){
+                        toast("删除失败，未知错误");
+                        return;
+                    }
+                    if (msg.getCode() == ErrorCode.SUCCESS){
+                        newList.remove(position);
+                        toast("删除文章成功");
+                        newAdapter.notifyDataSetChanged();
+                    }else{
+                        toast("删除失败，"+ErrorCode.getMsg(msg.getCode()));
+                    }
+                }catch(Exception ex){
+                    ex.printStackTrace();
                 }
             }
         }.execute();

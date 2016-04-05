@@ -61,6 +61,14 @@ public class QAFragment extends BaseFragment {
             }
         });
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                deleteQuestion(position);
+                return true;
+            }
+        });
+
         listLayout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
@@ -170,6 +178,46 @@ public class QAFragment extends BaseFragment {
                         intent.putExtra("qaLan", question.getInt("views"));
                         intent.putExtra("qaDing", question.getInt("upVotes"));
                         startActivity(intent);
+                    }
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        }.execute();
+
+    }
+
+    public void deleteQuestion(final int position) {
+        new ServerTask(mContext) {
+            @Override
+            protected Msg doInBackground(Object... params) {
+                try {
+                    int questionID = (int)qaList.get(position).get("qaId");
+                    TXObject question = new TXObject();
+                    question.set("questionID", questionID);
+                    Log.i("blog", "delete");
+                    return Server.deleteQuestion(question);
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                    return new Msg(ErrorCode.UNKNOWN);
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Msg msg) {
+                try {
+                    super.onPostExecute(msg);
+                    waitingDialogDismiss();
+                    if(msg==null){
+                        toast("删除失败，未知错误");
+                        return;
+                    }
+                    if (msg.getCode() == ErrorCode.SUCCESS){
+                        qaList.remove(position);
+                        toast("删除问题成功");
+                        adapter.notifyDataSetChanged();
+                    }else{
+                        toast("删除失败，"+ErrorCode.getMsg(msg.getCode()));
                     }
                 }catch(Exception ex){
                     ex.printStackTrace();

@@ -115,8 +115,8 @@
     <orderEntry type="library" exported="" name="httpmime-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="1_httpmime-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="weibo.sdk.android.sso.3.0.1-leancloud" level="project" />
-    <orderEntry type="library" exported="" name="httpcore-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.1.38-leancloud" level="project" />
+    <orderEntry type="library" exported="" name="httpcore-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="universal-image-loader-1.9.3" level="project" />
     <orderEntry type="library" exported="" name="avoscloud-statistics-v3.4.4" level="project" />

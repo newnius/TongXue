@@ -78,8 +78,9 @@ public class GroupChatActivity extends ChatActivity {
     public void onMessageClick() {
         /* lack of discussID, this can not work */
         //startActivity(new Intent(GroupChatActivity.this, WhiteBoardActivity.class));
-        overridePendingTransition(R.anim.common_right_in, R.anim.empty);
-        finish();
+        //overridePendingTransition(R.anim.common_right_in, R.anim.empty);
+        //finish();
+        return;
     }
 
     @Override
@@ -97,7 +98,7 @@ public class GroupChatActivity extends ChatActivity {
     @Override
     public void addWhiteBoard(){
         /* lack of discussID, this can not work */
-        //sendWhiteBoard("您的好友"+ username +"发起白板共享，快去看看吧");
+        sendWhiteBoard("您的好友"+ username +"发起白板共享，快去看看吧");
         startActivity(new Intent(GroupChatActivity.this, WhiteBoardActivity.class));
         overridePendingTransition(R.anim.common_right_in, R.anim.empty);
         finish();

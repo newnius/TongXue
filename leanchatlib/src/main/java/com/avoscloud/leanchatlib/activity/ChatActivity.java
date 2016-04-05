@@ -149,14 +149,14 @@ public class ChatActivity extends Activity implements OnClickListener {
         messageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AVIMTypedMessage msg = adapter.getDatas().get(position);
-                if(msg instanceof AVIMTextMessage){
-                    Map<String,Object> map = ((AVIMTextMessage) msg).getAttrs();
-                    if(map.get("type").equals("board")){
-                        Log.i("learn",((AVIMTextMessage) msg).getText());
-                        onMessageClick();
-                    }
-                }
+//                AVIMTypedMessage msg = adapter.getDatas().get(position);
+//                if(msg instanceof AVIMTextMessage){
+//                    Map<String,Object> map = ((AVIMTextMessage) msg).getAttrs();
+//                    if(map.get("type").equals("board")){
+//                        Log.i("learn",((AVIMTextMessage) msg).getText());
+//                        onMessageClick();
+//                    }
+//                }
             }
         });
     }

@@ -13,6 +13,11 @@ public class WeightAction extends Action{
         super(canvasContext);
     }
 
+    public WeightAction(CanvasContext canvasContext, int weight) {
+        super(canvasContext);
+        this.weight = weight;
+    }
+
     @Override
     public void draw(TXObject command) {
         if(command==null)

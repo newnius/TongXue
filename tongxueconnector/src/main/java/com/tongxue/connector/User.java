@@ -46,7 +46,7 @@ public class User {
         if(!validateUsername(user.get("username")))
             return new Msg(ErrorCode.USERNAME_IS_INVALID);
         if(!validateEmail(user.get("email")))
-            return new Msg(ErrorCode.EMAIL_IS_INVALID);
+            return new Msg(ErrorCode.INVALID_EMAIL);
         user.set("password", cryptPwd(user.get("password")));
 
         String con = new Gson().toJson(new Msg(RequestCode.REGISTER, user));

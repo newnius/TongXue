@@ -21,9 +21,11 @@ import android.view.WindowManager;
 import com.google.gson.Gson;
 import com.tongxue.client.Discuss.actions.ActionFactory;
 import com.tongxue.client.Discuss.actions.ClearAction;
+import com.tongxue.client.Discuss.actions.ColorAction;
 import com.tongxue.client.Discuss.actions.LineAction;
 import com.tongxue.client.Discuss.actions.RedoAction;
 import com.tongxue.client.Discuss.actions.UndoAction;
+import com.tongxue.client.Discuss.actions.WeightAction;
 import com.tongxue.connector.CallBackInterface;
 import com.tongxue.connector.Msg;
 import com.tongxue.connector.Objs.TXObject;
@@ -56,11 +58,21 @@ public class MyView extends SurfaceView implements Callback, CallBackInterface {
 
 
     public void setSize(int weight) {
+        if(!canOperate){
+            Log.i(TAG, "No access to operate on this board");
+            return ;
+        }
         canvasContext.setWeight(weight);
+        sendAction(new WeightAction(canvasContext,weight));
     }
 
     public void setColor(int color) {
+        if(!canOperate){
+            Log.i(TAG, "No access to operate on this board");
+            return ;
+        }
         canvasContext.setColor(color);
+        sendAction(new ColorAction(canvasContext, color));
     }
 
     private DrawThread getThread() {

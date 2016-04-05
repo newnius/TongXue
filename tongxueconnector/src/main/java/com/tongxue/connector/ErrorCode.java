@@ -25,7 +25,7 @@ public class ErrorCode {
     public static final int NOT_VERIFIED = 11;
 
     /* register */
-    public static final int INVALID_EMAIL = 12;
+    public static final int INVALID_EMAIL = 12;//duplicate
     public static final int USERNAME_OCCUPIED = 13;
     public static final int EMAIL_OCCUPIED = 14;
 
@@ -84,7 +84,7 @@ public class ErrorCode {
             case SUCCESS:
                 return "成功";
             case CONNECTION_FAIL:
-                return "连接服务器失败";
+                return "连接服务器失败，请重试";
             case INVALID_DATA_FORMAT:
                 return "数据格式错误";
             case NOT_LOGED:
@@ -111,8 +111,15 @@ public class ErrorCode {
                 return "用户名已被使用";
             case EMAIL_OCCUPIED:
                 return "邮箱已被使用";
+
+            case NO_ACCESS:
+                return "没有权限";
+
+
+            case USERNAME_IS_INVALID:
+                return "用户名长度不符合要求";
             default:
-                return "Error (code:"+errorCode+")";
+                return "出现错误 (错误码:"+errorCode+")";
         }
     }
 

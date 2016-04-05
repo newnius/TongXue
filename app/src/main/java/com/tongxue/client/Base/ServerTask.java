@@ -43,10 +43,6 @@ public abstract class ServerTask extends AsyncTask<Object, Integer, Msg> {
     protected void onPostExecute(Msg msg) {
         super.onPostExecute(msg);
         isStop = true;
-        if (!timeout) {
-            if (msg.getCode() != ErrorCode.SUCCESS)
-                toast(ErrorCode.getMsg(msg.getCode()));
-        }
     }
 
     public void toast(String text) {

@@ -88,7 +88,7 @@ public class Question {
     public static Msg deleteQuestion(TXObject question) {
         if (!question.hasKey("questionID"))
             return new Msg(ErrorCode.QUESTION_NOT_EXIST);
-        String con = new Gson().toJson(new Msg(RequestCode.DELETE_QUESTION_ANSWER, question));
+        String con = new Gson().toJson(new Msg(RequestCode.DELETE_QUESTION, question));
         String res = Communicator.send(con);
         Msg msg;
         if (res == null) {
