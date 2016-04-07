@@ -20,7 +20,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Login.IndexActivity"
-            android:windowSoftInputMode="adjustResize" >
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,15 +33,20 @@
 
         <activity
             android:name=".Login.LoginActivity"
-            android:theme="@style/transparent" >
+            android:theme="@style/transparent"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Login.RegisterActivity"
-            android:theme="@style/transparent" >
+            android:theme="@style/transparent"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Login.FindPwdActivity" >
+        <activity
+            android:name=".Login.FindPwdActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Main.MainActivity" >
+        <activity android:name=".Main.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Group.GroupChatActivity"

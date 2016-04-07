@@ -25,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -52,7 +53,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- *
  * Created by chaosi on 2015/9/20.
  */
 public class WhiteBoardActivity extends BaseActivity implements CallBackInterface {
@@ -89,17 +89,17 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
     @Bind(R.id.chat_list)
     ListView chatView;
     @Bind(R.id.send)
-    Button btn_send;
+    ImageView btn_send;
     @Bind(R.id.message)
     EditText messageInput;
 
     @Bind(R.id.bt_show)
-    Button bt_show;
+    ImageView bt_show;
     @Bind(R.id.toolbar)
     ScrollView toolbarLayout;
 
     @Bind(R.id.bt_show_chat_panel)
-    Button bt_show_chat_panel;
+    ImageView bt_show_chat_panel;
     @Bind(R.id.chat_panel)
     LinearLayout chatPanelLayout;
 
@@ -136,7 +136,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         try {
             /* init chat panel*/
             messageList = new ArrayList<>();
@@ -160,19 +160,19 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 getInformation(discussID);
                 Log.i("discuss", discussID + "");
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private void init(){
+    private void init() {
         Log.i(TAG, "init");
         /* two ifs can not be reOrdered */
-        if(currentDiscuss.get("controller").equals(LearnApplication.preferences.getString("username",""))){
+        if (currentDiscuss.get("controller").equals(LearnApplication.preferences.getString("username", ""))) {
             myView.setCanOperate(true);
         }
 
-        if(currentDiscuss.getInt("status") != DISCUSS_STATUS_LIVE ){
+        if (currentDiscuss.getInt("status") != DISCUSS_STATUS_LIVE) {
             myView.setCanOperate(false);
         }
 
@@ -245,7 +245,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                         currentDiscuss = (TXObject) msg.getObj();
                         currentDiscuss.set("status", 0);
                         init();
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 } else {
@@ -270,7 +270,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                     super.onPostExecute(msg);
                     if (msg.getCode() == ErrorCode.SUCCESS) {
                         HashMap<String, Object> item = new HashMap<>();
-                        item.put("sender", message.get("username"));
+                        item.put("sender", "Sender : "+message.get("username"));
                         item.put("content", message.get("content"));
                         messageList.add(0, item);
                         adapterForChatList.notifyDataSetChanged();
@@ -300,7 +300,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                     List<TXObject> messages = (List<TXObject>) msg.getObj();
                     for (final TXObject message : messages) {
                         HashMap<String, Object> item = new HashMap<>();
-                        item.put("sender", message.get("username"));
+                        item.put("sender", "Sender : "+message.get("username"));
                         item.put("content", message.get("content"));
                         messageList.add(item);
                     }
@@ -353,7 +353,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy");
-        if(currentDiscuss!=null) {
+        if (currentDiscuss != null) {
             quitDiscuss(currentDiscuss.getInt("discussID"));
             Receiver.detachCallback(RequestCode.NEW_BOARD_MESSAGE);
         }
@@ -403,7 +403,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(isReplay)
+                                if (isReplay)
                                     toast("Replay finished");
                             }
                         });
@@ -451,6 +451,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                             }
                         });
                         AlertDialog dialog = builder.show();
+                        dialog.setCancelable(false);
                         final TextView nameView = (TextView) dialog.findViewById(R.id.discuss_name);
                         final TextView introductionView = (TextView) dialog.findViewById(R.id.discuss_introduction);
                         final TextView controllerView = (TextView) dialog.findViewById(R.id.discuss_controller);
@@ -469,7 +470,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
         }.execute();
     }
 
-    private void initListeners(){
+    private void initListeners() {
         bt_pen.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
