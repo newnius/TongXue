@@ -19,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
@@ -222,6 +223,7 @@ public class BlogFragment extends BaseFragment {
                     if (flag > 0) newLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 } else {
                     if (flag > 0) newLayout.refreshFinish(PullToRefreshLayout.FAIL);
+                    Toast.makeText(mContext, ErrorCode.getMsg(msg.getCode()), Toast.LENGTH_LONG).show();
                 }
             }
         }.execute();
@@ -262,6 +264,7 @@ public class BlogFragment extends BaseFragment {
                     if (flag > 0) favLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 } else {
                     if (flag > 0) favLayout.refreshFinish(PullToRefreshLayout.FAIL);
+                    Toast.makeText(mContext, ErrorCode.getMsg(msg.getCode()), Toast.LENGTH_LONG).show();
                 }
             }
         }.execute();

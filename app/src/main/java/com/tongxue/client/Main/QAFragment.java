@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.tongxue.connector.ErrorCode;
 import com.tongxue.connector.Msg;
@@ -137,6 +138,7 @@ public class QAFragment extends BaseFragment {
                     if (flag > 0) listLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
                 } else {
                     if (flag > 0) listLayout.refreshFinish(PullToRefreshLayout.FAIL);
+                    Toast.makeText(mContext, ErrorCode.getMsg(msg.getCode()), Toast.LENGTH_LONG).show();
                 }
             }
         }.execute();
