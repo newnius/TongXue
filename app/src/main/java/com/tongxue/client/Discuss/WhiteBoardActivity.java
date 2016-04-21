@@ -368,7 +368,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 String tmp = new Gson().toJson(msg.getObj());
                 TXObject message = new Gson().fromJson(tmp, TXObject.class);
                 HashMap<String, Object> item = new HashMap<>();
-                item.put("sender", message.get("username"));
+                item.put("sender", "Sender : "+message.get("username"));
                 item.put("content", message.get("content"));
                 messageList.add(0, item);
                 adapterForChatList.notifyDataSetChanged();
@@ -389,6 +389,14 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                     if (msg.getCode() == ErrorCode.SUCCESS) {
                         Log.i(TAG, "Commands fetched");
                         long t = currentDiscuss.getLong("time");
+                        if(isReplay){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    makeToast("即将开始回放");
+                                }
+                            });
+                        }
                         for (final TXObject action : (List<TXObject>) msg.getObj()) {
                             if (t != 0 && isReplay)
                                 Thread.sleep((action.getLong("time") - t));
@@ -423,7 +431,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                 (ViewGroup) findViewById(R.id.discuss_detail));
         final AlertDialog.Builder builder = new AlertDialog.Builder(WhiteBoardActivity.this);
         builder.setTitle("讨论组信息").setView(layout);
-        builder.setNegativeButton("leave", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("离开", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 WhiteBoardActivity.this.finish();
@@ -444,7 +452,7 @@ public class WhiteBoardActivity extends BaseActivity implements CallBackInterfac
                     if (msg.getCode() == ErrorCode.SUCCESS) {
                         final TXObject discuss = (TXObject) msg.getObj();
                         discuss.set("discussID", discussID);
-                        builder.setPositiveButton("join", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("加入", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 joinDiscuss(discuss);

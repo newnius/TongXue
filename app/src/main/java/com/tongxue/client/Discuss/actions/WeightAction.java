@@ -1,5 +1,7 @@
 package com.tongxue.client.Discuss.actions;
 
+import android.util.Log;
+
 import com.tongxue.client.Discuss.CanvasContext;
 import com.tongxue.connector.Objs.TXObject;
 
@@ -27,7 +29,7 @@ public class WeightAction extends Action{
         if(!command.hasKey("weight"))
             return;
         this.weight = command.getInt("weight");
-        canvasContext.setColor(weight);
+        canvasContext.setWeight(weight);
     }
 
     @Override
